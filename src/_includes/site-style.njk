@@ -505,7 +505,7 @@
     .price-tab:hover:not(.active) { background: var(--orange-pale); color: var(--orange); }
 
     .price-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
+      display: grid; grid-template-columns: repeat(4, 1fr);
       gap: 0; border: 1px solid var(--border); border-top: none;
     }
     .plan-card { border-right: 1px solid var(--border); overflow: hidden; position: relative; }
@@ -1025,7 +1025,7 @@
     }
     .ticket-title { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: .06em; }
     .ticket-sub { font-size: 12.5px; color: var(--muted); letter-spacing: .03em; }
-    .ticket-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .ticket-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
     .ticket-card {
       padding: 36px 28px; text-align: center; position: relative;
       background: #fff; border-radius: 20px;
