@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ site.meta.title }}</title>
+  <meta name="description" content="{{ site.meta.description }}">
+  <link rel="canonical" href="{{ site.meta.url }}/">
+  <meta name="robots" content="index,follow">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ZenNu WELLNESS DESIGN">
+  <meta property="og:title" content="{{ site.meta.title }}">
+  <meta property="og:description" content="{{ site.meta.description }}">
+  <meta property="og:url" content="{{ site.meta.url }}/">
+  <meta property="og:image" content="{{ site.meta.url }}{{ site.meta.ogImage }}">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  {% include "studio-home-style.njk" %}
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HealthClub",
+    "name":"ZenNu WELLNESS DESIGN",
+    "url":"{{ site.meta.url }}/",
+    "image":"{{ site.meta.url }}{{ site.meta.ogImage }}",
+    "telephone":"{{ site.contact.telDisplay }}",
+    "priceRange":"¥¥",
+    "address":{"@type":"PostalAddress","postalCode":"860-0845","addressRegion":"熊本県","addressLocality":"熊本市中央区","streetAddress":"上通町6-15 オークス第二ビル 2F","addressCountry":"JP"},
+    "geo":{"@type":"GeoCoordinates","latitude":"{{ site.meta.lat }}","longitude":"{{ site.meta.lng }}"},
+    "openingHoursSpecification":{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"07:00","closes":"22:00"}
+  }
+  </script>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-PCDJZ9X9");</script>
+</head>
+<body>
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCDJZ9X9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <div class="studio-shell">
+    <header class="studio-header">
+      <a class="studio-logo" href="#top" aria-label="ZenNu WELLNESS DESIGN トップ">
+        <img src="/images/logo-yoko.png" alt="ZenNu WELLNESS DESIGN">
+      </a>
+      <div class="header-actions">
+        <a class="header-action line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener"><strong>LINE</strong>相談</a>
+        <a class="header-action booking" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><strong>FREE</strong>体験予約</a>
+        <button class="menu-button" id="menu-button" type="button" aria-label="メニューを開く" aria-expanded="false"><span></span></button>
+      </div>
+    </header>
+    <nav class="studio-nav" id="studio-nav" aria-label="メインメニュー">
+      <a href="#concept">ZenNuについて</a>
+      <a href="#features">選ばれる理由</a>
+      <a href="#results">ビフォーアフター</a>
+      <a href="#price">料金プラン</a>
+      <a href="#trainer">トレーナー</a>
+      <a href="#flow">体験の流れ</a>
+      <a href="#access">アクセス</a>
+      <a href="#faq">よくある質問</a>
+      <a href="/blog/">ブログ・お知らせ</a>
+    </nav>
+
+    <main>
+      <section class="hero-studio" id="top">
+        <div class="hero-inner">
+          <div class="hero-kicker">KUMAMOTO · KAMITORI</div>
+          <h1>セルフとパーソナル、<br>それぞれの強みを最大限に。<em>SELF TRAINING × PERSONAL TRAINING</em></h1>
+          <p class="hero-lead">成果が出る。コスパよく続く。挫折させない。熊本・上通のハイブリッド型パーソナルジム。</p>
+          <div class="hero-proof">
+            <div class="proof-item"><strong>300+</strong><span>指導実績</span></div>
+            <div class="proof-item"><strong>¥10,890〜</strong><span>月額料金</span></div>
+            <div class="proof-item"><strong>7–22</strong><span>営業時間</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="campaign-card" aria-label="初回限定キャンペーン">
+        <h2>パーソナル体験トレーニング</h2>
+        <div class="campaign-price"><s>通常 9,900円</s><strong>0円</strong></div>
+        <a class="campaign-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">空き状況を見て無料体験を予約</a>
+      </section>
+
+      <section class="section section--gray" id="concept">
+        <p class="section-label">DO YOU HAVE THESE PROBLEMS?</p>
+        <h2 class="section-title">こんなお悩み、<br>ありませんか？</h2>
+        <div class="worry-grid">
+          <article class="worry-card"><span class="worry-icon">¥</span><p>パーソナルジムは<br>高くて続けられない</p></article>
+          <article class="worry-card"><span class="worry-icon">24</span><p>24時間ジムに入ったけど<br>幽霊会員になった</p></article>
+          <article class="worry-card"><span class="worry-icon">?</span><p>自己流トレーニングが<br>合っているか不安</p></article>
+          <article class="worry-card"><span class="worry-icon">↻</span><p>食事制限で痩せても<br>リバウンドしてしまう</p></article>
+        </div>
+        <div class="answer-panel">
+          <h3>続かなかったのは、<br>意志が弱いからではありません。</h3>
+          <p>結果が出る指導と、自分のペースで通える環境。その両方を、無理なく続けられる価格で用意しました。</p>
+        </div>
+        <div class="cross-word">セルフジム <span>×</span> パーソナル</div>
+        <h2 class="section-title">いいとこどりだから、<br><span class="orange">結果と継続を両立。</span></h2>
+        <p class="section-copy">パーソナルで正しいフォームと食事を学び、セルフトレーニングで反復する。迷ったときは、いつでもプロに相談できます。</p>
+      </section>
+
+      <section class="section section--dark" id="features">
+        <p class="section-label">WHY ZENNU</p>
+        <h2 class="section-title">ZenNuが選ばれる<br><span class="orange">4つの理由</span></h2>
+        <div class="feature-list">
+          {% for feature in site.features.items %}
+          <article class="feature-card">
+            <div class="feature-photo">
+              <img src="/images/personal{{ loop.index if loop.index < 4 else 3 }}.jpg" alt="{{ feature.title }}" loading="lazy">
+              <span class="feature-no">{{ feature.num }}</span>
+            </div>
+            <div class="feature-body">
+              <h3>{{ feature.title }}</h3>
+              <p>{{ feature.body }}</p>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="section section--dark" id="results">
+        <p class="section-label">BEFORE & AFTER</p>
+        <h2 class="section-title">無理なく続けて、<br>カラダは変わる。</h2>
+        <p class="section-copy">極端な食事制限に頼らず、一人ひとりの生活に合わせたトレーニングを続けた会員様の事例です。</p>
+        <div class="result-summary">
+          <div><strong>300名+</strong><span>トレーニング指導実績</span></div>
+          <div><strong>初心者多数</strong><span>運動未経験からスタート</span></div>
+        </div>
+        <div class="ba-grid">
+          {% for voice in site.memberVoice.items %}
+          {% if loop.index <= 3 %}
+          <article class="ba-card">
+            <img src="{{ voice.image }}" alt="{{ voice.who }}のビフォーアフター" loading="lazy">
+            <div class="ba-card-body">
+              <span class="ba-card-tag">{{ voice.tag }}</span>
+              <h3>{{ voice.duration }} ウエスト {{ voice.result }}{{ voice.unit }}</h3>
+              <p>{{ voice.meta }}／{{ voice.story }}</p>
+            </div>
+          </article>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="section section--gray">
+        <p class="section-label">THREE SECRETS</p>
+        <h2 class="section-title">成果を支える<br>3つの仕組み</h2>
+        <div class="secret-list">
+          <article class="secret-card"><strong>SECRET 01</strong><h3>あなた専用の個別指導</h3><p>体力・姿勢・生活習慣を確認し、無理なく達成できるメニューを設計します。</p></article>
+          <article class="secret-card"><strong>SECRET 02</strong><h3>復習できるセルフ環境</h3><p>パーソナルで学んだ内容を、自分の予定に合わせて何度でも練習できます。</p></article>
+          <article class="secret-card"><strong>SECRET 03</strong><h3>3食食べて続ける食事改善</h3><p>臨床栄養医学の知識をもとに、炭水化物を極端に抜かず、続けられる食べ方を提案します。</p></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <p class="section-label">FACILITY & AMENITY</p>
+        <h2 class="section-title">手ぶらで通える、<br>上通の快適空間。</h2>
+        <div class="gallery-grid">
+          {% for item in site.gallery.items %}
+          <figure>
+            <img src="{{ item.image }}" alt="{{ item.label }}" loading="lazy">
+            <figcaption>{{ item.label }}</figcaption>
+          </figure>
+          {% endfor %}
+        </div>
+        <div class="amenity-chips">
+          <span>ウェア無料レンタル</span><span>男女別シャワー</span><span>予約制・少人数</span><span>コワーキング利用</span><span>近隣駐車場</span><span>プロテイン</span>
+        </div>
+      </section>
+
+      <section class="section section--dark" id="price">
+        <p class="section-label">PRICE</p>
+        <h2 class="section-title">続け方で選べる<br>料金プラン</h2>
+        <p class="section-copy">{{ site.pricing.subtitle }}</p>
+        <div class="price-stack">
+          {% for plan in site.pricing.plans %}
+          <article class="price-card{% if plan.popular %} popular{% endif %}">
+            {% if plan.popular %}<span class="popular-tag">おすすめ</span>{% endif %}
+            <h3>{{ plan.name }}</h3>
+            <p class="price-for">{{ plan.for }}</p>
+            <div class="price-value">{{ plan.price }} <small>{{ plan.unit }}</small></div>
+            <ul>{% for item in plan.items %}<li>{{ item }}</li>{% endfor %}</ul>
+          </article>
+          {% endfor %}
+        </div>
+        <div class="ticket-table">
+          <h3>{{ site.pricing.ticket.title }}</h3>
+          {% for ticket in site.pricing.ticket.cards %}
+          <div class="ticket-row"><strong>{{ ticket.count }}回</strong><b>{{ ticket.price }}</b><span>{{ ticket.per }}</span></div>
+          {% endfor %}
+        </div>
+        <p class="price-note">{{ site.pricing.note | safe }}</p>
+      </section>
+
+      <section class="section section--orange" id="trainer">
+        <p class="section-label">TRAINER</p>
+        <h2 class="section-title">あなたの「続けたい」に<br>プロが伴走します。</h2>
+        {% for trainer in site.trainers.items %}
+        <article class="trainer-card">
+          <img src="{{ trainer.portrait }}" alt="{{ trainer.jp | striptags }}" loading="lazy">
+          <div class="trainer-body">
+            <span class="trainer-role">{{ trainer.jp }}</span>
+            <h3>{{ trainer.en | safe }}</h3>
+            <p>{{ trainer.bio }}</p>
+            <div class="trainer-tags">{% for tag in trainer.tags %}<span>{{ tag }}</span>{% endfor %}</div>
+          </div>
+        </article>
+        {% endfor %}
+      </section>
+
+      <section class="section section--gray" id="flow">
+        <p class="section-label">TRIAL FLOW</p>
+        <h2 class="section-title">無料体験の流れ</h2>
+        <div class="flow-list">
+          {% for step in site.flow.steps %}
+          <article class="flow-item">
+            <span class="flow-number">{{ step.num }}</span>
+            <div><h3>{{ step.title }}</h3><p>{{ step.desc }}</p></div>
+          </article>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="section" id="access">
+        <p class="section-label">ACCESS</p>
+        <h2 class="section-title">上通アーケード内、<br>通町筋電停から徒歩2分。</h2>
+        <div class="access-map"><iframe title="ZenNu WELLNESS DESIGN 地図" src="{{ site.access.mapEmbed }}" loading="lazy" allowfullscreen></iframe></div>
+        <dl class="access-table">
+          {% for row in site.access.rows %}
+          <div class="access-row"><dt>{{ row.label }}</dt><dd>{{ row.value | safe }}</dd></div>
+          {% endfor %}
+        </dl>
+      </section>
+
+      <section class="section section--dark" id="faq">
+        <p class="section-label">FAQ</p>
+        <h2 class="section-title">よくあるご質問</h2>
+        <div class="faq-list">
+          {% for item in site.faq.items %}
+          <div class="faq-item">
+            <button class="faq-question" type="button"><strong>Q</strong><span>{{ item.q }}</span><i>＋</i></button>
+            <div class="faq-answer">{{ item.a }}</div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="final-cta">
+        <h2>まずは、無料体験から。</h2>
+        <p>無理な勧誘はありません。手ぶらでお気軽にお越しください。</p>
+        <div class="final-actions">
+          <a class="campaign-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">無料体験を予約する</a>
+          <a class="line-button" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener">LINEで相談する</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="studio-footer">
+      <img src="/images/logo-yoko.png" alt="ZenNu WELLNESS DESIGN">
+      <div class="footer-links">
+        <a href="/terms/">会員・施設利用規約</a>
+        <a href="/corporate-terms/">法人利用規約</a>
+        <a href="/privacy/">プライバシーポリシー</a>
+        <a href="/law/">特定商取引法に基づく表記</a>
+        <a href="/blog/">ブログ・お知らせ</a>
+      </div>
+      <p>運営会社：株式会社GroVit</p>
+      <p>〒860-0845 熊本県熊本市中央区上通町6-15 オークス第二ビル 2F</p>
+      <p>TEL {{ site.contact.telDisplay }} ／ grovit.kumamoto@gmail.com</p>
+      <p>© 2026 ZenNu WELLNESS DESIGN</p>
+    </footer>
+  </div>
+
+  <div class="sticky-cta" aria-label="お問い合わせ">
+    <a class="sticky-line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener"><span>LINEで相談<small>質問だけでもOK</small></span></a>
+    <a class="sticky-book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>無料体験を予約<small>空き状況を確認</small></span></a>
+  </div>
+
+  <script>
+    const menuButton = document.getElementById("menu-button");
+    const studioNav = document.getElementById("studio-nav");
+    menuButton.addEventListener("click", () => {
+      const open = studioNav.classList.toggle("open");
+      menuButton.classList.toggle("open", open);
+      menuButton.setAttribute("aria-expanded", String(open));
+      document.body.style.overflow = open ? "hidden" : "";
+    });
+    studioNav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => {
+      studioNav.classList.remove("open");
+      menuButton.classList.remove("open");
+      menuButton.setAttribute("aria-expanded", "false");
+      document.body.style.overflow = "";
+    }));
+    document.querySelectorAll(".faq-question").forEach(button => button.addEventListener("click", () => {
+      button.closest(".faq-item").classList.toggle("open");
+    }));
+  </script>
+</body>
+</html>
