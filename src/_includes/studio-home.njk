@@ -80,6 +80,7 @@
           <a href="#features">特徴</a>
           <a href="#reason">選ばれる理由</a>
           <a href="#before-after">実績</a>
+          <a href="#gallery">館内</a>
           <a href="#price">料金</a>
           <a href="#trainer">トレーナー</a>
           <a href="#access">アクセス</a>
@@ -101,6 +102,7 @@
           <a href="#reason">選ばれる理由</a>
           <a href="#before-after">実績</a>
           <a href="#reviews">お客様の声</a>
+          <a href="#gallery">館内ギャラリー</a>
           <a href="#price">料金</a>
           <a href="#trainer">トレーナー</a>
           <a href="#flow">体験の流れ</a>
@@ -117,48 +119,18 @@
     <button class="menu-scrim" type="button" aria-label="メニューを閉じる" tabindex="-1"></button>
 
     <main>
-      <section id="top" class="html-hero">
-        <div class="html-hero-inner">
-          <div class="html-hero-copy">
-            <p class="html-hero-kicker">PERSONAL × SELF TRAINING</p>
-            <div class="html-hero-tagline">
-              <h1>プロとだから、<br>迷わず理想へ。<span>続けられるから、<br>ずっと理想のまま。</span></h1>
-            </div>
-            <div class="html-hero-programs" aria-label="成果のパーソナルとサポート付きセルフ">
-              <div><small>成果の</small><strong>パーソナル</strong></div>
-              <span class="html-hero-times" aria-hidden="true">×</span>
-              <div><small>サポート付</small><strong>セルフ</strong></div>
-            </div>
-            <div class="html-hero-message">
-              <p>挫折させない</p>
-              <strong>二人三脚の</strong>
-              <span>ハイブリッドジム</span>
-            </div>
-            <div class="html-hero-proof">
-              <div><span aria-hidden="true">01</span><b>完全予約制</b><strong>お子様連れもOK</strong></div>
-              <div><span aria-hidden="true">02</span><b>科学的根拠に基づく</b><strong>代謝改善型ダイエット</strong></div>
-              <div><span aria-hidden="true">03</span><b>コスパ抜群</b><strong>月額 <em>9,900</em>円〜</strong></div>
-            </div>
-          </div>
-          <div class="html-hero-photo">
-            <img src="/images/studio-hero-original.jpg" alt="ZenNuでパーソナルトレーニングを受ける女性">
-            <span class="hero-photo-caption">KUMAMOTO / KAMITORI</span>
-          </div>
-        </div>
+      <section id="top" class="studio-original-hero">
+        <h1 class="visually-hidden">熊本市中央区のパーソナルジム ZenNu WELLNESS DESIGN</h1>
+        <img class="hero-art" src="/images/studio/3aa4d62ff1a1141a.webp" alt="プロとだから迷わず理想へ。成果のパーソナルとサポート付きセルフを組み合わせた挫折させないハイブリッドジム">
       </section>
 
       <section class="campaign-mini">
-        <div class="campaign-mini-inner">
-          <div class="campaign-mini-copy">
-            <span>初回限定キャンペーン</span>
-            <h2>体験トレーニング <strong>0円</strong></h2>
-            <p>ウェア・シューズ・タオル無料。手ぶらで体験できます。</p>
-          </div>
-          <div class="campaign-mini-status">
-            <small>今月の無料体験</small>
-            <p>残り <strong>{{ site.campaign.remaining }}</strong> 名様</p>
-          </div>
-          <a class="campaign-mini-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>空き状況を確認して</span>無料体験を予約する</a>
+        <div class="campaign-ribbon"><span>初回限定キャンペーン</span></div>
+        <h2>初回体験トレーニング無料</h2>
+        <div class="trial-box">
+          <p><strong>先着順！</strong> 今月予約枠残り{{ site.campaign.remaining }}名様</p>
+          <a class="trial-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><small>手ぶら<br>OK</small>無料体験を<br>予約する</a>
+          <p class="trial-note">※人気につき予約枠が埋まりやすいため、お早めにご予約ください。</p>
         </div>
       </section>
 
@@ -241,20 +213,36 @@
         </div>
       </section>
 
-      <section class="section section-beige ba-section" id="before-after">
+      <section class="section section-beige studio-results" id="before-after">
         <span class="ghost">B/A</span>
-        <p class="eyebrow">B/A</p>
-        <h2 class="section-title">入会1ヶ月後の<br>お客様の変化</h2>
-        <p class="ba-note">※結果には個人差があり、効果を保証するものではありません。</p>
-        <div class="ba-list">
-          <img src="/images/studio/995527fc60b8c02c.webp" alt="30代女性 回数券 ウエスト-5cm">
-          <img src="/images/studio/8eb80b1c7be22a8e.webp" alt="30代女性 ADVANCE ウエスト-7cm">
-          <img src="/images/studio/9fa8ed823a427dd5.webp" alt="20代男性 STANDARD ウエスト-4cm">
-          <img src="/images/studio/320318292da9f5a5.webp" alt="50代男性 LIGHT ウエスト-3cm">
-          <img src="/images/studio/8614cf6a65602d6c.webp" alt="30代女性 STANDARD ウエスト-3cm">
-          <img src="/images/studio/c6973ddcaa45ab41.webp" alt="50代男性 STANDARD ウエスト-6cm">
-          <img src="/images/studio/f16675b59787dafd.webp" alt="30代女性 回数券 ウエスト-5cm">
+        <p class="eyebrow">BEFORE &amp; AFTER</p>
+        <h2 class="section-title">続けた先に生まれた<br>お客様の変化</h2>
+        <p class="studio-results-lead">食事も運動も無理なく続けたお客様の実例をご紹介します。</p>
+        <div class="studio-results-carousel">
+          <button class="studio-results-arrow prev" id="studio-ba-prev" type="button" aria-label="前の実例へ">‹</button>
+          <div class="studio-results-viewport">
+            <div class="studio-results-track" id="studio-ba-track">
+              {% for v in site.memberVoice.items %}
+              <article class="studio-result-slide">
+                <div class="studio-result-photo">
+                  <img src="/{{ v.image }}" alt="{{ v.meta }}のビフォーアフター" loading="lazy" decoding="async">
+                </div>
+                <div class="studio-result-copy">
+                  <span class="studio-result-tag">{{ v.tag }}</span>
+                  <div class="studio-result-number">{{ v.result }}<em>{{ v.unit }}</em></div>
+                  <p class="studio-result-label">{{ v.label }}</p>
+                  <p class="studio-result-meta">{{ v.meta }}</p>
+                  <blockquote>{{ v.quote }}</blockquote>
+                  <p class="studio-result-who">{{ v.who }}</p>
+                </div>
+              </article>
+              {% endfor %}
+            </div>
+          </div>
+          <button class="studio-results-arrow next" id="studio-ba-next" type="button" aria-label="次の実例へ">›</button>
         </div>
+        <div class="studio-results-dots" id="studio-ba-dots"></div>
+        <p class="ba-note">※結果には個人差があり、効果を保証するものではありません。</p>
       </section>
 
       <section class="customer-reviews" id="reviews">
@@ -288,27 +276,72 @@
         </div>
       </section>
 
+      <section class="section studio-gallery-section" id="gallery">
+        <span class="ghost">GALLERY</span>
+        <p class="eyebrow">GALLERY</p>
+        <h2 class="section-title">館内ギャラリー</h2>
+        <p class="studio-gallery-lead">{{ site.gallery.subtitle }}</p>
+        <div class="studio-gallery-grid">
+          {% for g in site.gallery.items %}
+          <figure class="studio-gallery-item{% if g.size %} {{ g.size }}{% endif %}">
+            <img src="/{{ g.image }}" alt="{{ g.label }}" loading="lazy" decoding="async">
+            <figcaption>{{ g.label }}</figcaption>
+          </figure>
+          {% endfor %}
+        </div>
+      </section>
+
       <section class="section-price" id="price">
         <div class="price-intro">
           <span class="ghost">PRICE</span><p class="eyebrow">PRICE</p>
           <h2 class="section-title">ライフスタイルに合わせて<br>選べる料金プラン</h2>
           <div class="admission"><b>入会金</b><strong>11,000円</strong><br>（当日入会で無料）</div>
-          <h3 class="price-group-title">— 月額プラン —<br><small>（セルフ＋パーソナル）</small></h3>
-          <div class="plan-list">
-            <article class="plan"><h3>LIGHT</h3><div class="price">月額 <strong>10,890円</strong>〜</div><p>セルフ＋トレーナーのサポート付き<br>コストを抑えて自由に継続したい方</p></article>
-            <article class="plan popular"><h3>STANDARD</h3><div class="price">月額 <strong>24,300円</strong>〜</div><p>パーソナル月2回＋セルフで<br>無理なく続けたい方</p></article>
-            <article class="plan"><h3>ADVANCE</h3><div class="price">月額 <strong>42,300円</strong>〜</div><p>パーソナル月4回＋セルフ＋食事管理で<br>しっかり結果を出したい方</p></article>
-            <article class="plan"><h3>PREMIUM</h3><div class="price">月額 <strong>69,300円</strong>〜</div><p>パーソナル月8回＋セルフ＋食事管理で<br>最短で理想のカラダへ</p></article>
+          <h3 class="price-group-title">— 月額プラン —<br><small>目標やペースに合わせてお選びいただけます</small></h3>
+          <div class="studio-price-grid">
+            {% for p in site.pricing.plans %}
+            <article class="studio-price-card{% if p.popular %} popular{% endif %}">
+              {% if p.popular %}<span class="studio-popular-tag">1番人気</span>{% endif %}
+              <div class="studio-price-head">
+                <h3>{{ p.name }}</h3>
+                <p>{{ p.for }}</p>
+              </div>
+              <div class="studio-price-body">
+                <div class="studio-price-value">{{ p.price }}<small>{{ p.unit }}</small></div>
+                <ul>
+                  {% for it in p.items %}<li>{{ it }}</li>{% endfor %}
+                </ul>
+                <a href="#reserve">このプランを体験する</a>
+              </div>
+            </article>
+            {% endfor %}
           </div>
-          <h3 class="price-group-title">— 回数券プラン —<br><small>（都度利用可能）</small></h3>
-          <div class="tickets">
-            <div class="ticket"><b>VISITOR</b><div><strong>9,000円</strong><span>単発でパーソナルを試したい方</span></div></div>
-            <div class="ticket"><b>4回券</b><div><strong>35,200円</strong><span>短期間でトレーニングを習慣化したい方</span></div></div>
-            <div class="ticket"><b>10回券</b><div><strong>85,000円</strong><span>自己流ボディメイクに限界を感じている方</span></div></div>
-            <div class="ticket"><b>20回券</b><div><strong>165,000円</strong><span>本気でダイエット・ボディメイクに取り組みたい方</span></div></div>
-            <div class="ticket"><b>30回券</b><div><strong>240,000円</strong><span>最短でダイエット・ボディメイクに取り組みたい方</span></div></div>
+          <div class="studio-ticket-block">
+            <h3>{{ site.pricing.ticket.title }}</h3>
+            <p>{{ site.pricing.ticket.sub }}</p>
+            <div class="studio-ticket-grid">
+              {% for c in site.pricing.ticket.cards %}
+              <article class="studio-ticket-card{% if c.best %} best{% endif %}">
+                {% if c.badge %}<span>{{ c.badge }}</span>{% endif %}
+                <strong>{{ c.count }}<small>回</small></strong>
+                <b>{{ c.price }}</b>
+                <p>{{ c.per }}</p>
+              </article>
+              {% endfor %}
+            </div>
           </div>
-          <p style="font-size:10px">※料金はすべて税込価格です。表示月額は契約期間により異なります。</p>
+          <div class="studio-addon-grid">
+            {% for a in site.pricing.addons %}
+            <article class="studio-addon-card">
+              <h3 class="{% if a.dark %}dark{% endif %}">{{ a.title }} <small>{{ a.en }}</small></h3>
+              <p>{{ a.desc }}</p>
+              {% for l in a.lines %}
+              <div class="studio-addon-line"><span>{{ l.label }}</span><strong>{{ l.price }}<small>{{ l.per }}</small></strong></div>
+              {% endfor %}
+              <p class="studio-addon-note">{{ a.note | safe }}</p>
+            </article>
+            {% endfor %}
+          </div>
+          <p class="studio-price-note">{{ site.pricing.note | safe }}</p>
         </div>
         <div class="comparison">
           <h2>手厚いサポートで<br><span class="orange">圧倒的</span>なコストパフォーマンス</h2>
@@ -415,11 +448,25 @@
       <script src="https://zennuwellnessdesign.hacomono.jp/js/widget.js"></script>
     </main>
 
-    <footer class="studio-footer">
-      <img class="footer-logo" src="/images/studio/9919b0ceddc0834f.webp" alt="ZenNu WELLNESS DESIGN">
-      <div class="footer-links"><a href="/terms/">会員・施設利用規約</a><a href="/corporate-terms/">法人利用規約</a><a href="/privacy/">プライバシーポリシー</a><a href="/law/">特定商取引法に基づく表記</a><a href="/blog/">ブログ・お知らせ</a></div>
-      <p>運営会社 株式会社GroVit ／ {{ site.contact.telDisplay }}</p>
-      <p>© 2026 ZenNu WELLNESS DESIGN</p>
+    <footer class="studio-footer" id="footer">
+      <div class="studio-footer-inner">
+        <div class="studio-footer-brand">
+          <img class="footer-logo" src="/images/studio/9919b0ceddc0834f.webp" alt="ZenNu WELLNESS DESIGN">
+          <p>{{ site.footer.tagline | safe }}</p>
+        </div>
+        <nav class="studio-footer-nav" aria-label="フッターメニュー">
+          <a href="#features">特徴</a><a href="#before-after">実績</a><a href="#gallery">館内</a><a href="#price">料金</a><a href="#trainer">トレーナー</a><a href="#access">アクセス</a><a href="#faq">FAQ</a><a href="/blog/">ブログ</a>
+        </nav>
+        <div class="studio-footer-contact">
+          <p>〒860-0845<br>熊本県熊本市中央区上通町6-15<br>オークス第二ビル 2F</p>
+          <a href="tel:{{ site.contact.tel }}">{{ site.contact.telDisplay }}</a>
+          <div><a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener">LINEで相談</a><a class="book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">無料体験を予約</a></div>
+        </div>
+      </div>
+      <div class="studio-footer-bottom">
+        <div class="footer-links"><a href="/terms/">会員・施設利用規約</a><a href="/corporate-terms/">法人利用規約</a><a href="/privacy/">プライバシーポリシー</a><a href="/law/">特定商取引法に基づく表記</a></div>
+        <p>運営会社 株式会社GroVit ／ © 2026 ZenNu WELLNESS DESIGN</p>
+      </div>
     </footer>
   </div>
 
@@ -447,6 +494,40 @@
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") setMenu(false);
     });
+    (() => {
+      const track = document.getElementById("studio-ba-track");
+      if (!track) return;
+      const slides = track.querySelectorAll(".studio-result-slide");
+      const prev = document.getElementById("studio-ba-prev");
+      const next = document.getElementById("studio-ba-next");
+      const dotsWrap = document.getElementById("studio-ba-dots");
+      let index = 0;
+      const goTo = value => {
+        index = (value + slides.length) % slides.length;
+        track.style.transform = `translateX(-${index * 100}%)`;
+        dotsWrap.querySelectorAll("button").forEach((dot, i) => dot.classList.toggle("active", i === index));
+      };
+      slides.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = i === 0 ? "active" : "";
+        dot.setAttribute("aria-label", `${i + 1}番目の実例を表示`);
+        dot.addEventListener("click", () => goTo(i));
+        dotsWrap.appendChild(dot);
+      });
+      prev.addEventListener("click", () => goTo(index - 1));
+      next.addEventListener("click", () => goTo(index + 1));
+      let startX = null;
+      track.parentElement.addEventListener("touchstart", event => {
+        startX = event.touches[0].clientX;
+      }, { passive: true });
+      track.parentElement.addEventListener("touchend", event => {
+        if (startX === null) return;
+        const delta = event.changedTouches[0].clientX - startX;
+        if (Math.abs(delta) > 40) goTo(index + (delta < 0 ? 1 : -1));
+        startX = null;
+      }, { passive: true });
+    })();
   </script>
 </body>
 </html>
