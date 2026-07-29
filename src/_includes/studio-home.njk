@@ -17,6 +17,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preload" as="image" href="/images/studio-hero-original.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -119,9 +120,34 @@
     <button class="menu-scrim" type="button" aria-label="メニューを閉じる" tabindex="-1"></button>
 
     <main>
-      <section id="top" class="studio-original-hero">
-        <h1 class="visually-hidden">熊本市中央区のパーソナルジム ZenNu WELLNESS DESIGN</h1>
-        <img class="hero-art" src="/images/studio/3aa4d62ff1a1141a.webp" alt="プロとだから迷わず理想へ。成果のパーソナルとサポート付きセルフを組み合わせた挫折させないハイブリッドジム">
+      <section id="top" class="studio-responsive-hero" aria-labelledby="studio-hero-title">
+        <div class="studio-hero-photo" aria-hidden="true">
+          <img src="/images/studio-hero-original.jpg" alt="" fetchpriority="high">
+        </div>
+        <div class="studio-hero-shade" aria-hidden="true"></div>
+        <div class="studio-hero-content">
+          <p class="studio-hero-promise">
+            <span>プロとだから、迷わず理想へ。</span>
+            <span>続けられるから、ずっと理想のまま。</span>
+          </p>
+          <div class="studio-hero-main">
+            <div class="studio-hero-programs" aria-label="成果のパーソナルとサポート付きセルフ">
+              <div><small>成果の</small><strong>パーソナル</strong></div>
+              <b aria-hidden="true">×</b>
+              <div><small>サポート付</small><strong>セルフ</strong></div>
+            </div>
+            <h1 id="studio-hero-title">
+              <span>挫折させない</span>
+              <strong>二人三脚の</strong>
+              <em>ハイブリッドジム</em>
+            </h1>
+          </div>
+          <div class="studio-hero-proof" aria-label="ZenNuの3つの特徴">
+            <div><span>01</span><b>お子様連れもOK</b><strong>完全予約制の<br>プライベート空間</strong></div>
+            <div><span>02</span><b>科学的根拠に基づいた</b><strong>代謝改善型<br>ダイエット</strong></div>
+            <div><span>03</span><b>コスパ抜群！</b><strong>月額 <em>9,900</em>円〜</strong></div>
+          </div>
+        </div>
       </section>
 
       <section class="campaign-mini">
