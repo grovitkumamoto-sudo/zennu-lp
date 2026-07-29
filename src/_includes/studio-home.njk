@@ -69,65 +69,96 @@
   </section>
   {% endmacro %}
 
-  <aside class="side-nav" aria-label="ページ内メニュー">
-    <img class="side-nav-logo" src="/images/studio/5b1183b635231733.webp" alt="ZenNu WELLNESS DESIGN">
-    <ul>
-      <li><a href="#top">トップ</a></li>
-      <li><a href="#reason">選ばれる理由</a></li>
-      <li><a href="#before-after">BEFORE &amp;<br>AFTER</a></li>
-      <li><a href="#reviews">お客様の声</a></li>
-      <li><a href="#price">料金</a></li>
-      <li><a href="#trainer">トレーナー紹介</a></li>
-      <li><a href="#flow">入会の流れ</a></li>
-      <li><a href="#access">アクセス</a></li>
-      <li><a href="#faq">よくあるご質問</a></li>
-      <li><a href="#reserve">予約フォーム</a></li>
-    </ul>
-  </aside>
-
   <div class="studio-page">
     <header class="studio-header">
-      <a class="studio-brand" href="#top">
-        <small>熊本市中央区のパーソナル&amp;フィットネスジム</small>
-        <img src="/images/studio/93fa018970b42e1a.webp" alt="ZenNu WELLNESS DESIGN">
-      </a>
-      <a class="header-cta header-book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>いますぐ<strong>体験を予約する</strong></span></a>
-      <a class="header-cta header-line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener"><span>LINEのご相談は<strong>こちらから</strong></span></a>
+      <div class="studio-header-inner">
+        <a class="studio-brand" href="#top">
+          <small>熊本市中央区のパーソナル&amp;フィットネスジム</small>
+          <img src="/images/studio/93fa018970b42e1a.webp" alt="ZenNu WELLNESS DESIGN">
+        </a>
+        <nav class="desktop-nav" aria-label="メインメニュー">
+          <a href="#features">特徴</a>
+          <a href="#reason">選ばれる理由</a>
+          <a href="#before-after">実績</a>
+          <a href="#price">料金</a>
+          <a href="#trainer">トレーナー</a>
+          <a href="#access">アクセス</a>
+          <a href="#faq">FAQ</a>
+          <a href="/blog/">ブログ</a>
+        </nav>
+        <div class="desktop-actions">
+          <a class="header-line-link" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener" aria-label="LINEで相談">LINE</a>
+          <a class="header-reserve" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>初回体験</span>無料体験を予約</a>
+        </div>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="メニューを開く">
+          <span></span><span></span><span></span>
+          <small>MENU</small>
+        </button>
+      </div>
+      <nav class="mobile-menu" id="mobile-menu" aria-label="スマートフォンメニュー" aria-hidden="true">
+        <div class="mobile-menu-links">
+          <a href="#features">特徴</a>
+          <a href="#reason">選ばれる理由</a>
+          <a href="#before-after">実績</a>
+          <a href="#reviews">お客様の声</a>
+          <a href="#price">料金</a>
+          <a href="#trainer">トレーナー</a>
+          <a href="#flow">体験の流れ</a>
+          <a href="#access">アクセス</a>
+          <a href="#faq">よくあるご質問</a>
+          <a href="/blog/">ブログ・お知らせ</a>
+        </div>
+        <div class="mobile-menu-actions">
+          <a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener">LINEで相談する</a>
+          <a class="book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">無料体験を予約する</a>
+        </div>
+      </nav>
     </header>
+    <button class="menu-scrim" type="button" aria-label="メニューを閉じる" tabindex="-1"></button>
 
     <main>
       <section id="top" class="html-hero">
-        <div class="html-hero-photo">
-          <img src="/images/studio-hero-original.jpg" alt="ZenNuでパーソナルトレーニングを受ける女性">
-        </div>
-        <div class="html-hero-shade" aria-hidden="true"></div>
-        <div class="html-hero-tagline">
-          <h1>プロとだから、迷わず理想へ。<span>続けられるから、<br class="hero-mobile-break">ずっと理想のまま。</span></h1>
-        </div>
-        <div class="html-hero-programs" aria-label="成果のパーソナルとサポート付きセルフ">
-          <div><small>成果の</small><strong>パーソナル</strong></div>
-          <span class="html-hero-times" aria-hidden="true">×</span>
-          <div><small>サポート付</small><strong>セルフ</strong></div>
-        </div>
-        <div class="html-hero-message">
-          <p>挫折させない</p>
-          <strong>二人三脚の</strong>
-          <span>ハイブリッドジム</span>
-        </div>
-        <div class="html-hero-proof">
-          <div><span aria-hidden="true">♧</span><b>お子様連れもOK</b><strong>完全予約制の<br>プライベート空間</strong></div>
-          <div><span aria-hidden="true">▰</span><b>科学的根拠に基づいた</b><strong>代謝改善型<br>ダイエット</strong></div>
-          <div><span aria-hidden="true">↔</span><b>コスパ抜群！</b><strong>月額 <em>9,900</em>円〜</strong></div>
+        <div class="html-hero-inner">
+          <div class="html-hero-copy">
+            <p class="html-hero-kicker">PERSONAL × SELF TRAINING</p>
+            <div class="html-hero-tagline">
+              <h1>プロとだから、<br>迷わず理想へ。<span>続けられるから、<br>ずっと理想のまま。</span></h1>
+            </div>
+            <div class="html-hero-programs" aria-label="成果のパーソナルとサポート付きセルフ">
+              <div><small>成果の</small><strong>パーソナル</strong></div>
+              <span class="html-hero-times" aria-hidden="true">×</span>
+              <div><small>サポート付</small><strong>セルフ</strong></div>
+            </div>
+            <div class="html-hero-message">
+              <p>挫折させない</p>
+              <strong>二人三脚の</strong>
+              <span>ハイブリッドジム</span>
+            </div>
+            <div class="html-hero-proof">
+              <div><span aria-hidden="true">01</span><b>完全予約制</b><strong>お子様連れもOK</strong></div>
+              <div><span aria-hidden="true">02</span><b>科学的根拠に基づく</b><strong>代謝改善型ダイエット</strong></div>
+              <div><span aria-hidden="true">03</span><b>コスパ抜群</b><strong>月額 <em>9,900</em>円〜</strong></div>
+            </div>
+          </div>
+          <div class="html-hero-photo">
+            <img src="/images/studio-hero-original.jpg" alt="ZenNuでパーソナルトレーニングを受ける女性">
+            <span class="hero-photo-caption">KUMAMOTO / KAMITORI</span>
+          </div>
         </div>
       </section>
 
       <section class="campaign-mini">
-        <div class="campaign-ribbon"><span>初回限定キャンペーン</span></div>
-        <h2>初回体験トレーニング無料</h2>
-        <div class="trial-box">
-          <p><strong>先着順！</strong> 今月予約枠残り{{ site.campaign.remaining }}名様</p>
-          <a class="trial-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><small>手ぶら<br>OK</small>無料体験を<br>予約する</a>
-          <p class="trial-note">※人気につき予約枠が埋まりやすいため、お早めにご予約ください。</p>
+        <div class="campaign-mini-inner">
+          <div class="campaign-mini-copy">
+            <span>初回限定キャンペーン</span>
+            <h2>体験トレーニング <strong>0円</strong></h2>
+            <p>ウェア・シューズ・タオル無料。手ぶらで体験できます。</p>
+          </div>
+          <div class="campaign-mini-status">
+            <small>今月の無料体験</small>
+            <p>残り <strong>{{ site.campaign.remaining }}</strong> 名様</p>
+          </div>
+          <a class="campaign-mini-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>空き状況を確認して</span>無料体験を予約する</a>
         </div>
       </section>
 
@@ -401,6 +432,21 @@
     document.querySelectorAll(".faq-q").forEach(button => button.addEventListener("click", () => {
       button.closest(".faq-item").classList.toggle("open");
     }));
+    const menuToggle = document.querySelector(".menu-toggle");
+    const mobileMenu = document.querySelector(".mobile-menu");
+    const menuScrim = document.querySelector(".menu-scrim");
+    const setMenu = open => {
+      document.body.classList.toggle("menu-open", open);
+      menuToggle.setAttribute("aria-expanded", String(open));
+      menuToggle.setAttribute("aria-label", open ? "メニューを閉じる" : "メニューを開く");
+      mobileMenu.setAttribute("aria-hidden", String(!open));
+    };
+    menuToggle.addEventListener("click", () => setMenu(menuToggle.getAttribute("aria-expanded") !== "true"));
+    menuScrim.addEventListener("click", () => setMenu(false));
+    mobileMenu.querySelectorAll("a").forEach(link => link.addEventListener("click", () => setMenu(false)));
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") setMenu(false);
+    });
   </script>
 </body>
 </html>
