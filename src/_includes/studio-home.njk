@@ -21,9 +21,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
   {% include "studio-home-style.njk" %}
+  {% include "latest-blog-style.njk" %}
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"HealthClub","name":"ZenNu WELLNESS DESIGN","url":"{{ site.meta.url }}/","image":"{{ site.meta.url }}{{ site.meta.ogImage }}","telephone":"{{ site.contact.telDisplay }}","priceRange":"¥¥","address":{"@type":"PostalAddress","postalCode":"860-0845","addressRegion":"熊本県","addressLocality":"熊本市中央区","streetAddress":"上通町6-15 オークス第二ビル 2F","addressCountry":"JP"},"geo":{"@type":"GeoCoordinates","latitude":"{{ site.meta.lat }}","longitude":"{{ site.meta.lng }}"}}
   </script>
+  <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"main_site",lp_variant:"main"});</script>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-PCDJZ9X9");</script>
 </head>
 <body>
@@ -33,27 +35,29 @@
   <section class="campaign-full">
     <div class="campaign-ribbon"><span>初回限定キャンペーン</span></div>
     <h2>パーソナル無料体験会</h2>
-    <div class="benefit">
-      <span class="benefit-label">特典 01</span>
-      <h3>当日入会で</h3>
-      <div class="benefit-deal">入会金 <s>11,000円</s><strong>0円</strong></div>
-    </div>
-    <div class="benefit">
-      <span class="benefit-label">特典 02</span>
-      <h3>パーソナルトレーニング1回</h3>
-      <div class="benefit-deal">通常単発 <s>9,900円</s><strong>初回無料</strong></div>
-    </div>
-    <div class="benefit">
-      <span class="benefit-label">特典 03</span>
-      <div class="guide-grid">
-        <img src="/images/studio/b2ca3a775b4c1199.webp" alt="カラダ分析シートと個別ダイエットガイド">
-        <div>
-          <h3>もう自己流から卒業！<br>あなただけのダイエットガイドを無料プレゼント</h3>
-          <ul class="guide-list">
-            <li>✓ カラダ分析シート</li>
-            <li>✓ 個別トレーニングプログラム</li>
-            <li>✓ 3食白米OKの食事マニュアル</li>
-          </ul>
+    <div class="benefit-grid">
+      <div class="benefit">
+        <span class="benefit-label">特典 01</span>
+        <h3>当日入会で</h3>
+        <div class="benefit-deal">入会金 <s>11,000円</s><strong>0円</strong></div>
+      </div>
+      <div class="benefit">
+        <span class="benefit-label">特典 02</span>
+        <h3>パーソナルトレーニング1回</h3>
+        <div class="benefit-deal">通常単発 <s>9,900円</s><strong>初回無料</strong></div>
+      </div>
+      <div class="benefit">
+        <span class="benefit-label">特典 03</span>
+        <div class="guide-grid">
+          <img src="/images/studio/b2ca3a775b4c1199.webp" alt="カラダ分析シートと個別ダイエットガイド">
+          <div>
+            <h3>もう自己流から卒業！<br>あなただけのダイエットガイドを無料プレゼント</h3>
+            <ul class="guide-list">
+              <li>✓ カラダ分析シート</li>
+              <li>✓ 個別トレーニングプログラム</li>
+              <li>✓ 3食白米OKの食事マニュアル</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -92,9 +96,29 @@
     </header>
 
     <main>
-      <section id="top">
-        <h1 style="position:absolute;width:1px;height:1px;overflow:hidden">熊本市中央区のパーソナルジム ZenNu WELLNESS DESIGN</h1>
-        <img class="hero-art" src="/images/studio/3aa4d62ff1a1141a.webp" alt="プロとだから迷わず理想へ。成果のパーソナル×サポート付セルフ">
+      <section id="top" class="html-hero">
+        <div class="html-hero-photo">
+          <img src="/images/studio-hero-original.jpg" alt="ZenNuでパーソナルトレーニングを受ける女性">
+        </div>
+        <div class="html-hero-shade" aria-hidden="true"></div>
+        <div class="html-hero-tagline">
+          <h1>プロとだから、迷わず理想へ。<span>続けられるから、<br class="hero-mobile-break">ずっと理想のまま。</span></h1>
+        </div>
+        <div class="html-hero-programs" aria-label="成果のパーソナルとサポート付きセルフ">
+          <div><small>成果の</small><strong>パーソナル</strong></div>
+          <span class="html-hero-times" aria-hidden="true">×</span>
+          <div><small>サポート付</small><strong>セルフ</strong></div>
+        </div>
+        <div class="html-hero-message">
+          <p>挫折させない</p>
+          <strong>二人三脚の</strong>
+          <span>ハイブリッドジム</span>
+        </div>
+        <div class="html-hero-proof">
+          <div><span aria-hidden="true">♧</span><b>お子様連れもOK</b><strong>完全予約制の<br>プライベート空間</strong></div>
+          <div><span aria-hidden="true">▰</span><b>科学的根拠に基づいた</b><strong>代謝改善型<br>ダイエット</strong></div>
+          <div><span aria-hidden="true">↔</span><b>コスパ抜群！</b><strong>月額 <em>9,900</em>円〜</strong></div>
+        </div>
       </section>
 
       <section class="campaign-mini">
@@ -119,16 +143,18 @@
 
       <section class="section section-gray">
         <h2 class="worry-title">ジム通いに<br><span class="red">挫折</span>したあなたへ<br>こんなお悩み<br>ありませんか？</h2>
-        <div class="worry-scene">
-          <img src="/images/studio/7771fc20e23ac718.webp" alt="空の財布">
-          <span class="worry-tag tag1">パーソナルジムは<b>料金が高くて続けられない</b></span>
-          <span class="worry-tag tag2">24Hジムに入会したけど<b>結局通わなくなった</b></span>
-        </div>
-        <div class="worry-scene right">
-          <img src="/images/studio/0904e5008995ad85.webp" alt="ウエストを測る女性">
-          <span class="worry-tag tag3">自己流トレーニングでは<br><b>効果が出ているかわからない</b></span>
-          <span class="worry-tag tag4">無理な食事制限で<br><b>リバウンドした</b></span>
-          <span class="worry-tag tag5">仕事や家事が忙しくて<br><b>運動する時間がない</b></span>
+        <div class="worry-scenes">
+          <div class="worry-scene">
+            <img src="/images/studio/7771fc20e23ac718.webp" alt="空の財布">
+            <span class="worry-tag tag1">パーソナルジムは<b>料金が高くて続けられない</b></span>
+            <span class="worry-tag tag2">24Hジムに入会したけど<b>結局通わなくなった</b></span>
+          </div>
+          <div class="worry-scene right">
+            <img src="/images/studio/0904e5008995ad85.webp" alt="ウエストを測る女性">
+            <span class="worry-tag tag3">自己流トレーニングでは<br><b>効果が出ているかわからない</b></span>
+            <span class="worry-tag tag4">無理な食事制限で<br><b>リバウンドした</b></span>
+            <span class="worry-tag tag5">仕事や家事が忙しくて<br><b>運動する時間がない</b></span>
+          </div>
         </div>
         <p class="worry-copy">多くの人がジム通いを諦めてしまうのは、<br>費用やモチベーションの問題があるからです。</p>
       </section>
@@ -204,9 +230,11 @@
         <span class="ghost">REVIEW</span>
         <p class="eyebrow">REVIEW</p>
         <h2 class="section-title">お客様の声</h2>
-        <article class="customer-card"><div class="customer-head"><div class="customer-person"><img src="/images/studio/6592e593cbd074d4.webp" alt="">30代 男性</div><b>現在1ヶ月目、筋肉痛がくせになっています！頑張ってトレーナーさんのような体型に！</b></div><div class="customer-body">今まで24Hジムで自己流で行っていましたが、フォームがあっているのかわからずに体験に来ました。<br><strong>体験でこんなにもプロの指導は違うのかと感動し、入会しました。</strong><br>セルフとパーソナルのプランで通っていて筋肉の付き方が良くなってきて嬉しいです！<img class="customer-sign" src="/images/studio/cf2adcc5209240d9.webp" alt="お客様直筆の感想"></div></article>
-        <article class="customer-card"><div class="customer-head"><div class="customer-person"><img src="/images/studio/d237631b78771303.webp" alt="">30代 女性</div><b>炭水化物を食べたら痩せてきました！糖質は太ると思っていたのにびっくりです。</b></div><div class="customer-body">パーソナルトレーニング4回と食事指導があるコースから入会してみました。<br>糖質制限が逆効果になっていると指導を受けて怖かったですが、<strong>炭水化物を教えてもらったように食べたら痩せてきました！</strong><br>慣れてきたらプランを下げられるので金銭的にも続けられそうです。<img class="customer-sign" src="/images/studio/94200d699a8b3267.webp" alt="お客様直筆の感想"></div></article>
-        <article class="customer-card"><div class="customer-head"><div class="customer-person"><img src="/images/studio/556597f0df671fcb.webp" alt="">28歳 女性</div><b>初めてジムに通いました！周りに痩せたと言われてとても嬉しいです！</b></div><div class="customer-body">ゼンヌが初めてのジムで良かったです。初心者にもわかりやすいように教えていただけます。<br>月に2回パーソナルを受けながら、あとは自分でトレーニングしています。<strong>メニューも決めていただいているので24Hジムより続けやすく、結果も出やすいと思います。</strong><img class="customer-sign" src="/images/studio/35022ffc4afb29de.webp" alt="お客様直筆の感想"></div></article>
+        <div class="customer-list">
+          <article class="customer-card"><div class="customer-head"><div class="customer-person"><img src="/images/studio/6592e593cbd074d4.webp" alt="">30代 男性</div><b>現在1ヶ月目、筋肉痛がくせになっています！頑張ってトレーナーさんのような体型に！</b></div><div class="customer-body">今まで24Hジムで自己流で行っていましたが、フォームがあっているのかわからずに体験に来ました。<br><strong>体験でこんなにもプロの指導は違うのかと感動し、入会しました。</strong><br>セルフとパーソナルのプランで通っていて筋肉の付き方が良くなってきて嬉しいです！<img class="customer-sign" src="/images/studio/cf2adcc5209240d9.webp" alt="お客様直筆の感想"></div></article>
+          <article class="customer-card"><div class="customer-head"><div class="customer-person"><img src="/images/studio/d237631b78771303.webp" alt="">30代 女性</div><b>炭水化物を食べたら痩せてきました！糖質は太ると思っていたのにびっくりです。</b></div><div class="customer-body">パーソナルトレーニング4回と食事指導があるコースから入会してみました。<br>糖質制限が逆効果になっていると指導を受けて怖かったですが、<strong>炭水化物を教えてもらったように食べたら痩せてきました！</strong><br>慣れてきたらプランを下げられるので金銭的にも続けられそうです。<img class="customer-sign" src="/images/studio/94200d699a8b3267.webp" alt="お客様直筆の感想"></div></article>
+          <article class="customer-card"><div class="customer-head"><div class="customer-person"><img src="/images/studio/556597f0df671fcb.webp" alt="">28歳 女性</div><b>初めてジムに通いました！周りに痩せたと言われてとても嬉しいです！</b></div><div class="customer-body">ゼンヌが初めてのジムで良かったです。初心者にもわかりやすいように教えていただけます。<br>月に2回パーソナルを受けながら、あとは自分でトレーニングしています。<strong>メニューも決めていただいているので24Hジムより続けやすく、結果も出やすいと思います。</strong><img class="customer-sign" src="/images/studio/35022ffc4afb29de.webp" alt="お客様直筆の感想"></div></article>
+        </div>
       </section>
 
       {{ campaign() }}
@@ -347,6 +375,8 @@
         <p>続けられる仕組みをぜひ体感してください。<br>理想の自分に向けて、一緒に一歩を踏み出しましょう！</p>
         <img src="/images/studio/bd9e7b05de5f8f98.webp" alt="店長 森丈明">
       </section>
+
+      {% include "latest-blog.njk" %}
 
       <section class="reserve-widget" id="reserve">
         <iframe id="hacomono-widget-w0002" src="https://zennuwellnessdesign.hacomono.jp/widgets/2?isFilterableByCategory=false&isShowStudioInfo=true&studioIds=1" title="ZenNu無料体験予約"></iframe>
