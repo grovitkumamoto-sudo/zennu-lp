@@ -1,14 +1,14 @@
 <style>
   *,*::before,*::after{box-sizing:border-box}
-  html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth}
+  html{max-width:100%;overflow-x:hidden;scroll-behavior:smooth;scroll-padding-top:64px}
   body{max-width:100%;margin:0;overflow-x:hidden;background:#fff;color:#272727;font-family:"Noto Sans JP",sans-serif;line-height:1.72;-webkit-font-smoothing:antialiased}
   body.menu-open{overflow:hidden}
   img{display:block;max-width:100%;height:auto}
   a{color:inherit;text-decoration:none}
   button{font:inherit}
   :root{--orange:#f35319;--orange2:#e92315;--dark:#272727;--beige:#fef9f2;--gray:#e6e6e6;--green:#47c82b;--yellow:#fff000}
-  .studio-page{position:relative;width:100%;margin:0;background:#fff}
-  .studio-header{position:sticky;z-index:50;top:0;height:64px;border-bottom:1px solid #ece7e2;background:rgba(255,255,255,.97);box-shadow:0 6px 24px rgba(24,20,17,.05);backdrop-filter:blur(12px)}
+  .studio-page{position:relative;width:100%;margin:0;padding-top:64px;background:#fff}
+  .studio-header{position:fixed;z-index:50;top:0;right:0;left:0;height:64px;border-bottom:1px solid #ece7e2;background:rgba(255,255,255,.97);box-shadow:0 6px 24px rgba(24,20,17,.05);backdrop-filter:blur(12px)}
   .studio-header-inner{display:flex;align-items:center;justify-content:space-between;height:100%;padding:0 16px}
   .studio-brand{display:flex;min-width:0;flex-direction:column;justify-content:center}
   .studio-brand small{font-size:6px;font-weight:900;line-height:1.2;white-space:nowrap}
@@ -437,6 +437,8 @@
     .studio-hero-price .studio-price-unit{font-size:11px}
   }
   @media(min-width:760px){
+    html{scroll-padding-top:72px}
+    .studio-page{padding-top:72px}
     .studio-header{height:72px}
     .studio-header-inner{max-width:1180px;margin:0 auto;padding:0 28px}
     .studio-brand small{font-size:8px}
