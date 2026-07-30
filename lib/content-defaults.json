@@ -136,11 +136,8 @@
       "title": "回数券（パーソナル）",
       "sub": "月額に縛られず、自分のペースで通いたい方に",
       "cards": [
-        { "count": "1", "price": "¥9,000", "per": "有効期限 2か月", "best": false, "badge": "" },
         { "count": "4", "price": "¥35,200", "per": "有効期限 4か月", "best": false, "badge": "" },
-        { "count": "10", "price": "¥85,000", "per": "有効期限 6か月", "best": true, "badge": "お得" },
-        { "count": "20", "price": "¥165,000", "per": "有効期限 6か月", "best": false, "badge": "" },
-        { "count": "30", "price": "¥240,000", "per": "有効期限 8か月", "best": false, "badge": "" }
+        { "count": "10", "price": "¥85,000", "per": "有効期限 6か月", "best": true, "badge": "お得" }
       ]
     },
     "addons": [
