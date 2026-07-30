@@ -143,21 +143,30 @@
             </h1>
           </div>
           <div class="studio-hero-proof" aria-label="ZenNuの3つの特徴">
-            <div><span>01</span><b>お子様連れもOK</b><strong>完全予約制の<br>プライベート空間</strong></div>
-            <div><span>02</span><b>科学的根拠に基づいた</b><strong>代謝改善型<br>ダイエット</strong></div>
-            <div><span>03</span><b>コスパ抜群！</b><strong>月額 <em>9,900</em>円〜</strong></div>
+            <div><span>01</span><p>お子様連れもOK</p><strong>完全予約制</strong><small>プライベート空間</small></div>
+            <div><span>02</span><p>科学的根拠に基づいた</p><strong>代謝改善型</strong><small>ダイエット</small></div>
+            <div><span>03</span><p>コスパ抜群！</p><strong>月額 <em>9,900</em>円〜</strong><small>セルフ使い放題</small></div>
           </div>
         </div>
       </section>
 
-      <section class="campaign-mini">
-        <div class="campaign-ribbon"><span>初回限定キャンペーン</span></div>
-        <h2>初回体験トレーニング無料</h2>
-        <div class="trial-box">
-          <p><strong>先着順！</strong> 今月予約枠残り{{ site.campaign.remaining }}名様</p>
-          <a class="trial-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><small>手ぶら<br>OK</small>無料体験を<br>予約する</a>
-          <p class="trial-note">※人気につき予約枠が埋まりやすいため、お早めにご予約ください。</p>
+      <section id="trial-campaign" class="campaign-mini" aria-labelledby="campaign-mini-title">
+        <div class="campaign-mini-inner">
+          <div class="campaign-mini-copy">
+            <span>初回限定キャンペーン</span>
+            <h2 id="campaign-mini-title">パーソナル体験 <strong>0円</strong></h2>
+            <p>ウェア・シューズ・タオル無料。手ぶらで体験できます。</p>
+          </div>
+          <div class="campaign-mini-status">
+            <span class="campaign-mini-hand">手ぶら<br><strong>OK</strong></span>
+            <p><small>今月の無料体験</small>残り <strong>{{ site.campaign.remaining }}</strong> 名様</p>
+          </div>
+          <a class="campaign-mini-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">
+            <span><small>空き状況を確認して</small><strong>無料体験を予約する</strong></span>
+            <b aria-hidden="true">→</b>
+          </a>
         </div>
+        <p class="campaign-mini-note">※人気につき予約枠が埋まりやすいため、お早めにご予約ください。</p>
       </section>
 
       <section class="hybrid-intro">

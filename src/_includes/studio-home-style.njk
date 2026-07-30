@@ -52,14 +52,32 @@
   .studio-hero-main h1 em{font-size:29px}
   .studio-hero-proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;padding:0 10px 14px;background:#050505;text-align:center}
   .studio-hero-proof>div{display:flex;align-items:center;justify-content:center;flex-direction:column;min-height:0;aspect-ratio:1;padding:9px 4px;border:2px solid rgba(255,255,255,.75);border-radius:50%;background:linear-gradient(145deg,#fb8a44,#e5482f);box-shadow:inset 0 0 0 3px rgba(255,255,255,.18),0 6px 13px rgba(0,0,0,.2);line-height:1.15}
-  .studio-hero-proof span{font:900 10px/1 "DM Sans",sans-serif;letter-spacing:.08em}
-  .studio-hero-proof b{margin:4px 0 2px;font-size:8px}
-  .studio-hero-proof strong{font-size:10px;font-weight:900}
-  .studio-hero-proof strong em{font-size:18px;font-style:normal}
-  .campaign-mini{padding:18px 16px 31px;background:linear-gradient(110deg,#fd7b1d 0%,#e92315 100%);color:#fff;text-align:center}
-  .campaign-mini .campaign-ribbon,.campaign-full .campaign-ribbon{margin:-4px auto 8px;padding:6px 14px;border:3px solid #fff;background:#3a3d40;color:#fff;font-size:18px;font-weight:900;transform:skew(-12deg)}
+  .studio-hero-proof span{font:900 9px/1 "DM Sans",sans-serif;letter-spacing:.1em}
+  .studio-hero-proof p{margin:5px 0 2px;font-size:7px;font-weight:800;line-height:1.2}
+  .studio-hero-proof strong{font-size:11px;font-weight:900;line-height:1.05}
+  .studio-hero-proof small{margin-top:3px;font-size:8px;font-weight:800;line-height:1.1}
+  .studio-hero-proof strong em{font-size:17px;font-style:normal}
+  .campaign-mini{padding:17px 14px 22px;background:linear-gradient(110deg,#fd7b1d 0%,#e92315 100%);color:#fff}
+  .campaign-mini-inner{display:grid;gap:13px;max-width:520px;margin:0 auto;padding:18px;border-top:4px solid #393d41;background:#fff;color:#272727;box-shadow:0 12px 28px rgba(90,25,7,.2)}
+  .campaign-mini-copy>span{color:#e75000;font-size:10px;font-weight:900;letter-spacing:.12em}
+  .campaign-mini-copy h2{margin:3px 0 4px;color:#272727;font-size:25px;line-height:1.15}
+  .campaign-mini-copy h2 strong{color:#e75000;font-size:1.45em}
+  .campaign-mini-copy p{margin:0;color:#71665e;font-size:10px}
+  .campaign-mini-status{display:grid;grid-template-columns:58px 1fr;align-items:center;gap:12px;padding:9px 13px;background:#f8f2ec}
+  .campaign-mini-hand{display:grid;place-items:center;width:56px;height:56px;border:2px solid #e75000;border-radius:50%;color:#e75000;font-size:10px;font-weight:900;line-height:1.05;text-align:center}
+  .campaign-mini-hand strong{font-size:17px}
+  .campaign-mini-status p{margin:0;font-size:13px;font-weight:900}
+  .campaign-mini-status p small{display:block;color:#71665e;font-size:9px}
+  .campaign-mini-status p strong{color:#e75000;font-size:28px;line-height:1}
+  .campaign-mini-button{display:grid;grid-template-columns:1fr 40px;align-items:center;min-height:66px;padding:8px 10px 8px 18px;border-radius:5px;background:linear-gradient(110deg,#5bc443,#36a925);color:#fff;box-shadow:0 6px 16px rgba(48,135,32,.25)}
+  .campaign-mini-button>span small,.campaign-mini-button>span strong{display:block}
+  .campaign-mini-button>span small{font-size:9px;letter-spacing:.08em}
+  .campaign-mini-button>span strong{font-size:18px;line-height:1.25}
+  .campaign-mini-button>b{display:grid;place-items:center;width:36px;height:36px;border:2px solid #fff;border-radius:50%;font-size:22px}
+  .campaign-mini-note{max-width:1180px;margin:8px auto 0;font-size:8px;text-align:center}
+  .campaign-full .campaign-ribbon{margin:-4px auto 8px;padding:6px 14px;border:3px solid #fff;background:#3a3d40;color:#fff;font-size:18px;font-weight:900;transform:skew(-12deg)}
   .campaign-ribbon span{display:block;transform:skew(12deg)}
-  .campaign-mini h2,.campaign-full h2{margin:5px 0 11px;color:#fff000;font-size:28px;line-height:1.3}
+  .campaign-full h2{margin:5px 0 11px;color:#fff000;font-size:28px;line-height:1.3}
   .trial-box{padding:12px 16px;background:#fff;color:#333}
   .trial-box p{margin:0 0 7px;font-size:13px;font-weight:800}
   .trial-box p strong{color:#d44840}
@@ -372,8 +390,9 @@
     .studio-hero-main h1 em{font-size:36px}
     .studio-hero-proof{width:560px;max-width:100%;margin-right:auto;margin-left:auto}
     .studio-hero-proof>div{min-height:0}
-    .studio-hero-proof b{font-size:10px}
-    .studio-hero-proof strong{font-size:12px}
+    .studio-hero-proof p{font-size:9px}
+    .studio-hero-proof strong{font-size:14px}
+    .studio-hero-proof small{font-size:10px}
   }
   @media(min-width:760px){
     .studio-header{height:72px}
@@ -382,7 +401,8 @@
     .studio-brand img{width:148px}
     .mobile-menu{top:72px;height:calc(100dvh - 72px)}
     .menu-scrim{inset:72px 0 0}
-    .campaign-mini{width:520px;max-width:100%;margin:0 auto}
+    .campaign-mini{width:100%;max-width:none;margin:0}
+    .campaign-mini-inner{max-width:680px}
     .section,.hybrid-intro,.solution,.customer-reviews,.science-box,.amenities,.price-intro,.comparison,.trainer-section,.story,.access,.faq-section{padding-top:92px;padding-bottom:92px;padding-left:32px;padding-right:32px}
     .section>*:not(.ghost),.hybrid-intro>*,.solution>*,.customer-reviews>*,.science-box>*,.amenities>*,.price-intro>*,.comparison>*,.trainer-section>*,.story>*,.access>*,.faq-section>*{max-width:1080px;margin-left:auto;margin-right:auto}
     .section-title{font-size:clamp(34px,4vw,48px)}
@@ -461,9 +481,18 @@
     .studio-hero-main h1 em{font-size:clamp(31px,3vw,43px)}
     .studio-hero-proof{width:min(530px,54%);margin-top:auto;padding:0;gap:12px;background:transparent}
     .studio-hero-proof>div{min-height:0;padding:11px 7px}
-    .studio-hero-proof b{font-size:10px}
-    .studio-hero-proof strong{font-size:12px}
-    .studio-hero-proof strong em{font-size:22px}
+    .studio-hero-proof p{font-size:9px}
+    .studio-hero-proof strong{font-size:15px}
+    .studio-hero-proof small{font-size:10px}
+    .studio-hero-proof strong em{font-size:24px}
+    .campaign-mini{padding:22px 32px 18px}
+    .campaign-mini-inner{grid-template-columns:minmax(300px,1.15fr) minmax(225px,.72fr) minmax(300px,1fr);align-items:center;gap:20px;max-width:1180px;padding:20px 22px}
+    .campaign-mini-copy h2{font-size:29px}
+    .campaign-mini-copy p{font-size:11px}
+    .campaign-mini-status{min-height:82px;padding:9px 14px}
+    .campaign-mini-button{min-height:82px}
+    .campaign-mini-button>span strong{font-size:18px}
+    .campaign-mini-note{font-size:9px;text-align:right}
   }
   @media(min-width:1100px){
     .studio-header-inner{gap:24px}
