@@ -6,6 +6,9 @@ hacomono-calendar-sync/
 node_modules/
 .claude/
 _site/
+.env
+.env.*
+!.env.example
 
 # 実データ(検索クエリ・アクセス数等)を含むため非公開。リポジトリはpublicなので注意
 docs/seo-reports/

@@ -1,9 +1,9 @@
 {
   "meta": {
-    "title": "ZenNu WELLNESS DESIGN | 熊本中央区のパーソナルジム",
-    "description": "熊本中央区のパーソナルジム ZenNu。セルフ×パーソナルで「続けられる」を実現。初回体験無料。月額10,890円〜。上通アーケード内。",
-    "url": "https://lp.zennuwellnessdesign.jp",
-    "ogImage": "images/hero.jpg",
+    "title": "【熊本中央区】初心者でパーソナルジムに通うなら ZenNu WELLNESS DESIGN",
+    "description": "ZenNu WELLNESS DESIGN（ゼンヌウェルネスデザイン）は、「新しい健康」をテーマにお客様の健康をデザインするフィットネスジム×パーソナルジムラウンジです。心・社会的・カラダ全ての健康に寄り添います。",
+    "url": "https://zennuwellnessdesign.jp",
+    "ogImage": "/images/hero.jpg",
     "lat": "32.8052741",
     "lng": "130.7110942"
   },
@@ -108,7 +108,7 @@
         "items": ["セルフトレーニング使い放題", "トレーナー常駐（随時相談OK）", "3名上限の予約制で快適な環境"]
       },
       {
-        "name": "STANDARD",
+        "name": "STANDARD 2",
         "for": "月2回のパーソナル指導で確実に結果を出したい方",
         "price": "¥24,300",
         "unit": "〜 / 月",
@@ -116,20 +116,28 @@
         "items": ["セルフトレーニング使い放題", "パーソナル指導 月2回", "トレーナー常駐（随時相談OK）", "3名上限の予約制で快適な環境"]
       },
       {
-        "name": "ADVANCE",
+        "name": "ADVANCE 4",
         "for": "本気で変わりたい・食事管理まで任せたい方",
         "price": "¥42,300",
         "unit": "〜 / 月",
         "popular": false,
         "items": ["セルフトレーニング使い放題", "パーソナル指導 月4回", "食事管理アドバイス込み", "プロテイン付き"]
+      },
+      {
+        "name": "PREMIUM 8",
+        "for": "最短で理想のカラダを目指したい方",
+        "price": "¥69,300",
+        "unit": "〜 / 月",
+        "popular": false,
+        "items": ["セルフトレーニング使い放題", "パーソナル指導 月8回", "食事管理アドバイス込み", "プロテイン付き"]
       }
     ],
     "ticket": {
       "title": "回数券（パーソナル）",
       "sub": "月額に縛られず、自分のペースで通いたい方に",
       "cards": [
-        { "count": "4", "price": "¥35,000", "per": "1回あたり 8,750円", "best": false, "badge": "" },
-        { "count": "10", "price": "¥85,000", "per": "1回あたり 8,500円", "best": true, "badge": "お得" }
+        { "count": "4", "price": "¥35,200", "per": "有効期限 4か月", "best": false, "badge": "" },
+        { "count": "10", "price": "¥85,000", "per": "有効期限 6か月", "best": true, "badge": "お得" }
       ]
     },
     "addons": [
@@ -157,7 +165,7 @@
         "note": "※ 回数券プランや詳細は <a href=\"#reserve\">お問い合わせ</a> ください"
       }
     ],
-    "note": "※ 6ヶ月・12ヶ月契約でさらにお得　／　回数券の有効期限は購入日から6ヶ月<br>※ すべての料金は税込表示です"
+    "note": "※ 表示価格は12か月契約時の月額です。単月・6か月・12か月から選択できます。<br>※ 回数券の有効期限は券種ごとに異なります。すべての料金は税込表示です。"
   },
   "memberVoice": {
     "subtitle": "ビフォーアフター（左右で切り替え）",
@@ -253,8 +261,8 @@
   },
   "footer": {
     "tagline": "セルフ×パーソナルで、<br>続けることを当たり前にするジム。",
-    "copy": "© 2025 ZenNu WELLNESS DESIGN",
-    "termsUrl": "https://zennuwellnessdesign.jp/terms",
-    "privacyUrl": "https://zennuwellnessdesign.jp/privacy"
+    "copy": "© 2026 ZenNu WELLNESS DESIGN",
+    "termsUrl": "/terms/",
+    "privacyUrl": "/privacy/"
   }
 }

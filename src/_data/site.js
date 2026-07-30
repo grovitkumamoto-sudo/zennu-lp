@@ -23,9 +23,9 @@ const img = (v, fallback) => (v && v.url) ? v.url : (typeof v === "string" && v 
 const lines = (v) => String(v || "").split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
 
 // リストAPIを取得して defaults を置き換える共通処理（空・失敗時はデフォルト維持）
-async function applyList(data, endpoint, target, mapFn) {
+async function applyList(data, endpoint, target, mapFn, query = "?limit=100") {
   try {
-    const { contents } = await mc(endpoint, "?limit=100");
+    const { contents } = await mc(endpoint, query);
     if (Array.isArray(contents) && contents.length) {
       target(data, contents.map(mapFn));
       console.log(`[microCMS] ${endpoint} 反映 (${contents.length}件)`);
@@ -114,7 +114,7 @@ module.exports = async function () {
       body: c.body || "",
       publishedAt: c.publishedAt,
       noindex: !!c.noindex,
-    }));
+    }), "?limit=100&orders=-publishedAt");
 
   // ── 料金プラン（リスト形式 API: "plan"）──
   await applyList(data, "plan", (d, items) => { d.pricing.plans = items; },

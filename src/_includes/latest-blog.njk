@@ -1,0 +1,39 @@
+<section class="latest-blog" aria-labelledby="latest-blog-title">
+  <div class="latest-blog-inner">
+    <div class="latest-blog-heading">
+      <div>
+        <p class="latest-blog-eyebrow">JOURNAL</p>
+        <h2 id="latest-blog-title">お知らせ・ブログ</h2>
+        <p>トレーニング、食事、店舗の最新情報をお届けします。</p>
+      </div>
+      <a class="latest-blog-all" href="/blog/">記事をすべて見る <span aria-hidden="true">→</span></a>
+    </div>
+
+    {% if site.blogPosts.length %}
+    <div class="latest-blog-grid">
+      {% for post in site.blogPosts %}
+      {% if loop.index0 < 3 and not post.noindex %}
+      <a class="latest-blog-card" href="/blog/{{ post.slug }}/">
+        <div class="latest-blog-image">
+          <img src="{{ post.eyecatch }}" alt="" loading="lazy" decoding="async">
+        </div>
+        <div class="latest-blog-copy">
+          <div class="latest-blog-meta">
+            {% if post.category %}<span>{{ post.category }}</span>{% endif %}
+            {% if post.publishedAt %}<time datetime="{{ post.publishedAt | dateOnly }}">{{ post.publishedAt | dateOnly }}</time>{% endif %}
+          </div>
+          <h3>{{ post.title }}</h3>
+          {% if post.excerpt %}<p>{{ post.excerpt }}</p>{% endif %}
+        </div>
+      </a>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="latest-blog-empty">
+      <p>記事は現在準備中です。</p>
+      <a href="/blog/">ブログ一覧を見る</a>
+    </div>
+    {% endif %}
+  </div>
+</section>

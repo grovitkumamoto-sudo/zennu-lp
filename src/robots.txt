@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lp.zennuwellnessdesign.jp/sitemap.xml
+Sitemap: https://zennuwellnessdesign.jp/sitemap.xml
