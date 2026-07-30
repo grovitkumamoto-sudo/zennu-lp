@@ -6,6 +6,9 @@ DNS切り替え後も次のURLを変更しません。
 
 - `/`
 - `/blog/`
+- `/cp1lp/`（パス1・広告用、noindex）
+- `/cp2lp/`（パス2・広告用、noindex）
+- `/cp3lp/`（パス3・広告用、noindex）
 - `/terms/`
 - `/corporate-terms/`
 - `/privacy/`
@@ -38,6 +41,19 @@ APIエンドポイント：`blogs`
 | `noindex` | 真偽値 | 必須 |
 
 記事の公開URLは `/blog/{slug}/` です。公開後はmicroCMS WebhookからVercelのDeploy Hookを呼び出し、サイトを再生成します。
+
+メインとパス1は同じ `site.blogPosts` を参照し、最新3件を表示します。ブログ本文は `/blog/{slug}/` の1ページだけを正本とし、LPごとに同じ記事ページを複製しません。
+
+## 旧LPサブドメインからの移行
+
+新サイト確認後、次の恒久リダイレクトを設定します。
+
+- `https://lp.zennuwellnessdesign.jp/` → `https://zennuwellnessdesign.jp/`
+- `https://lp.zennuwellnessdesign.jp/blog/...` → `https://zennuwellnessdesign.jp/blog/...`
+- `https://lp.zennuwellnessdesign.jp/cp2lp/` → `https://zennuwellnessdesign.jp/cp2lp/`
+- `https://lp.zennuwellnessdesign.jp/cp3lp/` → `https://zennuwellnessdesign.jp/cp3lp/`
+
+現在の `lp.` トップのデザインは、新サイトの `/cp1lp/` に広告用LPとして保持します。
 
 ### 法務文書API
 
