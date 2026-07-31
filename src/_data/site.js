@@ -19,6 +19,18 @@ async function mc(endpoint, query = "") {
 
 // microCMSの画像フィールドは {url} オブジェクト。文字列パスとの両対応。
 const img = (v, fallback) => (v && v.url) ? v.url : (typeof v === "string" && v ? v : fallback);
+// ローカル画像は常にルート相対パスへ統一する。
+// microCMSのフォールバックが /images/... の場合でも //images/... にならないようにする。
+const mediaSrc = (v, fallback) => {
+  const src = img(v, fallback);
+  if (!src || /^https?:\/\//.test(src) || src.startsWith("/")) return src;
+  return `/${src}`;
+};
+const voiceFallback = (content, index) => {
+  const matched = String(content.tag || "").match(/(\d{1,2})/);
+  const number = matched ? Number(matched[1]) : index + 1;
+  return `/images/ba${Math.min(7, Math.max(1, number))}.jpg`;
+};
 // テキストエリア（改行区切り）→ 配列
 const lines = (v) => String(v || "").split(/\r?\n/).map((s) => s.trim()).filter(Boolean);
 
@@ -38,6 +50,12 @@ async function applyList(data, endpoint, target, mapFn, query = "?limit=100") {
 module.exports = async function () {
   // ディープコピー（デフォルトを壊さない）
   const data = JSON.parse(JSON.stringify(defaults));
+  if (Array.isArray(data.memberVoice?.items)) {
+    data.memberVoice.items = data.memberVoice.items.map((item) => ({
+      ...item,
+      image: mediaSrc(item.image, "/images/ba1.jpg"),
+    }));
+  }
 
   // APIキーが無い（ローカル開発・未設定）ならデフォルトのまま
   if (!process.env.MICROCMS_API_KEY) {
@@ -71,8 +89,8 @@ module.exports = async function () {
 
   // ── お客様の声（リスト形式 API: "voice"）──
   await applyList(data, "voice", (d, items) => { d.memberVoice.items = items; },
-    (c) => ({
-      image: img(c.image, "/images/ba1.jpg"),
+    (c, index) => ({
+      image: mediaSrc(c.image, voiceFallback(c, index)),
       tag: c.tag, result: c.result, unit: c.unit,
       label: c.label, meta: c.meta, quote: c.quote, who: c.who,
       story: c.story, duration: c.duration,

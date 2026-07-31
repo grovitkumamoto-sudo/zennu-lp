@@ -663,7 +663,7 @@
           {% if memberIndex == 1 or memberIndex == 3 or memberIndex == 7 %}
           <article class="v3-voice-card">
             <div class="v3-voice-image">
-              <img src="{% if memberIndex == 3 %}/images/v3-member-ticket.png{% elif '://' in v.image %}{{ v.image }}{% else %}/{{ v.image }}{% endif %}" alt="{% if memberIndex == 3 %}30代女性・回数券プランのビフォーアフター{% else %}{{ v.meta }}のビフォーアフター{% endif %}" loading="lazy">
+              <img src="{% if memberIndex == 3 %}/images/v3-member-ticket.png{% else %}{{ v.image }}{% endif %}" alt="{% if memberIndex == 3 %}30代女性・回数券プランのビフォーアフター{% else %}{{ v.meta }}のビフォーアフター{% endif %}" loading="lazy">
               <span>{% if memberIndex == 3 or 'ADVANCE' in v.meta %}2か月で{% else %}{{ v.duration }}{% endif %}</span>
             </div>
             <div class="v3-voice-body">

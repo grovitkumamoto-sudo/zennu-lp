@@ -131,10 +131,10 @@
             <span>続けられるから、ずっと理想のまま。</span>
           </p>
           <div class="studio-hero-main">
-            <div class="studio-hero-programs" aria-label="成果のパーソナルとサポート付きセルフ">
+            <div class="studio-hero-programs" aria-label="成果のパーソナルとサポート付きセルフ利用">
               <div><small>成果の</small><strong>パーソナル</strong></div>
               <b aria-hidden="true">×</b>
-              <div><small>サポート付</small><strong>セルフ</strong></div>
+              <div><small>サポート付き</small><strong>セルフ利用</strong></div>
             </div>
             <h1 id="studio-hero-title">
               <span>挫折させない</span>
@@ -161,7 +161,7 @@
                 <path d="M4 19h5v10H4V19Zm5-4h5v18H9V15Zm5 7h20v4H14v-4Zm20-7h5v18h-5V15Zm5 4h5v10h-5V19Z"></path>
               </svg>
               <p>コスパ抜群！</p>
-              <strong class="studio-hero-price"><span class="studio-price-label">月<br>額</span><span class="studio-price-main"><em>9,900</em><b>円</b></span><span class="studio-price-unit">〜</span></strong>
+              <strong class="studio-hero-price"><span class="studio-price-label">月<br>額</span><span class="studio-price-main"><em>10,890</em><b>円</b></span><span class="studio-price-unit">〜</span></strong>
               <small>セルフ使い放題</small>
             </div>
           </div>
@@ -298,7 +298,7 @@
               {% for v in site.memberVoice.items %}
               <article class="studio-result-slide">
                 <div class="studio-result-photo">
-                  <img src="/{{ v.image }}" alt="{{ v.meta }}のビフォーアフター" loading="lazy" decoding="async">
+                  <img src="{{ v.image }}" alt="{{ v.meta }}のビフォーアフター" loading="lazy" decoding="async">
                 </div>
                 <div class="studio-result-copy">
                   <span class="studio-result-tag">{{ v.tag }}</span>
@@ -413,6 +413,7 @@
               </article>
               {% endfor %}
             </div>
+            <p class="studio-ticket-choice">掲載している回数以外にも、1〜30回の範囲で目的や通うペースに合わせてお選びいただけます。</p>
           </div>
           <div class="studio-addon-grid">
             {% for a in site.pricing.addons %}
@@ -508,6 +509,9 @@
           <div class="access-row"><b>アクセス</b><span>熊本市電「通町筋駅」から徒歩2分<br>熊本市電「水道町駅」から徒歩5分</span></div>
           <div class="access-row"><b>提携駐車場</b><span>パスート24上通<br>オークスパーキング</span></div>
           <div class="access-row"><b>電話番号</b><a href="tel:{{ site.contact.tel }}">{{ site.contact.telDisplay }}</a></div>
+        </div>
+        <div class="access-map">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3353.509069739915!2d130.7110942!3d32.8052741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3540f52b888ea3ff%3A0x93c570239ee20bb6!2sZenNu%20WELLNESS%20DESIGN!5e0!3m2!1sja!2sjp!4v1785497232957!5m2!1sja!2sjp" title="ZenNu WELLNESS DESIGN Googleマップ" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
       </section>
 
