@@ -27,7 +27,9 @@ const TOKEN_PATH = path.join(SECRETS_DIR, "clarity-token.txt");
 const CONFIG_PATH = path.join(__dirname, "seo-config.json");
 
 // 本番ドメイン以外(localhost・Vercelプレビュー・hacomonoウィジェット等)のノイズを除外する
-const PROD_HOST = "lp.zennuwellnessdesign.jp";
+// (2026-08 STUDIO移行により本体はzennuwellnessdesign.jp、広告LP(cp1lp/cp2lp/cp3lp)は
+//  移行完了までlp.zennuwellnessdesign.jpと混在しうるため両方を許容する)
+const PROD_HOSTS = new Set(["zennuwellnessdesign.jp", "lp.zennuwellnessdesign.jp"]);
 
 function loadConfig() {
   return JSON.parse(fs.readFileSync(CONFIG_PATH, "utf-8"));
@@ -43,7 +45,7 @@ function loadToken() {
 function isProdUrl(url) {
   if (!url) return false;
   try {
-    return new URL(url).hostname === PROD_HOST;
+    return PROD_HOSTS.has(new URL(url).hostname);
   } catch {
     return false;
   }
@@ -124,7 +126,7 @@ export function buildReport(m, numOfDays, { sample = false } = {}) {
 
   const MAX_ROWS = 6;
   const pagesItemsAll = m.popularPages.map((p) => ({
-    label: p.url.replace(`https://${PROD_HOST}`, "") || "/",
+    label: p.url.replace(/^https?:\/\/[^/]+/, "") || "/",
     value: p.visitsCount,
   }));
   const pagesItems = pagesItemsAll.slice(0, MAX_ROWS);
