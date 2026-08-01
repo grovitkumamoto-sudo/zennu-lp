@@ -75,6 +75,7 @@
 {% if site.blogPosts.length %}
 <div class="blog-list">
   {% for post in site.blogPosts %}
+  {% if not post.noindex %}
   <a href="/blog/{{ post.slug }}/" class="blog-card">
     <div class="blog-card-img">
       <img src="{{ post.eyecatch }}" alt="{{ post.title }}" loading="lazy" decoding="async">
@@ -83,6 +84,7 @@
     <div class="blog-card-title">{{ post.title }}</div>
     {% if post.publishedAt %}<div class="blog-card-date">{{ post.publishedAt | dateOnly }}</div>{% endif %}
   </a>
+  {% endif %}
   {% endfor %}
 </div>
 {% else %}

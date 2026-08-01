@@ -131,7 +131,7 @@ module.exports = async function () {
       excerpt: c.excerpt || "",
       body: c.body || "",
       publishedAt: c.publishedAt,
-      noindex: !!c.noindex,
+      noindex: !!c.noindex || c.slug === "sample-post",
     }), "?limit=100&orders=-publishedAt");
 
   // ── 料金プラン（リスト形式 API: "plan"）──
