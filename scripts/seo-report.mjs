@@ -96,10 +96,12 @@ async function fetchGA4(auth, propertyId) {
 
   // 同じGTMコンテナがhacomonoの予約ウィジェット側ドメインにも埋め込まれているため、
   // このプロパティにはLP以外(hacomono内部ページ)のヒットも混ざる。
-  // SEO用のランディングページ分析はLPドメインだけに絞り込む。
+  // SEO用のランディングページ分析は自社ドメインだけに絞り込む。
+  // (2026-08 STUDIO移行により本体はzennuwellnessdesign.jp、広告LP(cp1lp/cp2lp/cp3lp)は
+  //  移行完了までlp.zennuwellnessdesign.jpと混在しうるため両方を許容する)
   // (イベント集計は絞り込まない: reserve_completeなどのCVはhacomono側ドメインで
   //  発生するため、絞り込むとコンバージョン数が正しく見えなくなる)
-  const LP_HOSTNAME = "lp.zennuwellnessdesign.jp";
+  const LP_HOSTNAMES = ["zennuwellnessdesign.jp", "lp.zennuwellnessdesign.jp"];
 
   const [landingPages, events] = await Promise.all([
     analyticsdata.properties.runReport({
@@ -109,7 +111,7 @@ async function fetchGA4(auth, propertyId) {
         dimensions: [{ name: "landingPage" }, { name: "sessionDefaultChannelGroup" }],
         metrics: [{ name: "sessions" }, { name: "engagementRate" }, { name: "conversions" }],
         dimensionFilter: {
-          filter: { fieldName: "hostName", stringFilter: { matchType: "EXACT", value: LP_HOSTNAME } },
+          filter: { fieldName: "hostName", inListFilter: { values: LP_HOSTNAMES } },
         },
         orderBys: [{ metric: { metricName: "sessions" }, desc: true }],
         limit: 50,
