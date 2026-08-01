@@ -1,8 +1,45 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "npm run build",
   "outputDirectory": "_site",
   "redirects": [
     { "source": "/zennu_lp.html", "destination": "/", "permanent": true },
-    { "source": "/zennu_lp", "destination": "/", "permanent": true }
+    { "source": "/zennu_lp", "destination": "/", "permanent": true },
+
+    { "source": "/2", "destination": "/cp1lp/", "permanent": true },
+    { "source": "/2/", "destination": "/cp1lp/", "permanent": true },
+    { "source": "/3", "destination": "/cp1lp/", "permanent": true },
+    { "source": "/3/", "destination": "/cp1lp/", "permanent": true },
+    { "source": "/4", "destination": "/cp1lp/", "permanent": true },
+    { "source": "/4/", "destination": "/cp1lp/", "permanent": true },
+
+    { "source": "/menu", "destination": "/#price", "permanent": true },
+    { "source": "/menu/", "destination": "/#price", "permanent": true },
+    { "source": "/menu-lp", "destination": "/#price", "permanent": true },
+    { "source": "/menu-lp/", "destination": "/#price", "permanent": true },
+    { "source": "/menu-lp-1", "destination": "/#price", "permanent": true },
+    { "source": "/menu-lp-1/", "destination": "/#price", "permanent": true },
+    { "source": "/about", "destination": "/#features", "permanent": true },
+    { "source": "/about/", "destination": "/#features", "permanent": true },
+    { "source": "/price", "destination": "/#price", "permanent": true },
+    { "source": "/price/", "destination": "/#price", "permanent": true },
+    { "source": "/beforeafter", "destination": "/#before-after", "permanent": true },
+    { "source": "/beforeafter/", "destination": "/#before-after", "permanent": true },
+    { "source": "/trainer", "destination": "/#trainer", "permanent": true },
+    { "source": "/trainer/", "destination": "/#trainer", "permanent": true },
+    { "source": "/trainer/:path*", "destination": "/#trainer", "permanent": true },
+    { "source": "/access", "destination": "/#access", "permanent": true },
+    { "source": "/access/", "destination": "/#access", "permanent": true },
+    { "source": "/faq", "destination": "/#faq", "permanent": true },
+    { "source": "/faq/", "destination": "/#faq", "permanent": true },
+    { "source": "/reservation", "destination": "/#reserve", "permanent": true },
+    { "source": "/reservation/", "destination": "/#reserve", "permanent": true },
+    { "source": "/reservation/:path*", "destination": "/#reserve", "permanent": true },
+    { "source": "/news", "destination": "/blog/", "permanent": true },
+    { "source": "/news/", "destination": "/blog/", "permanent": true },
+    { "source": "/news/:path*", "destination": "/blog/", "permanent": true },
+    { "source": "/corporation", "destination": "/", "permanent": true },
+    { "source": "/corporation/", "destination": "/", "permanent": true },
+    { "source": "/corporation/:path*", "destination": "/", "permanent": true }
   ]
 }

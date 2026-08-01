@@ -102,3 +102,14 @@ APIエンドポイント：`legal-versions`
 3. 主要ページのインデックス登録状況と404を確認する。
 4. GA4、Meta、Hacomonoへの遷移を確認する。
 5. 1〜2週間安定稼働を確認してからSTUDIOを解約する。
+
+### 旧STUDIOパスの転送
+
+旧STUDIOで使っていたパスは、Vercelの308恒久リダイレクトで次の正規URLへ集約します。
+
+- 旧LP（`/2`、`/3`、`/4`）→ `/cp1lp/`
+- 料金・メニュー（`/menu`、`/menu-lp`、`/menu-lp-1`、`/price`）→ トップの料金セクション
+- 店舗情報（`/about`、`/beforeafter`、`/trainer`、`/access`、`/faq`）→ トップの対応セクション
+- 予約（`/reservation`）→ トップの予約セクション
+- お知らせ（`/news`）→ `/blog/`
+- 法人ページ（`/corporation`）→ `/`
