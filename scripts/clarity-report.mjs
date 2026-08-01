@@ -1,5 +1,5 @@
-// Microsoft Clarity Data Export APIからデータを取得してレポートを生成するスクリプト。
-// 週次スケジュールタスクから実行される。
+// Microsoft Clarity Data Export APIからデータを取得してレポート(PDF)を生成するスクリプト。
+// 週次スケジュールタスクから実行される。見た目は scripts/report-design-kit.mjs の共通デザインキットを使用。
 //
 // 前提:
 //   - Data Export APIトークンが ~/.zennu-lp-secrets/clarity-token.txt にある
@@ -11,12 +11,14 @@
 //   - ヒートマップ画像・セッションリプレイ動画そのものはAPIで取得不可
 //     (ダッシュボード https://clarity.microsoft.com で直接確認する必要がある)
 //
-// 実行: node scripts/clarity-report.mjs
+// 実行: node scripts/clarity-report.mjs [出力.pdf] [--send-chatwork]
 
 import fs from "node:fs";
 import path from "node:path";
 import os from "node:os";
 import { fileURLToPath } from "node:url";
+import { sendChatworkFile } from "./notify-chatwork.mjs";
+import { CAT, INK_MUTED, num, pct, hBarChart, kpiTile, pageHeader, card, callout, wrapDocument, renderPdfFromHtml } from "./report-design-kit.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.join(__dirname, "..");
@@ -51,6 +53,19 @@ function metric(data, name) {
   return data.find((m) => m.metricName === name)?.information ?? [];
 }
 
+// 流入元URLはhacomonoの予約リンク等でクエリパラメータ付きの長大なURLになることがあるため、
+// チャート表示用に短縮する(プロトコル除去・クエリ以降切り捨て・長すぎる場合は省略)。
+function shortReferrerLabel(name) {
+  let s = name.replace(/^https?:\/\//, "").split("?")[0];
+  if (s.length > 42) s = `${s.slice(0, 40)}…`;
+  return s;
+}
+
+const SAMPLE_DATA_PATH = path.join(__dirname, "clarity-report-data.example.json");
+function loadSampleData() {
+  return JSON.parse(fs.readFileSync(SAMPLE_DATA_PATH, "utf-8"));
+}
+
 export async function fetchClarityInsights(numOfDays = 3) {
   const token = loadToken();
   const res = await fetch(
@@ -63,69 +78,132 @@ export async function fetchClarityInsights(numOfDays = 3) {
   return res.json();
 }
 
-export function buildReportMarkdown(data, numOfDays) {
-  const today = new Date().toISOString().slice(0, 10);
+export function extractMetrics(data) {
   const traffic = metric(data, "Traffic")[0] ?? {};
   const engagement = metric(data, "EngagementTime")[0] ?? {};
   const scroll = metric(data, "ScrollDepth")[0] ?? {};
   const rageClick = metric(data, "RageClickCount")[0] ?? {};
   const deadClick = metric(data, "DeadClickCount")[0] ?? {};
   const quickback = metric(data, "QuickbackClick")[0] ?? {};
-
   const popularPages = metric(data, "PopularPages").filter((p) => isProdUrl(p.url));
   const referrers = metric(data, "ReferrerUrl").filter((r) => r.name);
+  return { traffic, engagement, scroll, rageClick, deadClick, quickback, popularPages, referrers };
+}
 
-  const lines = [];
-  lines.push(`# Clarity週次レポート (${today})`);
-  lines.push("");
-  lines.push(`※ API仕様上、対象期間は直近${numOfDays}日間です(それ以前のデータは取得不可)。`);
-  lines.push(`※ 数値は本番ドメイン(${PROD_HOST})以外のアクセス(開発・プレビュー環境等)も含む場合があります。`);
-  lines.push("");
-  lines.push("## サマリー");
-  lines.push("");
-  lines.push(`- セッション数: ${traffic.totalSessionCount ?? "-"}（うちBot: ${traffic.totalBotSessionCount ?? "-"}）`);
-  lines.push(`- ユニークユーザー数: ${traffic.distinctUserCount ?? "-"}`);
-  lines.push(`- 平均スクロール深度: ${scroll.averageScrollDepth ?? "-"}%`);
-  lines.push(`- 平均滞在時間: ${engagement.totalTime ?? "-"}秒（アクティブ時間: ${engagement.activeTime ?? "-"}秒）`);
-  lines.push("");
-  lines.push("## UX上の気になる挙動");
-  lines.push("");
-  lines.push(`- Rage Click（同じ箇所を連打）が発生したセッション: ${rageClick.sessionsWithMetricPercentage ?? 0}%`);
-  lines.push(`- Dead Click（反応しない箇所をクリック）が発生したセッション: ${deadClick.sessionsWithMetricPercentage ?? 0}%`);
-  lines.push(`- Quickback（すぐ離脱して戻る）が発生したセッション: ${quickback.sessionsWithMetricPercentage ?? 0}%`);
-  lines.push("");
-  lines.push("## よく見られているページ（本番のみ）");
-  lines.push("");
-  if (popularPages.length) {
-    for (const p of popularPages) lines.push(`- ${p.url}: ${p.visitsCount}件`);
-  } else {
-    lines.push("- 該当データなし");
+function buildInsights(m) {
+  const rage = m.rageClick.sessionsWithMetricPercentage ?? 0;
+  const dead = m.deadClick.sessionsWithMetricPercentage ?? 0;
+  const quick = m.quickback.sessionsWithMetricPercentage ?? 0;
+  const insights = [];
+  if (rage >= 5) {
+    insights.push({ warn: true, text: `Rage Click（同じ箇所を連打）が${pct(rage, 1)}のセッションで発生。ボタンやリンクが正しく反応していない可能性があり、該当箇所を優先的に確認したい。` });
   }
-  lines.push("");
-  lines.push("## 流入経路");
-  lines.push("");
-  for (const r of referrers) lines.push(`- ${r.name}: ${r.sessionsCount}件`);
-  lines.push("");
-  lines.push("## 所見・次のアクション");
-  lines.push("");
-  lines.push("- ヒートマップ・セッションリプレイ動画そのものはAPI取得対象外のため、詳細確認は下記ダッシュボードで行ってください。");
-  lines.push("- https://clarity.microsoft.com/projects/view/" + loadConfig().clarityProjectId);
-  lines.push("");
+  if (dead >= 10) {
+    insights.push({ warn: true, text: `Dead Click（反応しない箇所へのクリック）が${pct(dead, 1)}のセッションで発生。クリックできそうに見えて反応しない要素（装飾画像・非リンクテキスト等）がないか確認したい。` });
+  }
+  if (quick >= 20) {
+    insights.push({ warn: true, text: `Quickback（訪問後すぐ離脱して戻る）が${pct(quick, 1)}のセッションで発生。ファーストビューの訴求とユーザーの期待にズレがある可能性がある。` });
+  }
+  const projectId = loadConfig().clarityProjectId;
+  insights.push({
+    warn: false,
+    text: `ヒートマップ・セッションリプレイ動画そのものはAPI取得対象外。詳細確認はダッシュボードで: https://clarity.microsoft.com/projects/view/${projectId}`,
+  });
+  return insights;
+}
 
-  return { today, markdown: lines.join("\n") };
+export function buildReport(m, numOfDays, { sample = false } = {}) {
+  const today = new Date().toISOString().slice(0, 10);
+  const dateRange = `直近${numOfDays}日間（${today}時点）`;
+
+  const uxItems = [
+    { label: "Rage Click", value: m.rageClick.sessionsWithMetricPercentage ?? 0 },
+    { label: "Dead Click", value: m.deadClick.sessionsWithMetricPercentage ?? 0 },
+    { label: "Quickback", value: m.quickback.sessionsWithMetricPercentage ?? 0 },
+  ];
+
+  const MAX_ROWS = 6;
+  const pagesItemsAll = m.popularPages.map((p) => ({
+    label: p.url.replace(`https://${PROD_HOST}`, "") || "/",
+    value: p.visitsCount,
+  }));
+  const pagesItems = pagesItemsAll.slice(0, MAX_ROWS);
+
+  const referrerItemsAll = [...m.referrers]
+    .sort((a, b) => b.sessionsCount - a.sessionsCount)
+    .map((r) => ({ label: shortReferrerLabel(r.name), value: r.sessionsCount }));
+  const referrerItems = referrerItemsAll.slice(0, MAX_ROWS);
+
+  const insightsHtml = buildInsights(m)
+    .map((i) => callout(i.text, { warn: i.warn }))
+    .join("");
+
+  const emptyNote = (label) => `<div style="text-align:center;color:${INK_MUTED};font-size:12px;">${label}</div>`;
+
+  const page1 = `
+    <div class="sheet">
+      ${pageHeader("Clarityユーザー行動レポート", dateRange)}
+      <div class="kpi-row">
+        ${kpiTile({ label: "セッション数", value: num(m.traffic.totalSessionCount ?? 0) })}
+        ${kpiTile({ label: "ユニークユーザー数", value: num(m.traffic.distinctUserCount ?? 0) })}
+        ${kpiTile({ label: "平均スクロール深度", value: pct(m.scroll.averageScrollDepth ?? 0, 0) })}
+        ${kpiTile({ label: "平均滞在時間（アクティブ時間）", value: `${num(m.engagement.totalTime ?? 0)}秒（${num(m.engagement.activeTime ?? 0)}秒）` })}
+      </div>
+      <div class="row-2" style="margin-bottom:14px;">
+        ${card(
+          "UX上の気になる挙動（発生セッション比率）",
+          hBarChart(uxItems, { color: CAT.magenta, valueFmt: (v) => pct(v, 1) })
+        )}
+        ${card(
+          `よく見られているページ（本番のみ${pagesItemsAll.length > MAX_ROWS ? `・上位${MAX_ROWS}件` : ""}）`,
+          pagesItems.length ? hBarChart(pagesItems, { color: CAT.blue, valueFmt: num }) : emptyNote("該当データなし")
+        )}
+      </div>
+      <div class="row-2">
+        ${card(
+          `流入経路${referrerItemsAll.length > MAX_ROWS ? `（上位${MAX_ROWS}件）` : ""}`,
+          referrerItems.length ? hBarChart(referrerItems, { color: CAT.aqua, valueFmt: num }) : emptyNote("該当データなし")
+        )}
+        ${card("所見・次のアクション", `<div class="callout-list">${insightsHtml}</div>`)}
+      </div>
+    </div>`;
+
+  return wrapDocument([page1], {
+    sampleBanner: sample ? "SAMPLE — テンプレート確認用のサンプル数値です" : "",
+  });
 }
 
 async function main() {
-  const config = loadConfig();
+  const args = process.argv.slice(2).filter((a) => a !== "--send-chatwork" && a !== "--sample");
+  const shouldSendChatwork = process.argv.includes("--send-chatwork");
+  const useSample = process.argv.includes("--sample");
   const numOfDays = 3;
-  const data = await fetchClarityInsights(numOfDays);
-  const { today, markdown } = buildReportMarkdown(data, numOfDays);
+
+  const rawData = useSample ? loadSampleData() : await fetchClarityInsights(numOfDays);
+  const metrics = extractMetrics(rawData);
+  const html = buildReport(metrics, numOfDays, { sample: useSample });
 
   const outDir = path.join(REPO_ROOT, "docs", "seo-reports");
   fs.mkdirSync(outDir, { recursive: true });
-  const mdPath = path.join(outDir, `clarity-${today}.md`);
-  fs.writeFileSync(mdPath, markdown, "utf-8");
-  console.log(`レポート生成: ${mdPath}`);
+  const today = new Date().toISOString().slice(0, 10);
+  const outPath = args[0] || path.join(outDir, `clarity-${today}.pdf`);
+
+  await renderPdfFromHtml(html, outPath);
+  console.log(`レポートを生成しました: ${outPath}`);
+  if (useSample) {
+    console.log("注意: --sample指定のため、サンプルデータで生成しました。");
+  }
+
+  if (shouldSendChatwork) {
+    const rage = metrics.rageClick.sessionsWithMetricPercentage ?? 0;
+    const dead = metrics.deadClick.sessionsWithMetricPercentage ?? 0;
+    const uxNote = rage >= 5 || dead >= 10 ? "UX面で気になる挙動が検出されています。" : "";
+    const caption = useSample
+      ? "【テスト送信】週次Clarityレポート（※サンプル数値のテンプレート確認版）"
+      : `[info][title]週次Clarityレポート (${today})[/title]セッション数${num(metrics.traffic.totalSessionCount ?? 0)}件、平均スクロール${pct(metrics.scroll.averageScrollDepth ?? 0, 0)}。${uxNote}詳しくは添付PDFをご確認ください。[/info]`;
+    await sendChatworkFile(outPath, caption);
+    console.log("Chatworkへ送信しました。");
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

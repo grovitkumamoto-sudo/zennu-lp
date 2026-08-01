@@ -1,0 +1,56 @@
+{
+  "_note": "これはテンプレート確認用のダミーデータです(数値は架空)。実際の月次数値が用意できたら、このファイルをコピーして monthly-report-data.json を作り、値を差し替えてください。",
+  "reportMonth": "2026-01",
+  "months": ["2025-08", "2025-09", "2025-10", "2025-11", "2025-12", "2026-01"],
+  "monthLabels": ["8月", "9月", "10月", "11月", "12月", "1月"],
+  "members": [30, 31, 33, 34, 35, 36],
+  "revenueTotal": [700000, 720000, 750000, 770000, 780000, 800000],
+  "newMembers": 5,
+  "churnMembers": 2,
+  "yoy": {
+    "members": 25,
+    "revenueTotal": 650000,
+    "arpu": 22000,
+    "newMembers": 4,
+    "churnMembers": 3,
+    "visitRate": 80,
+    "signupRate": 50,
+    "cohort3m": 85,
+    "cohort6m": 80
+  },
+  "ad": {
+    "spend": [80000, 90000, 100000, 110000, 120000, 130000],
+    "spendYoyPrev": 100000,
+    "inquiries": [6, 7, 8, 7, 9, 8],
+    "inquiriesYoyPrev": 6,
+    "ctr": 1.1,
+    "ctrYoyPrev": 0.8,
+    "channelBreakdown": [
+      { "label": "Meta広告", "value": 5 },
+      { "label": "オーガニック検索", "value": 3 },
+      { "label": "紹介・口コミ", "value": 1 },
+      { "label": "チラシ・その他", "value": 1 }
+    ]
+  },
+  "funnel": {
+    "months": ["8月", "9月", "10月", "11月", "12月", "1月"],
+    "inquiries": [6, 7, 8, 7, 9, 8],
+    "visits": [5, 6, 7, 6, 8, 7],
+    "signups": [4, 5, 5, 4, 6, 5]
+  },
+  "plans": [
+    { "label": "LIGHT", "revenue": 160000 },
+    { "label": "STANDARD", "revenue": 360000 },
+    { "label": "ADVANCE", "revenue": 200000 },
+    { "label": "回数券", "revenue": 80000 }
+  ],
+  "ticketRevenue": [120000, 110000, 100000, 95000, 85000, 80000],
+  "capacity": {
+    "selfCurrent": 30,
+    "selfMax": 80
+  },
+  "churnReasons": [
+    { "label": "転勤・引越し", "value": 1 },
+    { "label": "その他", "value": 1 }
+  ]
+}

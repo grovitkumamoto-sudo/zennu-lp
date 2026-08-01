@@ -10,4 +10,10 @@ _site/
 # 実データ(検索クエリ・アクセス数等)を含むため非公開。リポジトリはpublicなので注意
 docs/seo-reports/
 docs/meta-reports/
+docs/meo-reports/
+docs/monthly-reports/
 scripts/seo-config.json
+scripts/meo-config.json
+scripts/monthly-report-data.json
+scripts/meta-ads-report-data.json
+scripts/seo-report-data.json
