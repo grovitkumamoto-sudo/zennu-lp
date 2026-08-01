@@ -14,6 +14,26 @@ eleventyExcludeFromCollections: true
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>{{ site.meta.url }}/terms/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>{{ site.meta.url }}/corporate-terms/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>{{ site.meta.url }}/privacy/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>{{ site.meta.url }}/law/</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
 {%- for post in site.blogPosts %}
 {%- if not post.noindex %}
   <url>
