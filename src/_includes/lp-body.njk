@@ -83,7 +83,7 @@
   <!-- photo layer (lower-right, behind text) -->
   <div class="hero-photo">
     <div class="hero-photo-img">
-      <img src="{{ site.hero.image }}" alt="ZenNu パーソナルトレーニング">
+      <img src="{{ site.hero.image | mediaUrl }}" alt="ZenNu パーソナルトレーニング">
     </div>
     <a href="#reserve" class="hero-reserve">
       <span class="reserve-jp">予約する</span>
@@ -131,10 +131,10 @@
     <div class="intro-body">
       <div class="intro-visual rv">
         <div class="intro-main">
-          <img src="{{ site.intro.mainImage }}" alt="ZenNu パーソナルトレーニング" loading="lazy" decoding="async">
+          <img src="{{ site.intro.mainImage | mediaUrl }}" alt="ZenNu パーソナルトレーニング" loading="lazy" decoding="async">
         </div>
         <div class="intro-staff">
-          <img src="{{ site.intro.staffImage }}" alt="ZenNu 受付" loading="lazy" decoding="async">
+          <img src="{{ site.intro.staffImage | mediaUrl }}" alt="ZenNu 受付" loading="lazy" decoding="async">
         </div>
       </div>
       <div class="intro-text rv">
@@ -158,7 +158,7 @@
       <div class="ccard">
         <div class="ccard-img">
           <span class="ccard-num">{{ c.num }}</span>
-          <img src="{{ c.image }}" alt="{{ c.title | striptags }}" loading="lazy" decoding="async">
+          <img src="{{ c.image | mediaUrl }}" alt="{{ c.title | striptags }}" loading="lazy" decoding="async">
         </div>
         <h3 class="ccard-title">{{ c.title | safe }}</h3>
         <p class="ccard-text">{{ c.text }}</p>
@@ -215,7 +215,7 @@
     <div class="trainer-row{% if t.reverse %} reverse{% endif %} rv">
       <div class="trainer-panel">
         <div class="trainer-portrait">
-          <img src="{{ t.portrait }}" alt="{{ t.jp | striptags }}" loading="lazy" decoding="async">
+          <img src="{{ t.portrait | mediaUrl }}" alt="{{ t.jp | striptags }}" loading="lazy" decoding="async">
         </div>
         <div class="trainer-info">
           <div class="trainer-jp">{{ t.jp }}</div>
@@ -230,7 +230,7 @@
       </div>
       <div class="trainer-action">
         {% if t.actionImage %}
-        <img src="{{ t.actionImage }}" alt="{{ t.jp | striptags }} トレーニング" loading="lazy" decoding="async">
+        <img src="{{ t.actionImage | mediaUrl }}" alt="{{ t.jp | striptags }} トレーニング" loading="lazy" decoding="async">
         {% else %}
         <div class="trainer-action-ph">
           <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1.5"/><circle cx="8.5" cy="10" r="1.6"/><path d="M21 16l-5-5L5 19"/></svg>
@@ -251,7 +251,7 @@
     <div class="gallery-grid stagger">
       {% for g in site.gallery.items %}
       <div class="g-item{% if g.size %} {{ g.size }}{% endif %}">
-        <img src="{{ g.image }}" alt="{{ g.label }}" loading="lazy" decoding="async">
+        <img src="{{ g.image | mediaUrl }}" alt="{{ g.label }}" loading="lazy" decoding="async">
         <span>{{ g.label }}</span>
       </div>
       {% endfor %}
@@ -271,7 +271,7 @@
           {% for v in site.memberVoice.items %}
           <div class="car-slide">
             <div class="ba-slide-inner">
-              <div class="ba-photo"><img src="{{ v.image }}" alt="{{ v.meta }} ビフォーアフター" loading="lazy" decoding="async"></div>
+              <div class="ba-photo"><img src="{{ v.image | mediaUrl }}" alt="{{ v.meta }} ビフォーアフター" loading="lazy" decoding="async"></div>
               <div class="ba-info">
                 <div class="ba-tag">{{ v.tag }}</div>
                 <div class="ba-result">{{ v.result }}<span>{{ v.unit }}</span></div>
@@ -441,7 +441,7 @@
         <span class="camp-no">特典<strong>{{ site.cta.gift.no }}</strong></span>
         <div class="camp-gift-body">
           {% if site.cta.gift.image %}
-          <div class="camp-gift-img"><img src="{{ site.cta.gift.image }}" alt="体組成計レポート見本" loading="lazy" decoding="async"></div>
+          <div class="camp-gift-img"><img src="{{ site.cta.gift.image | mediaUrl }}" alt="体組成計レポート見本" loading="lazy" decoding="async"></div>
           {% endif %}
           <div class="camp-gift-text">
             <div class="camp-gift-lead">{{ site.cta.gift.lead }}</div>
