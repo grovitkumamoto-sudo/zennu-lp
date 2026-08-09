@@ -20,7 +20,7 @@ import path from "node:path";
 import os from "node:os";
 import { fileURLToPath } from "node:url";
 import { sendChatworkFile } from "./notify-chatwork.mjs";
-import { CAT, INK_MUTED, num, pct, donutChart, hBarChart, kpiTile, pageHeader, card, callout, tableHtml, wrapDocument, renderPdfFromHtml } from "./report-design-kit.mjs";
+import { CAT, INK_MUTED, num, pct, donutChart, hBarChart, lineChart, kpiTile, pageHeader, card, callout, tableHtml, wrapDocument, renderPdfFromHtml } from "./report-design-kit.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.join(__dirname, "..");
@@ -61,7 +61,7 @@ async function fetchSearchConsole(auth, siteUrl) {
   startDate.setDate(endDate.getDate() - 28);
   const fmt = (d) => d.toISOString().slice(0, 10);
 
-  const [byQuery, byPage] = await Promise.all([
+  const [byQuery, byPage, byDate] = await Promise.all([
     searchconsole.searchanalytics.query({
       siteUrl,
       requestBody: { startDate: fmt(startDate), endDate: fmt(endDate), dimensions: ["query"], rowLimit: 50 },
@@ -69,6 +69,12 @@ async function fetchSearchConsole(auth, siteUrl) {
     searchconsole.searchanalytics.query({
       siteUrl,
       requestBody: { startDate: fmt(startDate), endDate: fmt(endDate), dimensions: ["page"], rowLimit: 50 },
+    }),
+    // 順位・表示回数の推移確認用(日別)。新規プロパティは日数が浅いため、
+    // 実際にデータがある範囲だけ返ってくる想定。
+    searchconsole.searchanalytics.query({
+      siteUrl,
+      requestBody: { startDate: fmt(startDate), endDate: fmt(endDate), dimensions: ["date"], rowLimit: 1000 },
     }),
   ]);
 
@@ -88,6 +94,14 @@ async function fetchSearchConsole(auth, siteUrl) {
       ctr: r.ctr * 100,
       position: r.position,
     })),
+    dailyTrend: (byDate.data.rows || [])
+      .map((r) => ({
+        date: r.keys[0],
+        clicks: r.clicks,
+        impressions: r.impressions,
+        position: r.position,
+      }))
+      .sort((a, b) => a.date.localeCompare(b.date)),
   };
 }
 
@@ -145,18 +159,28 @@ async function fetchGA4(auth, propertyId) {
 async function doFetch() {
   const config = loadConfig();
   const auth = await getAuth();
-  const [gsc, ga4] = await Promise.all([
-    fetchSearchConsole(auth, config.siteUrl),
-    fetchGA4(auth, config.ga4PropertyId),
-  ]);
+  const gsc = await fetchSearchConsole(auth, config.siteUrl);
+
+  // GA4側で権限エラー等が起きても、Search Console由来の順位・表示回数データは
+  // 取得できているはずなので、レポート全体を止めずGA4部分だけ空で継続する。
+  let ga4 = { landingPages: [], events: [] };
+  let ga4Error = null;
+  try {
+    ga4 = await fetchGA4(auth, config.ga4PropertyId);
+  } catch (e) {
+    ga4Error = e.message;
+    console.error(`警告: GA4データの取得に失敗しました(SEOレポート自体は続行します): ${ga4Error}`);
+  }
 
   const data = {
     period: gsc.period,
     siteUrl: config.siteUrl,
     queries: gsc.queries,
     pages: gsc.pages,
+    dailyTrend: gsc.dailyTrend,
     landingPages: ga4.landingPages,
     events: ga4.events,
+    ga4Error,
     insights: [],
   };
   fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2));
@@ -167,6 +191,31 @@ async function doFetch() {
 // **強調**記法を<b>に変換する(所見テキストの見出し部分用)
 function mdBold(text) {
   return text.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>");
+}
+
+// 日別データを直近4週の週単位に集計する(表示回数で重み付けした平均掲載順位)。
+// データが浅いプロパティでは古い週が空になるが、その場合は「データなし」として扱う。
+function buildWeeklyTrend(dailyTrend) {
+  if (!dailyTrend || !dailyTrend.length) return [];
+  const today = new Date(dailyTrend[dailyTrend.length - 1].date);
+  const weeks = [3, 2, 1, 0].map((weeksAgo) => {
+    const end = new Date(today);
+    end.setDate(end.getDate() - weeksAgo * 7);
+    const start = new Date(end);
+    start.setDate(start.getDate() - 6);
+    const fmt = (d) => d.toISOString().slice(0, 10);
+    const rows = dailyTrend.filter((d) => d.date >= fmt(start) && d.date <= fmt(end));
+    const impressions = rows.reduce((s, r) => s + r.impressions, 0);
+    const clicks = rows.reduce((s, r) => s + r.clicks, 0);
+    const weightedPosition = rows.reduce((s, r) => s + r.position * r.impressions, 0);
+    return {
+      label: `${fmt(start).slice(5)}〜${fmt(end).slice(5)}`,
+      impressions,
+      clicks,
+      avgPosition: impressions > 0 ? weightedPosition / impressions : null,
+    };
+  });
+  return weeks;
 }
 
 function buildReport(data, { sample = false } = {}) {
@@ -205,6 +254,46 @@ function buildReport(data, { sample = false } = {}) {
         ${card("表示回数上位クエリ（掲載順位付き）", hBarChart(chartItems, { color: CAT.blue, valueFmt: num }))}
         ${card("流入経路別セッション構成比（GA4・過去28日）", donutChart(channelSegments, [CAT.blue, CAT.aqua, CAT.yellow, CAT.magenta, CAT.violet]))}
       </div>
+    </div>`;
+
+  const weeklyTrend = buildWeeklyTrend(data.dailyTrend);
+  const weeksWithData = weeklyTrend.filter((w) => w.avgPosition !== null);
+  let trendVerdict;
+  if (weeksWithData.length < 2) {
+    trendVerdict = "まだデータの蓄積期間が短く、順位が上がっているかどうかは判断できません（新規プロパティのため、数週間分のデータが必要です）。";
+  } else {
+    const prev = weeksWithData[weeksWithData.length - 2];
+    const latest = weeksWithData[weeksWithData.length - 1];
+    const diff = prev.avgPosition - latest.avgPosition; // 正の値 = 順位改善(数字が小さくなった)
+    if (Math.abs(diff) < 0.5) {
+      trendVerdict = `直近週の平均掲載順位は${latest.avgPosition.toFixed(1)}位で、前週の${prev.avgPosition.toFixed(1)}位からほぼ横ばいです。`;
+    } else if (diff > 0) {
+      trendVerdict = `直近週の平均掲載順位は${latest.avgPosition.toFixed(1)}位で、前週の${prev.avgPosition.toFixed(1)}位より${diff.toFixed(1)}位改善（上昇）しています。`;
+    } else {
+      trendVerdict = `直近週の平均掲載順位は${latest.avgPosition.toFixed(1)}位で、前週の${prev.avgPosition.toFixed(1)}位より${Math.abs(diff).toFixed(1)}位下降しています。`;
+    }
+  }
+
+  const trendChartValues = weeklyTrend.map((w) => w.avgPosition ?? 0);
+  const trendChartLabels = weeklyTrend.map((w) => w.label);
+  const trendRows = weeklyTrend.map((w) => [
+    w.label,
+    num(w.impressions),
+    num(w.clicks),
+    w.avgPosition !== null ? `${w.avgPosition.toFixed(1)}位` : "データなし",
+  ]);
+
+  const pageTrend = `
+    <div class="sheet">
+      ${pageHeader("掲載順位の推移（週次）", "平均掲載順位は数字が小さいほど上位（Search Console・過去28日を週単位に集計）")}
+      <div class="row-2" style="margin-bottom:14px;">
+        ${card(
+          "週別・平均掲載順位の推移",
+          weeksWithData.length ? lineChart(trendChartValues, trendChartLabels, { color: CAT.blue, valueFmt: (v) => `${v.toFixed(1)}位` }) : `<div style="text-align:center;color:${INK_MUTED};font-size:12px;">データなし</div>`
+        )}
+        ${card("週別実績", tableHtml(["期間", "表示回数", "クリック数", "平均掲載順位"], trendRows))}
+      </div>
+      ${callout(trendVerdict, { warn: false })}
     </div>`;
 
   const queryRows = topByImpressions.slice(0, MAX_ROWS).map((q) => [
@@ -257,7 +346,7 @@ function buildReport(data, { sample = false } = {}) {
       </div>
     </div>`;
 
-  return wrapDocument([page1, page2, page3, page4], {
+  return wrapDocument([page1, pageTrend, page2, page3, page4], {
     sampleBanner: sample ? "SAMPLE — テンプレート確認用のサンプル数値です" : "",
   });
 }
