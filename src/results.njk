@@ -1,0 +1,13 @@
+---
+layout: brand-site-layout.njk
+permalink: /results/index.html
+title: 会員実績・ビフォーアフター
+description: ZenNu会員7名の実際の体組成データと、パーソナル・セルフ・回数券それぞれの通い方をご紹介します。
+pageKey: results
+heroImage: /images/ba1.jpg
+---
+<main>
+  <header class="page-hero"><div class="site-shell page-hero-grid"><div class="section-label"><span>04</span>RESULTS</div><div><h1>実例から、<br>確かめる。</h1><p class="page-hero-lead">平均だけでは分からない、一人ひとりの変化。実会員の体組成データと、どのように通ったかを掲載しています。</p></div></div></header>
+  <section class="page-block white"><div class="site-shell"><div class="results-summary"><div><strong>300<small>+</small></strong><span>累計指導実績</span></div><div><strong>-6<small>kg</small></strong><span>3ヶ月の平均変化</span></div><div><strong>96<small>%</small></strong><span>既存会員の平均継続率</span></div></div><p style="margin:16px 0 0;color:var(--muted);font-size:9px;text-align:right">※既存会員の実績です。結果には個人差があり、効果を保証するものではありません。</p></div></section>
+  <section class="page-block"><div class="site-shell result-list">{% for item in site.memberVoice.items %}<article class="result-story"><div class="result-story-image"><img src="{{ item.image }}" alt="{{ item.meta }}のビフォーアフター" loading="lazy"></div><div class="result-story-copy"><span class="result-story-tag">{{ item.tag }}</span><h2>{{ item.story }}</h2><p>{{ item.meta }} ／ {{ item.duration }}</p><div class="result-metrics"><div><small>体重</small><strong>{{ item.weightKg }}kg</strong></div><div><small>ウエスト</small><strong>{{ item.result }}{{ item.unit }}</strong></div>{% if item.bodyFatPct %}<div><small>体脂肪率</small><strong>{{ item.bodyFatPct }}%</strong></div>{% endif %}</div>{% if item.journey %}<ol class="result-journey">{% for step in item.journey %}<li>{{ step }}</li>{% endfor %}</ol>{% endif %}{% if item.quote %}<blockquote>{{ item.quote }}</blockquote>{% endif %}</div></article>{% endfor %}<p style="color:var(--muted);font-size:9px">※掲載数値は実会員の体組成データです。結果には個人差があり、効果を保証するものではありません。</p></div></section>
+</main>

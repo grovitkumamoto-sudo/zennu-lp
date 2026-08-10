@@ -14,6 +14,13 @@ eleventyExcludeFromCollections: true
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
+  {% for path in ["concept", "service", "price", "results", "trainers", "facility", "access", "faq"] %}
+  <url>
+    <loc>{{ site.meta.url }}/{{ path }}/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  {% endfor %}
   <url>
     <loc>{{ site.meta.url }}/terms/</loc>
     <changefreq>yearly</changefreq>
