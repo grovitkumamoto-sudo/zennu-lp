@@ -325,13 +325,21 @@ function buildReport(data, { sample = false } = {}) {
   const page3 = `
     <div class="sheet">
       ${pageHeader("ページ別実績・イベント", "Search Console・GA4（過去28日）")}
-      <div class="row-2" style="margin-bottom:14px;flex:0 0 auto;">
+      <div class="row-2">
         ${card("Search Console: ページ別実績", tableHtml(["ページ", "クリック数", "表示回数", "CTR", "平均掲載順位"], pageRows))}
         ${card("GA4: イベント数（過去28日）", hBarChart(eventItems, { color: CAT.aqua, valueFmt: num }))}
       </div>
+    </div>`;
+
+  // ランディングページ×流入経路の表は行数が多いと前のページと重なるため、
+  // 独立したページに分ける(1ページに詰め込みすぎると.sheetの固定高さ(210mm)から
+  // はみ出し、次ページのヘッダーと文字が重なる不具合になっていた)。
+  const page3b = `
+    <div class="sheet">
+      ${pageHeader("ランディングページ×流入経路", `GA4（過去28日・セッション上位${Math.min(MAX_LANDING_ROWS, data.landingPages.length)}件）`)}
       <div class="row-2">
         ${card(
-          `GA4: ランディングページ×流入経路（セッション上位${Math.min(MAX_LANDING_ROWS, data.landingPages.length)}件）`,
+          "セッション数・エンゲージメント率・CV数",
           tableHtml(["ページ", "流入経路", "セッション数", "エンゲージメント率", "CV数"], landingRows)
         )}
       </div>
@@ -346,7 +354,7 @@ function buildReport(data, { sample = false } = {}) {
       </div>
     </div>`;
 
-  return wrapDocument([page1, pageTrend, page2, page3, page4], {
+  return wrapDocument([page1, pageTrend, page2, page3, page3b, page4], {
     sampleBanner: sample ? "SAMPLE — テンプレート確認用のサンプル数値です" : "",
   });
 }
