@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{{ site.meta.title }}</title>
+  <title>{% if cp4 %}{{ site.meta.title }} | CP4{% else %}{{ site.meta.title }}{% endif %}</title>
   <meta name="description" content="{{ site.meta.description }}">
-  <link rel="canonical" href="{{ site.meta.url }}/">
-  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="{{ site.meta.url }}{% if cp4 %}/cp4lp/{% else %}/{% endif %}">
+  <meta name="robots" content="{% if cp4 %}noindex,follow{% else %}index,follow{% endif %}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ZenNu WELLNESS DESIGN">
   <meta property="og:title" content="{{ site.meta.title }}">
   <meta property="og:description" content="{{ site.meta.description }}">
-  <meta property="og:url" content="{{ site.meta.url }}/">
+  <meta property="og:url" content="{{ site.meta.url }}{% if cp4 %}/cp4lp/{% else %}/{% endif %}">
   <meta property="og:image" content="{{ site.meta.url }}{{ site.meta.ogImage }}">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
@@ -26,7 +26,7 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"HealthClub","name":"ZenNu WELLNESS DESIGN","url":"{{ site.meta.url }}/","image":"{{ site.meta.url }}{{ site.meta.ogImage }}","telephone":"{{ site.contact.telDisplay }}","priceRange":"¥¥","address":{"@type":"PostalAddress","postalCode":"860-0845","addressRegion":"熊本県","addressLocality":"熊本市中央区","streetAddress":"上通町6-15 オークス第二ビル 2F","addressCountry":"JP"},"geo":{"@type":"GeoCoordinates","latitude":"{{ site.meta.lat }}","longitude":"{{ site.meta.lng }}"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"07:00","closes":"22:00"}]}
   </script>
-  <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"main_site",lp_variant:"main"});</script>
+  <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"{% if cp4 %}landing_page{% else %}main_site{% endif %}",lp_variant:"{% if cp4 %}cp4lp{% else %}main{% endif %}"{% if cp4 %},lp_appeal:"hybrid"{% endif %}});</script>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-PCDJZ9X9");</script>
 </head>
 <body>
