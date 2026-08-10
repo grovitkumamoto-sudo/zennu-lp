@@ -530,6 +530,43 @@
     }
     .v2-credential-card img { display: block; width: 100%; height: auto; object-fit: contain; }
     .v2-credential-caption { display: flex; justify-content: space-between; gap: 10px; padding: 8px 4px 2px; color: #8b6a36; font-size: 9px; font-weight: 800; letter-spacing: .08em; }
+
+    /* /2/ member story layout: scoped to keep the production homepage unchanged */
+    #voice .ba-photo {
+      position: relative;
+      align-self: start;
+      min-height: 0;
+      aspect-ratio: 1600 / 1131;
+      background: #1b1714;
+    }
+    #voice .ba-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    #voice .ba-info { padding: clamp(28px, 3.6vw, 48px); }
+    #voice .ba-tag { margin-bottom: 10px; }
+    #voice .ba-meta-row { margin-bottom: 20px; color: var(--text); font-size: 14.5px; font-weight: 700; letter-spacing: .04em; }
+    #voice .ba-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-bottom: 22px;
+      padding: 18px 20px;
+      border-radius: 12px;
+      background: var(--orange-pale);
+    }
+    #voice .ba-stat-main { display: flex; flex-direction: column; padding-right: 20px; border-right: 1px solid var(--border); }
+    #voice .ba-stat-pre { margin-bottom: 2px; color: var(--muted); font-size: 12px; letter-spacing: .04em; }
+    #voice .ba-stat-num { color: var(--text); font-family: var(--display); font-size: 34px; font-weight: 900; line-height: 1; letter-spacing: -.02em; }
+    #voice .ba-stat-num span { margin-left: 2px; color: var(--orange); font-size: 15px; }
+    #voice .ba-stat-sub { display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+    #voice .ba-stat-sub > div { display: flex; align-items: baseline; gap: 8px; }
+    #voice .ba-stat-sub-label { min-width: 52px; color: var(--muted); font-size: 11.5px; letter-spacing: .04em; }
+    #voice .ba-stat-sub-num { color: var(--orange); font-family: var(--display); font-size: 20px; font-weight: 800; }
+    #voice .ba-stat-sub-num i { margin-left: 1px; font-size: 12px; font-style: normal; }
+    #voice .ba-routine { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+    #voice .ba-block-title { margin-bottom: 12px; color: var(--text); font-size: 11.5px; font-weight: 700; letter-spacing: .08em; }
+    #voice .ba-journey-list { display: flex; flex-direction: column; gap: 9px; list-style: none; }
+    #voice .ba-journey-list li { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 12.5px; }
+    #voice .ba-journey-num { display: flex; flex-shrink: 0; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; background: var(--orange); color: #fff; font-family: var(--display); font-size: 10px; font-weight: 700; }
+    #voice .ba-current-box { padding: 14px 16px; border-radius: 10px; background: var(--orange-pale); color: var(--text); font-size: 13px; font-weight: 700; line-height: 1.6; }
     .v2-hero + .v2-band { box-shadow: 0 8px 24px rgba(86,57,39,.05); }
     .v2-routine + .sec-white { border-top: 1px solid #eadfd6; }
     #trainers .trainer-panel { background: #2b241f; color: #fff; }
@@ -660,6 +697,10 @@
       .v2-routine-list { gap: 13px; }
       .v2-proof-intro { align-items: flex-start; flex-direction: column; }
       .v2-proof-note { text-align: left; }
+      #voice .car-arrow { top: 123px; }
+      #voice .ba-routine { grid-template-columns: 1fr; gap: 18px; }
+      #voice .ba-stats { gap: 16px; }
+      #voice .ba-stat-main { padding-right: 16px; }
       .v2-value-copy { padding: 30px 24px; }
       .v2-value-visual { min-height: 390px; }
       .v2-value-facts { grid-template-columns: 1fr; }
@@ -849,7 +890,7 @@
           {% for v in site.memberVoice.items %}
           <div class="car-slide">
             <div class="ba-slide-inner">
-              <div class="ba-photo"><img src="/{{ v.image }}" alt="{{ v.meta }} ビフォーアフター" loading="lazy" decoding="async"></div>
+              <div class="ba-photo"><img src="{{ v.image }}" alt="{{ v.meta }} ビフォーアフター" loading="lazy" decoding="async"></div>
               <div class="ba-info">
                 <div class="ba-tag">{{ v.tag }}</div>
                 {% if v.story %}
@@ -996,7 +1037,7 @@
         <div class="v2-ticket-row">
           <div class="v2-ticket-count"><strong>4</strong>回券</div>
           <div class="v2-ticket-price">¥35,200</div>
-          <div class="v2-ticket-meta"><span>1回あたり <b>¥8,800</b></span><span>有効期限 <b>4か月</b></span></div>
+          <div class="v2-ticket-meta"><span>1回あたり <b>¥8,750</b></span><span>有効期限 <b>6か月</b></span></div>
         </div>
         <div class="v2-ticket-row is-popular">
           <span class="v2-ticket-badge">POPULAR</span>

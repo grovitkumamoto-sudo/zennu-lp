@@ -21,6 +21,7 @@ const REDIRECT_URI = `http://127.0.0.1:${PORT}/callback`;
 const SCOPES = [
   "https://www.googleapis.com/auth/webmasters.readonly",
   "https://www.googleapis.com/auth/analytics.readonly",
+  "https://www.googleapis.com/auth/business.manage",
 ];
 
 function loadClient() {

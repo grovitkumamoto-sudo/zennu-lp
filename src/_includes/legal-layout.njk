@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ doc.title }} | ZenNu WELLNESS DESIGN</title>
+  <meta name="description" content="{{ doc.description }}">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://zennuwellnessdesign.jp/{{ doc.slug }}/">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ZenNu WELLNESS DESIGN">
+  <meta property="og:title" content="{{ doc.title }} | ZenNu WELLNESS DESIGN">
+  <meta property="og:description" content="{{ doc.description }}">
+  <meta property="og:url" content="https://zennuwellnessdesign.jp/{{ doc.slug }}/">
+  <meta property="og:image" content="https://zennuwellnessdesign.jp/images/hero.jpg">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  {% include "site-style.njk" %}
+  <style>
+    .legal-hero {
+      position: relative;
+      min-height: 360px;
+      padding: 150px var(--pad) 72px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(12, 12, 12, .76), rgba(12, 12, 12, .38)),
+        url("/images/lounge.jpg") center 58% / cover no-repeat;
+      color: #fff;
+    }
+    .legal-hero-inner {
+      width: min(100%, 960px);
+      margin: 0 auto;
+    }
+    .legal-eyebrow {
+      margin-bottom: 16px;
+      color: #f2a06d;
+      font-family: var(--display);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .22em;
+    }
+    .legal-title {
+      max-width: 780px;
+      font-size: clamp(34px, 5vw, 64px);
+      font-weight: 900;
+      line-height: 1.25;
+      letter-spacing: -.02em;
+    }
+    .legal-version {
+      margin-top: 24px;
+      color: rgba(255, 255, 255, .72);
+      font-size: 12px;
+      letter-spacing: .08em;
+    }
+    .legal-main {
+      background: #f7f4f0;
+      padding: 72px var(--pad) 110px;
+    }
+    .legal-document {
+      width: min(100%, 960px);
+      margin: 0 auto;
+      padding: clamp(28px, 6vw, 72px);
+      background: #fff;
+      box-shadow: 0 18px 60px rgba(43, 32, 22, .08);
+      color: #292521;
+      font-family: "Noto Sans JP", sans-serif;
+      font-size: 15px;
+      line-height: 2;
+    }
+    .legal-document h2 {
+      margin: 3.2em 0 1.1em;
+      padding-bottom: .55em;
+      border-bottom: 2px solid #e87030;
+      font-size: clamp(21px, 3vw, 27px);
+      line-height: 1.5;
+    }
+    .legal-document h2:first-child {
+      margin-top: 0;
+    }
+    .legal-document h3 {
+      margin: 2.3em 0 .8em;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .legal-document p,
+    .legal-document ul,
+    .legal-document ol,
+    .legal-document table {
+      margin: 0 0 1.25em;
+    }
+    .legal-document ul,
+    .legal-document ol {
+      padding-left: 1.6em;
+    }
+    .legal-document ul {
+      list-style: disc;
+    }
+    .legal-document ol {
+      list-style: decimal;
+    }
+    .legal-document li {
+      margin: .45em 0;
+      padding-left: .25em;
+    }
+    .legal-document a {
+      color: #c85c27;
+      text-decoration: underline;
+      overflow-wrap: anywhere;
+    }
+    .legal-document table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      border-collapse: collapse;
+      white-space: nowrap;
+    }
+    .legal-document th,
+    .legal-document td {
+      min-width: 120px;
+      padding: 12px 14px;
+      border: 1px solid #ded8d2;
+      text-align: left;
+      vertical-align: top;
+    }
+    .legal-document th {
+      background: #f6eee8;
+      font-weight: 700;
+    }
+    .legal-back {
+      width: min(100%, 960px);
+      margin: 28px auto 0;
+    }
+    .legal-back a {
+      color: #8a8179;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .06em;
+    }
+    @media (max-width: 720px) {
+      .legal-hero {
+        min-height: 300px;
+        padding-top: 125px;
+      }
+      .legal-main {
+        padding: 36px 14px 80px;
+      }
+      .legal-document {
+        padding: 28px 20px 42px;
+        font-size: 14px;
+        line-height: 1.9;
+      }
+    }
+  </style>
+</head>
+<body>
+  {% include "nav.njk" %}
+
+  <header class="legal-hero">
+    <div class="legal-hero-inner">
+      <p class="legal-eyebrow">ZENNU WELLNESS DESIGN / LEGAL</p>
+      <h1 class="legal-title">{{ doc.title }}</h1>
+      <p class="legal-version">VERSION {{ doc.version }} ／ 施行日 {{ doc.effectiveDate | dateOnly }}</p>
+    </div>
+  </header>
+
+  <main class="legal-main">
+    <article class="legal-document">
+      {{ doc.body | safe }}
+    </article>
+    <p class="legal-back"><a href="/">← トップページへ戻る</a></p>
+  </main>
+
+  {% include "footer.njk" %}
+  <script>
+    const header = document.getElementById("site-header");
+    const menuButton = document.getElementById("ham-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+
+    header?.classList.add("scrolled");
+
+    menuButton?.addEventListener("click", () => {
+      menuButton.classList.toggle("active");
+      mobileMenu?.classList.toggle("open");
+    });
+
+    document.querySelectorAll(".nav-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        menuButton?.classList.remove("active");
+        mobileMenu?.classList.remove("open");
+      });
+    });
+  </script>
+</body>
+</html>

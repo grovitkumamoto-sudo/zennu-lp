@@ -1,0 +1,26 @@
+[
+  { "metricName": "Traffic", "information": [{ "totalSessionCount": 180, "totalBotSessionCount": 20, "distinctUserCount": 150 }] },
+  { "metricName": "EngagementTime", "information": [{ "totalTime": 120, "activeTime": 50 }] },
+  { "metricName": "ScrollDepth", "information": [{ "averageScrollDepth": 65 }] },
+  { "metricName": "RageClickCount", "information": [{ "sessionsWithMetricPercentage": 0 }] },
+  { "metricName": "DeadClickCount", "information": [{ "sessionsWithMetricPercentage": 6 }] },
+  { "metricName": "QuickbackClick", "information": [{ "sessionsWithMetricPercentage": 12 }] },
+  {
+    "metricName": "PopularPages",
+    "information": [
+      { "url": "https://lp.example.com/cp3lp", "visitsCount": 45 },
+      { "url": "https://lp.example.com/cp2lp", "visitsCount": 40 }
+    ]
+  },
+  {
+    "metricName": "ReferrerUrl",
+    "information": [
+      { "name": "https://lp.example.com/", "sessionsCount": 50 },
+      { "name": "https://instagram.com/", "sessionsCount": 30 },
+      { "name": "https://www.google.com/", "sessionsCount": 8 },
+      { "name": "https://example-preview.vercel.app/", "sessionsCount": 4 },
+      { "name": "https://booking.example.com/home", "sessionsCount": 2 },
+      { "name": "https://booking.example.com/", "sessionsCount": 2 }
+    ]
+  }
+]

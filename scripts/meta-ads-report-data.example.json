@@ -1,0 +1,20 @@
+{
+  "_note": "これはテンプレート確認用のダミーデータです(数値・見出し文言とも架空)。週次タスク実行時は、Meta Ads MCPツールで取得した実データでこのファイル形式のJSONを都度書き出してから node scripts/meta-ads-report.mjs を実行する。",
+  "dateRange": "2026-01-01〜2026-01-07",
+  "creatives": [
+    { "name": "cp3lp - 見出し案A", "impressions": 600, "clicks": 12, "ctr": 2.0, "cpc": 100, "spend": 1200, "conversions": 0 },
+    { "name": "cp3lp - 見出し案B", "impressions": 300, "clicks": 8, "ctr": 2.6, "cpc": 100, "spend": 800, "conversions": 0 },
+    { "name": "cp2lp - 見出し案A", "impressions": 300, "clicks": 5, "ctr": 1.6, "cpc": 150, "spend": 750, "conversions": 0 },
+    { "name": "cp3lp - 見出し案C", "impressions": 270, "clicks": 4, "ctr": 1.5, "cpc": 160, "spend": 640, "conversions": 0 },
+    { "name": "cp2lp - 見出し案B", "impressions": 260, "clicks": 3, "ctr": 1.2, "cpc": 180, "spend": 540, "conversions": 0 },
+    { "name": "cp3lp - 見出し案D", "impressions": 100, "clicks": 1, "ctr": 1.0, "cpc": 250, "spend": 250, "conversions": 0 },
+    { "name": "cp2lp - 見出し案C", "impressions": 70, "clicks": 0, "ctr": 0, "cpc": 0, "spend": 100, "conversions": 0 },
+    { "name": "cp2lp - 見出し案D", "impressions": 60, "clicks": 1, "ctr": 1.5, "cpc": 90, "spend": 90, "conversions": 0 }
+  ],
+  "insights": [
+    "CTRは「cp3lp」系の見出し文言の方が「cp2lp」系より総じて高い傾向: 見出し文言の切り口によってクリック率に差が出ている。反応の良い系統への配信比重を高めることを検討したい。",
+    "最良CTR/CPCの組み合わせは特定の見出し案で発生: 効率が良い訴求パターンを特定し、同系統の言い回しのバリエーションを追加テストする価値がある。",
+    "クリック0件の見出し案が最下位: 文言が抽象的で行動を促す訴求力が弱いと考えられ、優先して差し替え・停止を検討すべき。",
+    "期間中の全広告でコンバージョンが発生していない: クリックは一定数発生しているにもかかわらず登録完了イベントが計測されていない。計測周りの確認を急ぎたい。"
+  ]
+}

@@ -18,6 +18,15 @@ module.exports = function (eleventyConfig) {
     return next;
   });
 
+  // /cp1lp/ など階層下のページでも、ローカル画像を必ずサイトルートから参照する。
+  // microCMS の絶対URLと、すでにルート相対になっているパスはそのまま返す。
+  eleventyConfig.addFilter("mediaUrl", (value) => {
+    const src = value && value.url ? value.url : value;
+    if (!src || typeof src !== "string") return "";
+    if (/^(?:https?:)?\/\//.test(src) || src.startsWith("/")) return src;
+    return `/${src.replace(/^\.\//, "")}`;
+  });
+
   // ブログ記事の公開日を YYYY-MM-DD 表示にする
   eleventyConfig.addFilter("dateOnly", (s) => (s ? String(s).slice(0, 10) : ""));
 

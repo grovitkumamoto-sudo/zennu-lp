@@ -1,0 +1,51 @@
+{
+  "_note": "これはテンプレート確認用のダミーデータです(数値・クエリとも架空)。週次タスクでは node scripts/seo-report.mjs --fetch が実データでこのファイル形式のJSONを書き出す。",
+  "period": { "start": "2026-01-01", "end": "2026-01-28" },
+  "siteUrl": "https://lp.example.com/",
+  "queries": [
+    { "query": "サンプル キーワードA", "clicks": 0, "impressions": 50, "ctr": 0, "position": 1.2 },
+    { "query": "サンプル キーワードB", "clicks": 0, "impressions": 30, "ctr": 0, "position": 1.0 },
+    { "query": "サンプル キーワードC", "clicks": 0, "impressions": 25, "ctr": 0, "position": 2.2 },
+    { "query": "サンプル キーワードD", "clicks": 0, "impressions": 20, "ctr": 0, "position": 6.8 },
+    { "query": "サンプル キーワードE", "clicks": 0, "impressions": 10, "ctr": 0, "position": 9.5 },
+    { "query": "サンプル キーワードF", "clicks": 0, "impressions": 8, "ctr": 0, "position": 5.0 },
+    { "query": "サンプル キーワードG", "clicks": 0, "impressions": 6, "ctr": 0, "position": 1.0 },
+    { "query": "サンプル キーワードH", "clicks": 0, "impressions": 6, "ctr": 0, "position": 1.0 },
+    { "query": "サンプル キーワードI", "clicks": 0, "impressions": 5, "ctr": 0, "position": 1.0 },
+    { "query": "サンプル キーワードJ", "clicks": 0, "impressions": 5, "ctr": 0, "position": 29.6 },
+    { "query": "サンプル キーワードK", "clicks": 0, "impressions": 5, "ctr": 0, "position": 3.8 },
+    { "query": "サンプル キーワードL", "clicks": 0, "impressions": 4, "ctr": 0, "position": 1.0 },
+    { "query": "サンプル キーワードM", "clicks": 0, "impressions": 4, "ctr": 0, "position": 11.0 },
+    { "query": "ブランド名", "clicks": 1, "impressions": 3, "ctr": 33.3, "position": 5.3 },
+    { "query": "サンプル キーワードN", "clicks": 0, "impressions": 3, "ctr": 0, "position": 1.0 }
+  ],
+  "pages": [
+    { "page": "/", "clicks": 10, "impressions": 300, "ctr": 3.3, "position": 5.9 },
+    { "page": "/blog/sample-post-1/", "clicks": 0, "impressions": 12, "ctr": 0, "position": 14.8 },
+    { "page": "/blog/sample-post-2/", "clicks": 0, "impressions": 5, "ctr": 0, "position": 5.4 }
+  ],
+  "landingPages": [
+    { "page": "/", "channel": "Organic Social", "sessions": 230, "engagementRate": 10.7, "conversions": 0 },
+    { "page": "/", "channel": "Unassigned", "sessions": 110, "engagementRate": 15.5, "conversions": 0 },
+    { "page": "/cp3lp", "channel": "Unassigned", "sessions": 60, "engagementRate": 18.3, "conversions": 0 },
+    { "page": "/", "channel": "Organic Search", "sessions": 20, "engagementRate": 52.4, "conversions": 0 },
+    { "page": "/", "channel": "Direct", "sessions": 20, "engagementRate": 30.0, "conversions": 0 },
+    { "page": "/cp2lp", "channel": "Organic Social", "sessions": 18, "engagementRate": 33.3, "conversions": 0 }
+  ],
+  "events": [
+    { "name": "page_view", "count": 1800 },
+    { "name": "session_start", "count": 900 },
+    { "name": "first_visit", "count": 600 },
+    { "name": "user_engagement", "count": 450 },
+    { "name": "scroll", "count": 250 },
+    { "name": "form_start", "count": 20 },
+    { "name": "click", "count": 15 }
+  ],
+  "insights": [
+    "上位表示だがクリック率が低いキーワードが複数あるため、タイトルタグやmeta descriptionの訴求強化を検討したい。",
+    "主要キーワードの一部が2〜3ページ目相当まで低迷しており、追加コンテンツでの押し上げ余地がある。",
+    "ロングテールキーワード群に拡充の余地がある。ブログトピック優先度への反映を検討したい。",
+    "特定の流入経路でエンゲージメント率が極端に低いページがあり、導線の見直しが必要。",
+    "コンバージョン数が全流入経路・全ページで0件。計測設定の不備がないか確認を推奨。"
+  ]
+}

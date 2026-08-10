@@ -622,7 +622,7 @@
           <article class="v3-plan{% if p.popular %} is-popular{% endif %}">{% if p.popular %}<div class="v3-plan-badge">続けやすさで人気</div>{% endif %}<div class="v3-plan-head"><div class="v3-plan-name">{{ p.name }}</div><div class="v3-plan-for">{{ p.for }}</div></div><div class="v3-plan-body"><div class="v3-plan-price">{{ p.price }}<span>{{ p.unit }}</span></div><div class="v3-plan-items">{% if p.name == "LIGHT" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% elif p.name == "STANDARD" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">パーソナル指導 月2回</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% else %}{% for it in p.items %}<div class="v3-plan-item">{{ it }}</div>{% endfor %}{% endif %}</div><a href="#reserve">このプランを無料体験 →</a></div></article>
           {% endfor %}
         </div>
-        <div class="v3-tickets"><h3>自分のペースで通えるパーソナル回数券</h3><div class="v3-ticket-grid">{% for c in site.pricing.ticket.cards %}<div class="v3-ticket"><div><strong>{{ c.count }}回 {{ c.price }}</strong><p>{{ c.per }}／有効期限6ヶ月</p></div><a href="#reserve">相談する →</a></div>{% endfor %}</div></div>
+        <div class="v3-tickets"><h3>自分のペースで通えるパーソナル回数券</h3><div class="v3-ticket-grid">{% for c in site.pricing.ticket.cards %}<div class="v3-ticket"><div><strong>{{ c.count }}回 {{ c.price }}</strong><p>{{ c.per }}</p></div><a href="#reserve">相談する →</a></div>{% endfor %}</div></div>
       </div>
     </section>
 
@@ -663,7 +663,7 @@
           {% if memberIndex == 1 or memberIndex == 3 or memberIndex == 7 %}
           <article class="v3-voice-card">
             <div class="v3-voice-image">
-              <img src="{% if memberIndex == 3 %}/images/v3-member-ticket.png{% elif '://' in v.image %}{{ v.image }}{% else %}/{{ v.image }}{% endif %}" alt="{% if memberIndex == 3 %}30代女性・回数券プランのビフォーアフター{% else %}{{ v.meta }}のビフォーアフター{% endif %}" loading="lazy">
+              <img src="{% if memberIndex == 3 %}/images/v3-member-ticket.png{% else %}{{ v.image }}{% endif %}" alt="{% if memberIndex == 3 %}30代女性・回数券プランのビフォーアフター{% else %}{{ v.meta }}のビフォーアフター{% endif %}" loading="lazy">
               <span>{% if memberIndex == 3 or 'ADVANCE' in v.meta %}2か月で{% else %}{{ v.duration }}{% endif %}</span>
             </div>
             <div class="v3-voice-body">

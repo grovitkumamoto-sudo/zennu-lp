@@ -1,9 +1,9 @@
 {
   "meta": {
-    "title": "ZenNu WELLNESS DESIGN | 熊本中央区のパーソナルジム",
-    "description": "熊本中央区のパーソナルジム ZenNu。セルフ×パーソナルで「続けられる」を実現。初回体験無料。月額10,890円〜。上通アーケード内。",
-    "url": "https://lp.zennuwellnessdesign.jp",
-    "ogImage": "images/hero.jpg",
+    "title": "【熊本中央区】初心者でパーソナルジムに通うなら ZenNu WELLNESS DESIGN",
+    "description": "ZenNu WELLNESS DESIGN（ゼンヌ ウェルネスデザイン）は、熊本市中央区上通のパーソナル×セルフ ハイブリッドジム。運動未経験の方でも正しいフォームと食事改善を学び、無理なく続けられる仕組みで理想の体づくりをサポートします。",
+    "url": "https://zennuwellnessdesign.jp",
+    "ogImage": "/images/studio-hero-original.jpg",
     "lat": "32.8052741",
     "lng": "130.7110942"
   },
@@ -15,8 +15,8 @@
   "blogPosts": [],
   "hero": {
     "eyebrow": "ZENNU WELLNESS DESIGN — KUMAMOTO",
-    "headline": "TRAIN YOUR WAY, KEEP GOING.",
-    "jp": "続けることから、<br>変わっていく。",
+    "headline": "TRAIN YOUR<br>WAY,<br>KEEP GOING.",
+    "jp": "続けることから、変わっていく。",
     "desc": "セルフトレーニング×パーソナル指導のハイブリッドジム。熊本中央区で、あなたのペースにプロが伴走します。",
     "image": "images/hero.jpg",
     "stats": [
@@ -50,8 +50,8 @@
     ]
   },
   "intro": {
-    "jp": "動けば、<br><span class=\"dark\">気分がいい。</span>",
-    "en": "STAY ACTIVE, FEEL GOOD.",
+    "en": "STAY ACTIVE,<br><span class=\"dark\">FEEL GOOD.</span>",
+    "enSub": "WITH ZENNU WELLNESS DESIGN",
     "mainImage": "images/intro-main.jpg",
     "staffImage": "images/intro-staff.jpg",
     "label": "ABOUT ZENNU",
@@ -108,7 +108,7 @@
         "items": ["セルフトレーニング使い放題", "トレーナー常駐（随時相談OK）", "3名上限の予約制で快適な環境"]
       },
       {
-        "name": "STANDARD",
+        "name": "STANDARD 2",
         "for": "月2回のパーソナル指導で確実に結果を出したい方",
         "price": "¥24,300",
         "unit": "〜 / 月",
@@ -116,20 +116,28 @@
         "items": ["セルフトレーニング使い放題", "パーソナル指導 月2回", "トレーナー常駐（随時相談OK）", "3名上限の予約制で快適な環境"]
       },
       {
-        "name": "ADVANCE",
+        "name": "ADVANCE 4",
         "for": "本気で変わりたい・食事管理まで任せたい方",
         "price": "¥42,300",
         "unit": "〜 / 月",
         "popular": false,
         "items": ["セルフトレーニング使い放題", "パーソナル指導 月4回", "食事管理アドバイス込み", "プロテイン付き"]
+      },
+      {
+        "name": "PREMIUM 8",
+        "for": "最短で理想のカラダを目指したい方",
+        "price": "¥69,300",
+        "unit": "〜 / 月",
+        "popular": false,
+        "items": ["セルフトレーニング使い放題", "パーソナル指導 月8回", "食事管理アドバイス込み", "プロテイン付き"]
       }
     ],
     "ticket": {
       "title": "回数券（パーソナル）",
       "sub": "月額に縛られず、自分のペースで通いたい方に",
       "cards": [
-        { "count": "4", "price": "¥34,000", "per": "1回あたり 8,500円", "best": false, "badge": "" },
-        { "count": "10", "price": "¥80,000", "per": "1回あたり 8,000円", "best": true, "badge": "お得" }
+        { "count": "4", "price": "¥35,200", "per": "有効期限 4か月", "best": false, "badge": "" },
+        { "count": "10", "price": "¥85,000", "per": "有効期限 6か月", "best": true, "badge": "お得" }
       ]
     },
     "addons": [
@@ -157,10 +165,10 @@
         "note": "※ 回数券プランや詳細は <a href=\"#reserve\">お問い合わせ</a> ください"
       }
     ],
-    "note": "※ 6ヶ月・12ヶ月契約でさらにお得　／　回数券の有効期限は購入日から6ヶ月<br>※ すべての料金は税込表示です"
+    "note": "※ 表示価格は12か月契約時の月額です。単月・6か月・12か月から選択できます。<br>※ 回数券の有効期限は券種ごとに異なります。すべての料金は税込表示です。"
   },
   "memberVoice": {
-    "subtitle": "通い方ストーリー",
+    "subtitle": "ビフォーアフター（左右で切り替え）",
     "items": [
       { "image": "images/ba1.jpg", "tag": "MEMBER VOICE 01", "result": "-7", "unit": "cm", "label": "ウエスト ／ 体重 -1.6kg・体脂肪 -2.1%", "meta": "30代 女性 ／ ADVANCEコース", "story": "産後ダイエット", "duration": "3か月で", "weightKg": "-1.6", "bodyFatPct": "-2.1", "journey": ["ADVANCEで開始", "パーソナル週1回", "セルフ週1回を追加", "STANDARDへ変更"], "currentRoutine": ["月2回パーソナル", "＋月5〜6回セルフ"], "quote": "「産後ずっと体型が戻らなくて悩んでいたんですが、食事制限なしでここまで変われるとは思っていませんでした。週1のパーソナルがすごく楽しくて、気づいたら習慣になっていました。」", "who": "O.Mさん" },
       { "image": "images/ba2.jpg", "tag": "MEMBER VOICE 02", "result": "-5", "unit": "cm", "label": "ウエスト ／ 体重 -0.9kg・体脂肪 -1.8%", "meta": "30代 男性 ／ 回数券プラン", "story": "コスパ重視で継続", "duration": "2か月で", "weightKg": "-0.9", "bodyFatPct": "-1.8", "journey": ["回数券10回で開始", "月2〜3回のペースで通所", "セルフ利用を追加", "回数券を継続購入"], "currentRoutine": ["回数券で月3回パーソナル", "＋セルフ随時"], "quote": "「他のジムは高くて続かなかったんですが、ここはコスパがいい上にトレーナーにいつでも聞けるので安心感が違います。仕事帰りにサクッと来られる場所にあるのもよかった。」", "who": "T.Kさん" },
@@ -253,8 +261,8 @@
   },
   "footer": {
     "tagline": "セルフ×パーソナルで、<br>続けることを当たり前にするジム。",
-    "copy": "© 2025 ZenNu WELLNESS DESIGN",
-    "termsUrl": "https://zennuwellnessdesign.jp/terms",
-    "privacyUrl": "https://zennuwellnessdesign.jp/privacy"
+    "copy": "© 2026 ZenNu WELLNESS DESIGN",
+    "termsUrl": "/terms/",
+    "privacyUrl": "/privacy/"
   }
 }
