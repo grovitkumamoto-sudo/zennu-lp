@@ -39,7 +39,15 @@
 <body class="brand-site page-{{ pageKey }}">
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCDJZ9X9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-  <header class="site-header" id="site-brand-header">
+  {% if pageKey == "home" %}
+  <div class="brand-opening" aria-hidden="true">
+    <div class="brand-opening-orbit"></div>
+    <img class="brand-opening-logo" src="/images/logo-yoko.png" alt="">
+    <p>WELLNESS, DESIGNED FOR YOU.</p>
+  </div>
+  {% endif %}
+
+  <header class="site-header{% if pageKey == "home" %} site-header--overlay{% endif %}" id="site-brand-header">
     <a class="site-logo" href="/" aria-label="ZenNu WELLNESS DESIGN トップへ"><img src="/images/logo-yoko.png" alt="ZenNu WELLNESS DESIGN"></a>
     <nav class="site-nav" aria-label="メインメニュー">
       <a href="/concept/"{% if pageKey == "concept" %} aria-current="page"{% endif %}>私たちについて</a>
@@ -50,7 +58,7 @@
       <a href="/facility/"{% if pageKey == "facility" %} aria-current="page"{% endif %}>施設</a>
       <a href="/access/"{% if pageKey == "access" %} aria-current="page"{% endif %}>アクセス</a>
     </nav>
-    <a class="site-header-cta" href="{{ trialUrl }}" target="_blank" rel="noopener" data-cta="header">無料体験</a>
+    <a class="site-header-cta" href="{{ trialUrl }}" target="_blank" rel="noopener" data-cta="header"><small>TRIAL</small><strong>無料体験を予約</strong></a>
     <button class="site-menu-button" type="button" aria-label="メニューを開く" aria-controls="site-mobile-menu" aria-expanded="false"><i></i><i></i></button>
   </header>
 
@@ -97,6 +105,8 @@
       const menu = document.getElementById("site-mobile-menu");
       const updateHeader = () => header?.classList.toggle("is-scrolled", window.scrollY > 24);
       updateHeader(); window.addEventListener("scroll", updateHeader, {passive:true});
+      const opening = document.querySelector(".brand-opening");
+      if (opening) window.setTimeout(() => opening.remove(), 3400);
       button?.addEventListener("click", () => {
         const open = button.getAttribute("aria-expanded") === "true";
         button.setAttribute("aria-expanded", String(!open));
