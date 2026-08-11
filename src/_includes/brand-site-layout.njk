@@ -24,15 +24,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;900&display=swap" rel="stylesheet">
   {% include "brand-home-style.njk" %}
-  {% if pageKey == "home" %}
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"HealthClub","@id":"{{ site.meta.url }}/#gym","name":"ZenNu WELLNESS DESIGN","url":"{{ site.meta.url }}/","image":"{{ site.meta.url }}/images/hero.jpg","telephone":"{{ site.contact.telDisplay }}","priceRange":"¥¥","address":{"@type":"PostalAddress","postalCode":"860-0845","addressRegion":"熊本県","addressLocality":"熊本市中央区","streetAddress":"上通町6-15 オークス第二ビル 2F","addressCountry":"JP"},"geo":{"@type":"GeoCoordinates","latitude":"{{ site.meta.lat }}","longitude":"{{ site.meta.lng }}"}}
+  {"@context":"https://schema.org","@graph":[{"@type":"HealthClub","@id":"{{ site.meta.url }}/#gym","name":"ZenNu WELLNESS DESIGN","description":"熊本市中央区・上通アーケード内のパーソナルジム。パーソナル、セルフ、両方の組み合わせから通い方を選べます。","url":"{{ site.meta.url }}/","image":"{{ site.meta.url }}/images/hero.jpg","telephone":"{{ site.contact.telDisplay }}","priceRange":"¥¥","address":{"@type":"PostalAddress","postalCode":"860-0845","addressRegion":"熊本県","addressLocality":"熊本市中央区","streetAddress":"上通町6-15 オークス第二ビル 2F","addressCountry":"JP"},"geo":{"@type":"GeoCoordinates","latitude":"{{ site.meta.lat }}","longitude":"{{ site.meta.lng }}"},"areaServed":[{"@type":"City","name":"熊本市"},{"@type":"Place","name":"上通"}],"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"07:00","closes":"22:00"}]}{% if pageKey != "home" %},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"熊本市中央区・上通のパーソナルジム ZenNu","item":"{{ site.meta.url }}/"},{"@type":"ListItem","position":2,"name":"{{ title }}","item":"{{ site.meta.url }}{{ page.url }}"}]}{% endif %}]}
   </script>
-  {% else %}
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"トップ","item":"{{ site.meta.url }}/"},{"@type":"ListItem","position":2,"name":"{{ title }}","item":"{{ site.meta.url }}{{ page.url }}"}]}
-  </script>
-  {% endif %}
   <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"brand_site",page_name:"{{ pageKey }}",site_version:"brand-site-v2"});</script>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-PCDJZ9X9");</script>
 </head>
@@ -90,7 +84,7 @@
     <div class="site-shell site-footer-top">
       <div class="site-footer-brand"><img src="/images/logo-yoko.png" alt="ZenNu WELLNESS DESIGN"><p>〒860-0845 熊本県熊本市中央区上通町6-15<br>オークス第二ビル 2F</p></div>
       <div class="site-footer-sitemap">
-        <a href="/concept/">私たちについて</a><a href="/service/">サービス</a><a href="/price/">料金</a><a href="/results/">実績</a><a href="/trainers/">トレーナー</a><a href="/facility/">施設</a><a href="/access/">アクセス</a><a href="/faq/">よくある質問</a><a href="/blog/">コラム</a>
+        <a href="/concept/">熊本・上通のZenNuについて</a><a href="/service/">パーソナル・セルフのサービス</a><a href="/price/">料金・プラン</a><a href="/results/">会員実績・お客様の声</a><a href="/trainers/">トレーナー・資格</a><a href="/facility/">上通店舗の施設・設備</a><a href="/access/">上通店舗へのアクセス</a><a href="/faq/">体験・契約のよくある質問</a><a href="/blog/">トレーニング・食事コラム</a>
       </div>
     </div>
     <div class="site-shell site-footer-bottom"><div><a href="/terms/">利用規約</a><a href="/privacy/">プライバシーポリシー</a><a href="/law/">特定商取引法に基づく表記</a></div><p>© 2026 ZenNu WELLNESS DESIGN</p></div>
