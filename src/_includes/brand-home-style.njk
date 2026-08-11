@@ -75,10 +75,11 @@
   /* OUR FEATURE — asymmetric editorial photography */
   .home-feature{position:relative;overflow:hidden;background:#efefec}
   .home-feature::before{content:"ZENNU";position:absolute;top:8%;right:-.05em;color:rgba(25,25,25,.035);font:800 min(22vw,320px)/.8 var(--latin);letter-spacing:-.08em;pointer-events:none}
-  .home-feature-heading{position:relative;z-index:2;display:grid;grid-template-columns:.42fr 1fr .62fr;gap:clamp(34px,5vw,78px);align-items:end;margin-bottom:92px}
+  .home-feature-heading{position:relative;z-index:2;display:grid;grid-template-columns:.32fr 1.28fr .58fr;gap:clamp(30px,4vw,62px);align-items:end;margin-bottom:92px}
   .home-feature-heading .section-label{align-self:start;margin:7px 0 0;color:var(--mint)}
   .home-feature-kicker{margin-bottom:20px!important;color:var(--mint);font:700 10px/1 var(--latin);letter-spacing:.24em}
-  .home-feature-heading h2{margin:0;font-size:clamp(45px,5.2vw,72px);line-height:1.18}
+  .home-feature-heading h2{margin:0;font-size:clamp(45px,4.2vw,60px);line-height:1.2}
+  .home-feature-heading h2 span{display:block;white-space:nowrap}
   .home-feature-intro{margin:0;color:var(--muted);font-size:13px;line-height:2.05}
   .home-feature-stage{position:relative;min-height:1120px}
   .home-feature-item{position:absolute}
@@ -115,7 +116,7 @@
   }
   @media(max-width:760px){
     .home-feature{padding-top:84px}.home-feature::before{top:3%;right:-.08em;font-size:43vw}
-    .home-feature-heading{display:block;margin-bottom:56px}.home-feature-heading .section-label{margin-bottom:34px}.home-feature-kicker{margin-bottom:16px!important}.home-feature-heading h2{font-size:39px;line-height:1.26}.home-feature-intro{margin-top:26px;font-size:12px;line-height:1.95}
+    .home-feature-heading{display:block;margin-bottom:56px}.home-feature-heading .section-label{margin-bottom:34px}.home-feature-kicker{margin-bottom:16px!important}.home-feature-heading h2{font-size:34px;line-height:1.32;letter-spacing:-.055em}.home-feature-intro{margin-top:26px;font-size:12px;line-height:1.95}
     .home-feature-stage{display:grid;gap:78px;min-height:0}
     .home-feature-item{position:relative;inset:auto!important;width:100%;height:auto!important}
     .home-feature-photo,.home-feature-item--choice .home-feature-photo,.home-feature-item--result .home-feature-photo,.home-feature-item--continue .home-feature-photo{width:calc(100% - 28px);height:76vw;min-height:285px;max-height:420px;margin:0}
@@ -128,5 +129,49 @@
     .home-feature-item--result .home-feature-index{right:auto;left:18px}
     .home-feature-index span{font-size:76px}.home-feature-index small{font-size:7px}
     .home-feature-panel h3{margin-bottom:16px;font-size:28px}.home-feature-panel p{font-size:11px;line-height:1.9}
+  }
+
+  /* SERVICE — a clear overview of what members can use */
+  .home-service .section-heading-row{margin-bottom:34px}
+  .home-service-lead{max-width:710px;margin:0 0 58px!important;color:#d2d2cf;font-size:14px;line-height:2}
+  .home-service-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+  .home-service-card{grid-column:span 2;overflow:hidden;background:#fff;color:var(--ink);transition:transform .3s}
+  .home-service-card:hover{transform:translateY(-6px)}
+  .home-service-card figure{height:240px;margin:0;overflow:hidden;background:#ddd}
+  .home-service-card figure img{width:100%;height:100%;object-fit:cover;filter:saturate(.78) contrast(1.04);transition:transform .6s}
+  .home-service-card:hover figure img{transform:scale(1.035)}
+  .home-service-card>div{position:relative;min-height:270px;padding:30px 30px 34px}
+  .home-service-card span{color:var(--mint);font:700 9px/1 var(--latin);letter-spacing:.18em}
+  .home-service-card h3{margin:20px 0 18px;font-size:clamp(24px,2.2vw,32px);line-height:1.45;letter-spacing:-.045em}
+  .home-service-card p{margin:0;padding-right:24px;color:var(--muted);font-size:11px;line-height:1.9}
+  .home-service-card i{position:absolute;right:28px;bottom:28px;font:normal 20px/1 var(--latin)}
+  .home-service-card--training{grid-column:1/-1;display:grid;grid-template-columns:1.4fr .6fr}
+  .home-service-card--training figure{height:500px}
+  .home-service-card--training>div{display:flex;min-height:500px;flex-direction:column;justify-content:center;padding:54px}
+  .home-service-card--training h3{font-size:clamp(34px,4vw,58px)}
+  .home-service-card--training p{max-width:330px;font-size:12px}
+
+  /* CUSTOMER VOICE — real member photography and handwritten comments */
+  .home-voices{overflow:hidden;background:#fff}
+  .home-voices-heading{display:grid;grid-template-columns:1fr .55fr;gap:clamp(54px,8vw,120px);align-items:end;margin-bottom:72px}
+  .home-voices-heading h2{margin-bottom:0}
+  .home-voices-heading>div:last-child p{margin-bottom:28px;color:var(--muted);font-size:13px;line-height:2}
+  .home-voices-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start}
+  .home-voice-card{margin:0;background:var(--paper)}
+  .home-voice-card--offset{margin-top:70px}
+  .home-voice-card figure{height:330px;margin:0;overflow:hidden;background:#e1e0dc}
+  .home-voice-card figure img{width:100%;height:100%;object-fit:cover;filter:saturate(.82) contrast(1.035);transition:transform .65s}
+  .home-voice-card:hover figure img{transform:scale(1.025)}
+  .home-voice-card>div{min-height:215px;padding:30px}
+  .home-voice-card span{color:var(--mint);font:700 9px/1 var(--latin);letter-spacing:.16em}
+  .home-voice-card blockquote{margin:22px 0 0;font-size:16px;font-weight:700;line-height:2}
+  @media(max-width:980px){
+    .home-service-card{grid-column:span 3}.home-service-card:last-child{grid-column:1/-1}.home-service-card:last-child{display:grid;grid-template-columns:1fr 1fr}.home-service-card:last-child figure{height:100%}
+    .home-voices-heading{grid-template-columns:1fr;gap:30px}.home-voice-card figure{height:280px}.home-voice-card>div{min-height:245px}
+  }
+  @media(max-width:760px){
+    .home-service .section-heading-row{margin-bottom:24px}.home-service-lead{margin-bottom:40px!important;font-size:12px}.home-service-lead br{display:none}
+    .home-service-grid{grid-template-columns:1fr;gap:14px}.home-service-card,.home-service-card--training,.home-service-card:last-child{grid-column:auto;display:block}.home-service-card figure,.home-service-card--training figure,.home-service-card:last-child figure{height:68vw;min-height:250px;max-height:350px}.home-service-card>div,.home-service-card--training>div{display:block;min-height:230px;padding:26px 24px 30px}.home-service-card h3,.home-service-card--training h3{font-size:28px}.home-service-card p,.home-service-card--training p{font-size:11px}.home-service-card i{right:24px;bottom:24px}
+    .home-voices-heading{display:block;margin-bottom:44px}.home-voices-heading h2{font-size:37px}.home-voices-heading>div:last-child{margin-top:26px}.home-voices-heading>div:last-child p{font-size:12px}.home-voices-grid{display:flex;gap:14px;overflow-x:auto;margin-right:-18px;padding-right:18px;scroll-snap-type:x mandatory;scrollbar-width:none}.home-voices-grid::-webkit-scrollbar{display:none}.home-voice-card,.home-voice-card--offset{flex:0 0 86%;margin:0;scroll-snap-align:start}.home-voice-card figure{height:62vw;min-height:240px;max-height:330px}.home-voice-card>div{min-height:190px;padding:25px}.home-voice-card blockquote{font-size:14px;line-height:1.9}
   }
 </style>
