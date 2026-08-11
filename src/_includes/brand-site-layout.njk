@@ -73,6 +73,26 @@
 
   {{ content | safe }}
 
+  {% if pageKey != "home" and pageKey != "trainers" %}
+  <section class="site-trainer-feature" aria-labelledby="site-trainer-feature-title">
+    <div class="site-trainer-feature-watermark" aria-hidden="true">TRAINERS</div>
+    <div class="site-shell site-trainer-feature-grid">
+      <div class="site-trainer-feature-copy">
+        <div class="section-label light"><span>PRO</span>MEET THE PROFESSIONALS</div>
+        <p class="site-trainer-feature-kicker">EXPERIENCE MEETS EXPERTISE.</p>
+        <h2 id="site-trainer-feature-title">熊本で培った経験と、<br>結果を支える専門性。</h2>
+        <p>元大手パーソナルジム店長・エリアマネージャー経験者、熊本に展開するパーソナルジムの元店長、臨床栄養医学指導士、コンテスト経験者が在籍しています。</p>
+        <div class="site-trainer-feature-points"><span>MANAGEMENT</span><span>NUTRITION</span><span>BODYMAKE</span></div>
+        <a class="text-link light" href="/trainers/">トレーナーの経歴・資格を見る</a>
+      </div>
+      <div class="site-trainer-feature-visual" aria-label="ZenNuのトレーナー">
+        <figure><img src="/images/trainer-mori-contest.jpg" alt="BEST BODY JAPANに出場したZenNu代表トレーナー森丈明" width="1132" height="1600" loading="lazy"><figcaption>TAKEAKI MORI<small>CLINICAL NUTRITION / MANAGEMENT</small></figcaption></figure>
+        <figure><img src="/images/trainer-kaneko-contest.jpg" alt="BEST BODY JAPANに出場したZenNuトレーナー金子亮太" width="1066" height="1600" loading="lazy"><figcaption>RYOTA KANEKO<small>BODYMAKE / MANAGEMENT</small></figcaption></figure>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
   <section class="site-contact" aria-labelledby="contact-title">
     <div class="site-shell site-contact-grid">
       <div><p class="site-contact-en">START WITH A CONVERSATION.</p><h2 id="contact-title">まずは、今の悩みを<br>聞かせてください。</h2></div>
