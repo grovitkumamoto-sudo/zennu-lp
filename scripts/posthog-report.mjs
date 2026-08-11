@@ -95,10 +95,11 @@ export async function fetchPostHogInsights() {
        group by event`
     ),
     // クリック要素の内訳(テキスト・URL別)。上限行数に達する前に本番ドメインへ絞り込む。
+    // 同一人物の連打で件数が水増しされないよう、クリック数とは別にユニークユーザー数も取得する。
     hogql(
       token,
       projectId,
-      `select properties.$el_text as text, properties.$current_url as url, count() as c
+      `select properties.$el_text as text, properties.$current_url as url, count() as c, count(distinct distinct_id) as u
        from events
        where event = '$autocapture' and timestamp > now() - interval ${DAYS} day
        and (${domainFilter})
@@ -133,17 +134,20 @@ export function buildSummary({ eventCounts }) {
   return totals;
 }
 
+// クリック数(c)とは別にユニークユーザー数(u)も保持する。
+// 単純にラベル単位で合算するとuを正しく合算できない(同一ユーザーが複数行にまたがる場合の
+// 重複カウント)ため、ここでは同名要素×同URLの組は元々HogQL側でgroup済みなのでそのまま使う。
 export function buildClickItems(clickRows, { max = 10 } = {}) {
-  const merged = new Map();
-  for (const [text, url, c] of clickRows) {
-    if (!isProdUrl(url)) continue;
-    const label = `${text ? text.slice(0, 24) : "(テキストなし)"} — ${pathOf(url)}`;
-    merged.set(label, (merged.get(label) || 0) + c);
-  }
-  return [...merged.entries()]
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, max)
-    .map(([label, value]) => ({ label, value }));
+  const rows = clickRows
+    .filter(([, url]) => isProdUrl(url))
+    .map(([text, url, c, u]) => ({
+      label: `${text ? text.slice(0, 24) : "(テキストなし)"} — ${pathOf(url)}`,
+      clicks: c,
+      uniqueUsers: u ?? null,
+    }))
+    .sort((a, b) => b.clicks - a.clicks)
+    .slice(0, max);
+  return rows;
 }
 
 export function buildPageItems(pageviewRows, { max = 10 } = {}) {
@@ -166,8 +170,8 @@ function loadSampleData() {
 export function buildReport(raw, { sample = false } = {}) {
   const today = new Date().toISOString().slice(0, 10);
   const summary = buildSummary(raw);
-  const clickItems = buildClickItems(raw.clickRows);
-  const pageItems = buildPageItems(raw.pageviewRows);
+  const clickItems = buildClickItems(raw.clickRows, { max: 8 });
+  const pageItems = buildPageItems(raw.pageviewRows, { max: 8 });
 
   const emptyNote = (label) => `<div style="text-align:center;color:${INK_MUTED};font-size:12px;">${label}</div>`;
 
@@ -179,16 +183,24 @@ export function buildReport(raw, { sample = false } = {}) {
         ${kpiTile({ label: "クリック等の操作数", value: num(summary.autocapture) })}
         ${kpiTile({ label: "離脱イベント数", value: num(summary.pageleave) })}
       </div>
-      <div class="row-2">
+      <div class="row-2" style="flex:0 0 auto;">
         ${card(
-          "よくクリックされている要素（上位10件）",
-          clickItems.length ? hBarChart(clickItems, { color: CAT.magenta, valueFmt: num }) : emptyNote("該当データなし")
+          `よくクリックされている要素（上位${clickItems.length}件・クリック数順）`,
+          clickItems.length
+            ? tableHtml(
+                ["要素", "クリック数", "ユニークユーザー数"],
+                clickItems.map((i) => [i.label, num(i.clicks), i.uniqueUsers != null ? num(i.uniqueUsers) : "-"])
+              )
+            : emptyNote("該当データなし")
         )}
         ${card(
-          "よく見られているページ（上位10件）",
+          `よく見られているページ（上位${pageItems.length}件）`,
           pageItems.length ? hBarChart(pageItems, { color: CAT.blue, valueFmt: num }) : emptyNote("該当データなし")
         )}
       </div>
+      ${callout(
+        "クリック数が多くてもユニークユーザー数が少ない場合、同一の訪問者が連打・連続操作している可能性が高い(1人が何度もカルーセルを送った等)。判断には両方の数字を確認したい。"
+      )}
       ${callout(
         "スクロール深度・離脱ポイントの詳細分析はPostHogのHeatmaps/Session Replay機能でダッシュボード上から直接確認してください: https://us.posthog.com/project/" +
           (loadConfig().posthogProjectId || "") +
