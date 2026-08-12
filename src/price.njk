@@ -4,10 +4,17 @@ permalink: /price/index.html
 title: 料金・プラン｜【熊本】上通のパーソナルジム
 description: 熊本のパーソナルジムZenNuの料金。熊本市中央区・上通で、セルフ中心の月額、パーソナル付き月額、パーソナル回数券、食事管理オプションから通い方を選べます。
 pageKey: price
-heroImage: /images/lounge.jpg
+heroImage: /images/personal1.jpg
+heroImageAlt: 熊本・上通のZenNuでパーソナルトレーニングを受ける女性
+heroKicker: PRICE / KUMAMOTO KAMITORI
+heroTitleEn: PRICE & PLANS
+heroTitleJp: 熊本・上通のパーソナルジム料金・プラン
+heroLead: パーソナルだけ、セルフだけ、組み合わせ。高額な一括契約やローンを前提にせず、目的と生活から選べます。
+breadcrumbLabel: 料金・プラン
 ---
 <main>
-  <header class="page-hero"><div class="site-shell page-hero-grid"><div class="section-label"><span>03</span>PRICE</div><div><h1>料金ではなく、<br>通い方から選ぶ。</h1><p class="page-hero-lead">高額な一括契約やローンを前提にしません。パーソナルだけ、セルフだけ、組み合わせ。それぞれの入口を同じようにご用意しています。</p></div></div></header>
+  {% include "lower-page-hero.njk" %}
+  <section class="price-manifesto"><div class="site-shell price-manifesto-grid"><div><span>NO EXPENSIVE PACKAGE.</span><h2>払えるコースではなく、<br>続けられる方法を。</h2></div><p>短期集中の高額コースをひとつだけ提示するのではなく、パーソナル回数券、セルフ中心の月額、パーソナル付き月額をご用意しています。今の目標と予算に必要な分から始められます。</p><div class="price-manifesto-points"><strong><small>01</small>PERSONAL</strong><strong><small>02</small>SELF</strong><strong><small>03</small>COMBINATION</strong></div></div></section>
   <section class="page-block white"><div class="site-shell"><div class="page-copy-grid"><div><div class="section-label"><span>01</span>CHOOSE YOUR ROUTE</div><h2>まず、3つから。</h2></div><div><p class="page-lead">今の目的に合う<br>通い方を選びます。</p></div></div><div class="plan-route"><span>PERSONAL</span><div><h2>パーソナルだけ</h2><p>自分のペースで通えるパーソナル回数券。食事管理も追加できます。</p></div><strong>4回・10回券<small>有効期限あり</small></strong></div><div class="plan-route"><span>SELF</span><div><h2>セルフだけ</h2><p>予約制のトレーニングエリアを自分のペースで利用。</p></div><strong>{{ site.pricing.plans[0].price }}〜<small>月額・契約期間により変動</small></strong></div><div class="plan-route"><span>BOTH</span><div><h2>パーソナル＋セルフ</h2><p>月2回・月4回などの指導とセルフ利用を組み合わせます。</p></div><strong>{{ site.pricing.plans[1].price }}〜<small>月額・契約期間により変動</small></strong></div></div></section>
   <section class="page-block mint"><div class="site-shell"><div class="section-label"><span>02</span>MONTHLY PLAN</div><h2>月額プラン</h2><div class="price-table">{% for plan in site.pricing.plans %}{% if loop.index <= 3 %}<article class="price-card"><span>PLAN 0{{ loop.index }}</span><h3>{{ plan.name }}</h3><div class="price">{{ plan.price }}<small>{{ plan.unit }}</small></div><p>{{ plan.for }}</p><ul>{% for item in plan.items %}<li>{{ item }}</li>{% endfor %}</ul></article>{% endif %}{% endfor %}</div><p style="margin-top:20px;color:var(--muted);font-size:10px;line-height:1.8">{{ site.pricing.note | safe }}</p></div></section>
   <section class="page-block white"><div class="site-shell"><div class="page-copy-grid"><div><div class="section-label"><span>03</span>PERSONAL TICKET</div><h2>パーソナル<br>回数券</h2></div><div><p class="page-lead">月額に縛られず、<br>必要な分だけ。</p><p>パーソナルのみで始めたい方へ。食事管理オプションを組み合わせることもできます。</p></div></div><div class="ticket-grid">{% for ticket in site.pricing.ticket.cards %}<article class="ticket-card"><h3>{{ ticket.count }}回券</h3><strong>{{ ticket.price }}</strong><p>{{ ticket.per }}</p></article>{% endfor %}</div></div></section>
