@@ -82,9 +82,24 @@
   {{ content | safe }}
 
   <section class="site-contact" aria-labelledby="contact-title">
-    <div class="site-shell site-contact-grid">
-      <div><p class="site-contact-en">START WITH A CONVERSATION.</p><h2 id="contact-title">まずは、今の悩みを<br>聞かせてください。</h2></div>
-      <div><p>体験後の入会は任意です。パーソナルだけ、セルフだけ、組み合わせ。目標と生活に合う通い方からご案内します。</p><a class="site-contact-button" href="{{ trialUrl }}" target="_blank" rel="noopener" data-cta="footer">無料体験を予約する<span>→</span></a><a class="site-contact-line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener" data-cta="line">LINEで相談する</a></div>
+    <div class="site-contact-heading site-shell">
+      <p class="site-contact-en">TAKE THE NEXT STEP.</p>
+      <h2 id="contact-title">始め方は、<br>2つあります。</h2>
+      <p>すぐに試したい方も、まず相談したい方も。<br>今の温度感に合う入口を選べます。</p>
+    </div>
+    <div class="site-contact-choice">
+      <a class="site-contact-card site-contact-card--trial" href="{{ trialUrl }}" target="_blank" rel="noopener" data-cta="footer">
+        <img src="/images/personal1.jpg" alt="ZenNuでパーソナルトレーニングを体験するお客様" width="1800" height="1200" loading="lazy">
+        <span class="site-contact-card-shade"></span>
+        <span class="site-contact-card-copy"><small>TRIAL TRAINING</small><strong>無料体験を予約する</strong><em>体験後の入会は任意です。</em></span>
+        <i aria-hidden="true">→</i>
+      </a>
+      <a class="site-contact-card site-contact-card--line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener" data-cta="line">
+        <img src="/images/lounge.jpg" alt="落ち着いて相談できるZenNuのラウンジ" width="640" height="426" loading="lazy">
+        <span class="site-contact-card-shade"></span>
+        <span class="site-contact-card-copy"><small>LINE COUNSELING</small><strong>LINEで相談する</strong><em>料金や通い方だけのご相談もどうぞ。</em></span>
+        <i aria-hidden="true">→</i>
+      </a>
     </div>
   </section>
 
