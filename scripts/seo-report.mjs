@@ -346,11 +346,21 @@ function buildReport(data, { sample = false } = {}) {
     </div>`;
 
   const insightsHtml = (data.insights || []).map((text) => callout(mdBold(text))).join("");
+  // 生成AIパフォーマンスレポート(AI Overviews/AI Modeでの表示回数)は2026年6月にSearch Consoleへ
+  // 追加された新機能だが、現時点(2026-08時点)ではAPIが提供されておらずUI上でしか確認できない。
+  // 自動取得ができるようになるまでは、確認手順をこの固定の注意書きとしてレポートに含める。
+  const aiPerformanceNote = callout(
+    mdBold(
+      "**Search Consoleの「生成AIパフォーマンスレポート」について**: AI OverviewsやAI Modeでの表示回数を確認できる新機能ですが、現時点ではAPI非対応のためこのレポートには自動反映できません。Search Console管理画面の左メニュー「検索パフォーマンス」内から生成AIパフォーマンスレポートを開いて手動でご確認ください（表示回数のみでクリック数・クエリ別データはありません）。APIが公開され次第、自動反映に対応します。"
+    ),
+    { warn: false }
+  );
   const page4 = `
     <div class="sheet">
       ${pageHeader("所見・次のアクション", `${data.period.start}〜${data.period.end}`)}
       <div class="callout-list">
         ${insightsHtml || `<div style="text-align:center;color:${INK_MUTED};font-size:12px;">所見が未記入です</div>`}
+        ${aiPerformanceNote}
       </div>
     </div>`;
 
