@@ -351,7 +351,7 @@ function buildReport(data, { sample = false } = {}) {
   // 自動取得ができるようになるまでは、確認手順をこの固定の注意書きとしてレポートに含める。
   const aiPerformanceNote = callout(
     mdBold(
-      "**Search Consoleの「生成AIパフォーマンスレポート」について**: AI OverviewsやAI Modeでの表示回数を確認できる新機能ですが、現時点ではAPI非対応のためこのレポートには自動反映できません。Search Console管理画面の左メニュー「検索パフォーマンス」内から生成AIパフォーマンスレポートを開いて手動でご確認ください（表示回数のみでクリック数・クエリ別データはありません）。APIが公開され次第、自動反映に対応します。"
+      "**Search Consoleの「生成AI機能」レポート（ベータ版）について**: AI OverviewsやAI Modeでの表示回数を確認できる新機能ですが、現時点ではAPI非対応のためこのレポートには自動反映できません。手動確認はこちら: https://search.google.com/search-console/performance/search-analytics/ai?resource_id=sc-domain:zennuwellnessdesign.jp （表示回数のみでクリック数・クエリ別データはありません）。APIが公開され次第、自動反映に対応します。"
     ),
     { warn: false }
   );
