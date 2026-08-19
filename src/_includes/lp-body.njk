@@ -1,23 +1,26 @@
+{% set pageSeoTitle = seoTitle if seoTitle else site.meta.title %}
+{% set pageSeoDescription = seoDescription if seoDescription else site.meta.description %}
+{% set pageCanonical = site.meta.url ~ '/' ~ (variant.slug ~ '/' if variant else '') %}
 <!DOCTYPE html>
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{ site.meta.title }}</title>
-  <meta name="description" content="{{ site.meta.description }}">
-  <link rel="canonical" href="{{ site.meta.url }}/{{ variant.slug ~ '/' if variant }}">
+  <title>{{ pageSeoTitle }}</title>
+  <meta name="description" content="{{ pageSeoDescription }}">
+  <link rel="canonical" href="{{ pageCanonical }}">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="shortcut icon" href="/favicon.ico">
-  <meta name="robots" content="{{ 'noindex, follow' if variant else 'index, follow' }}">
+  <meta name="robots" content="{{ 'index, follow' if not variant or seoIndexable else 'noindex, follow' }}">
 
   <!-- Open Graph / SNSシェア -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ZenNu WELLNESS DESIGN">
-  <meta property="og:title" content="{{ site.meta.title }}">
-  <meta property="og:description" content="{{ site.meta.description }}">
-  <meta property="og:url" content="{{ site.meta.url }}/{{ variant.slug ~ '/' if variant }}">
+  <meta property="og:title" content="{{ pageSeoTitle }}">
+  <meta property="og:description" content="{{ pageSeoDescription }}">
+  <meta property="og:url" content="{{ pageCanonical }}">
   <meta property="og:image" content="{{ site.meta.url }}{{ site.meta.ogImage }}">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
@@ -27,8 +30,9 @@
   {
     "@context": "https://schema.org",
     "@type": "HealthClub",
+    "@id": "{{ site.meta.url }}/#gym",
     "name": "ZenNu WELLNESS DESIGN",
-    "description": "{{ site.meta.description }}",
+    "description": "{{ pageSeoDescription }}",
     "url": "{{ site.meta.url }}/",
     "image": "{{ site.meta.url }}{{ site.meta.ogImage }}",
     "telephone": "{{ site.contact.telDisplay }}",
@@ -54,6 +58,31 @@
     }]
   }
   </script>
+  {% if localSeoPage %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebPage",
+        "@id": "{{ pageCanonical }}#webpage",
+        "url": "{{ pageCanonical }}",
+        "name": "{{ pageSeoTitle }}",
+        "description": "{{ pageSeoDescription }}",
+        "about": {"@id": "{{ site.meta.url }}/#gym"},
+        "inLanguage": "ja"
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {"@type": "ListItem", "position": 1, "name": "熊本のパーソナルジム ZenNu", "item": "{{ site.meta.url }}/"},
+          {"@type": "ListItem", "position": 2, "name": "熊本市中央区・上通の初心者向けパーソナルジム", "item": "{{ pageCanonical }}"}
+        ]
+      }
+    ]
+  }
+  </script>
+  {% endif %}
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -94,7 +123,11 @@
   <!-- text layer (on top of photo) -->
   <div class="hero-inner">
     <div class="hero-eyebrow">{{ site.hero.eyebrow }}</div>
+    {% if localSeoPage %}
+    <h1 class="hero-headline hero-headline--local">熊本市中央区・上通で、<br>初心者が続けやすい<br>パーソナルジム。</h1>
+    {% else %}
     <h1 class="hero-headline">{{ site.hero.headline | safe }}</h1>
+    {% endif %}
     <div class="hero-bottom">
       <div>
         <p class="hero-jp">{{ site.hero.jp }}</p>
@@ -120,6 +153,24 @@
 <div class="band">
   <p>{{ site.campaign.bandText }}</p>
 </div>
+
+{% if localSeoPage %}
+<!-- ─── LOCAL SEARCH INTRO ─── -->
+<section class="local-search-intro" aria-labelledby="local-search-title">
+  <div class="local-search-inner">
+    <p class="local-search-kicker">KUMAMOTO CHUO / KAMITORI</p>
+    <div class="local-search-copy">
+      <h2 id="local-search-title">熊本市中央区・上通で、<br>初心者が通いやすいパーソナルジム。</h2>
+      <p>ZenNuは上通アーケード内、通町筋電停から徒歩2分。パーソナルだけ、セルフだけ、両方の組み合わせから、生活や予算に合う通い方を選べます。運動が初めての方にも、フォームや進め方から丁寧にご案内します。</p>
+    </div>
+    <dl class="local-search-facts">
+      <div><dt>ACCESS</dt><dd>通町筋電停から徒歩2分</dd></div>
+      <div><dt>HOURS</dt><dd>7:00〜22:00</dd></div>
+      <div><dt>PLAN</dt><dd>月額制・回数券・セルフ利用</dd></div>
+    </dl>
+  </div>
+</section>
+{% endif %}
 
 <!-- ─── INTRO (second view) ─── -->
 <section class="intro" id="about">

@@ -1,19 +1,51 @@
 ---
 layout: brand-site-layout.njk
 permalink: /results/index.html
-title: 会員実績・お客様の声｜【熊本】上通のパーソナルジム
-description: 熊本のパーソナルジムZenNuに通う会員7名の実際の体組成データと、熊本市中央区・上通で選べるパーソナル・セルフ・回数券それぞれの通い方をご紹介します。
+title: Google口コミ・お客様の声｜【熊本】上通のパーソナルジム
+description: 熊本のパーソナルジムZenNuに寄せられたGoogle口コミと、実際に通うお客様の写真・コメントをご紹介します。
 pageKey: results
-heroImage: /images/ba1.jpg
-heroImageAlt: 熊本・上通のパーソナルジムZenNu会員の体の変化
-heroKicker: MEMBER STORIES / KUMAMOTO KAMITORI
-heroTitleEn: MEMBER RESULTS
-heroTitleJp: 熊本・上通のパーソナルジム会員実績
-heroLead: 実会員の体組成データと、それぞれが選んだ通い方をご紹介します。
-breadcrumbLabel: 会員実績・お客様の声
+heroImage: /images/results-family.jpg
+heroImageAlt: トレーナーと子どもたちと一緒にZenNuでの体験を紹介する30代女性のお客様
+heroKicker: REAL REVIEWS / KUMAMOTO KAMITORI
+heroTitleEn: REAL VOICES
+heroTitleJp: Google口コミ・お客様の声
+heroLead: 数字だけでは伝わらない、実際に通う方の言葉と写真をご紹介します。
+breadcrumbLabel: Google口コミ・お客様の声
 ---
 <main>
   {% include "lower-page-hero.njk" %}
-  <section class="page-block white"><div class="site-shell"><div class="results-summary"><div><strong>300<small>+</small></strong><span>累計指導実績</span></div><div><strong>-6<small>kg</small></strong><span>3ヶ月の平均変化</span></div><div><strong>96<small>%</small></strong><span>既存会員の平均継続率</span></div></div><p style="margin:16px 0 0;color:var(--muted);font-size:9px;text-align:right">※既存会員の実績です。結果には個人差があり、効果を保証するものではありません。</p></div></section>
-  <section class="page-block"><div class="site-shell result-list">{% for item in site.memberVoice.items %}<article class="result-story"><div class="result-story-image"><img src="{{ item.image }}" alt="{{ item.meta }}のビフォーアフター" loading="lazy"></div><div class="result-story-copy"><span class="result-story-tag">{{ item.tag }}</span><h2>{{ item.story }}</h2><p>{{ item.meta }} ／ {{ item.duration }}</p><div class="result-metrics"><div><small>体重</small><strong>{{ item.weightKg }}kg</strong></div><div><small>ウエスト</small><strong>{{ item.result }}{{ item.unit }}</strong></div>{% if item.bodyFatPct %}<div><small>体脂肪率</small><strong>{{ item.bodyFatPct }}%</strong></div>{% endif %}</div>{% if item.journey %}<ol class="result-journey">{% for step in item.journey %}<li>{{ step }}</li>{% endfor %}</ol>{% endif %}{% if item.quote %}<blockquote>{{ item.quote }}</blockquote>{% endif %}</div></article>{% endfor %}<p style="color:var(--muted);font-size:9px">※掲載数値は実会員の体組成データです。結果には個人差があり、効果を保証するものではありません。</p></div></section>
+  <section class="page-block white results-google">
+    <div class="site-shell">
+      <div class="results-google-heading">
+        <div><div class="section-label"><span>01</span>GOOGLE REVIEWS</div><h2>Googleに寄せられた、<br>率直な声。</h2></div>
+        <div class="results-rating" aria-label="Google口コミ 評価5.0、35件">
+          <strong>5.0</strong>
+          <span aria-hidden="true">★★★★★</span>
+          <p>Google口コミ 35件<small>2026年8月17日時点</small></p>
+        </div>
+      </div>
+      <div class="google-review-grid">
+        <article><span aria-label="5つ星">★★★★★</span><h3>通うことが、<br>日々の楽しみに。</h3><p>運動が得意ではなくても、トレーナーの知識や会話のおかげで、通う時間が日々の楽しみになったという声。</p><small>Google口コミより・内容を要約</small></article>
+        <article><span aria-label="5つ星">★★★★★</span><h3>初めてでも、<br>通いやすく快適。</h3><p>初めてのパーソナルジムでも、上通の立地と清潔な店内で、快適にトレーニングできたという声。</p><small>Google口コミより・内容を要約</small></article>
+        <article><span aria-label="5つ星">★★★★★</span><h3>姿勢も食事も、<br>相談できる。</h3><p>姿勢改善や疲れやすさへの食事アドバイスを受け、身体が整っていく感覚があるという声。</p><small>Google口コミより・内容を要約</small></article>
+      </div>
+      <div class="results-google-link"><p>口コミは投稿者個人の感想です。内容は読みやすい長さに要約しています。</p><a class="text-link" href="https://www.google.com/maps/search/?api=1&amp;query=ZenNu%20WELLNESS%20DESIGN%20%E7%86%8A%E6%9C%AC" target="_blank" rel="noopener noreferrer">Googleマップで最新の口コミを見る</a></div>
+    </div>
+  </section>
+
+  <section class="page-block results-members">
+    <div class="site-shell">
+      <div class="results-members-heading"><div><div class="section-label"><span>02</span>MEMBER VOICES</div><h2>写真で見る、<br>7組のお客様の声。</h2></div><p>指定いただいたお客様写真から、同じ方の連写を整理して1組につき1枚を掲載。写真内の手書きコメントから、内容を変えずに一部を抜粋しています。</p></div>
+      <div class="member-voice-grid">
+        <article class="member-voice-card member-voice-card--wide"><figure><img src="/images/results-family.jpg" alt="子どもたちと一緒に通えると書いた30代女性のお客様とZenNuトレーナー" width="1800" height="1200" loading="lazy"></figure><div><span>30代 女性 / FAMILY</span><blockquote>「子どもと一緒に通えるので助かります。週に2回お世話になっています。」</blockquote></div></article>
+        <article class="member-voice-card"><figure><img src="/images/results-posture.jpg" alt="運動不足と姿勢改善のために通う30代男性のお客様とZenNuトレーナー" width="1800" height="1200" loading="lazy"></figure><div><span>30代 男性 / POSTURE</span><blockquote>「オフィスワーク中心で、運動不足と姿勢の悪さが気になり通っています。」</blockquote></div></article>
+        <article class="member-voice-card"><figure><img src="/images/results-food.jpg" alt="食事を整えて変化を感じている30代女性のお客様とZenNuトレーナー" width="1800" height="1200" loading="lazy"></figure><div><span>30代 女性 / NUTRITION</span><blockquote>「食事を整えるとすぐに痩せてきました。トレーニングもとても楽しいです！」</blockquote></div></article>
+        <article class="member-voice-card member-voice-card--wide"><figure><img src="/images/results-body.jpg" alt="普段の筋肉の使い方まで教えてもらえると書いた20代女性のお客様" width="1800" height="1200" loading="lazy"></figure><div><span>20代 女性 / BODY MAKE</span><blockquote>「普段の筋肉の使い方なども教えてくれて、おすすめです。」</blockquote></div></article>
+        <article class="member-voice-card member-voice-card--wide"><figure><img src="/images/results-self.jpg" alt="予約制セルフトレーニングなら続けられると書いた20代女性のお客様" width="1800" height="1350" loading="lazy"></figure><div><span>20代 女性 / SELF TRAINING</span><blockquote>「セルフも予約制なので、さぼらずに通うことができています！」</blockquote></div></article>
+        <article class="member-voice-card"><figure><img src="/images/results-personal.jpg" alt="月4回のパーソナルトレーニングで変化を感じる30代女性のお客様" width="1800" height="1350" loading="lazy"></figure><div><span>30代 女性 / PERSONAL</span><blockquote>「パーソナルトレーニングを月に4回受けています。今のところ1kg痩せています。」</blockquote></div></article>
+        <article class="member-voice-card member-voice-card--full"><figure><img src="/images/results-progress.jpg" alt="自己流との違いと成長を実感している30代男性のお客様" width="1800" height="1350" loading="lazy"></figure><div><span>30代 男性 / PROGRESS</span><blockquote>「自己流より成長の体感があります！」</blockquote><p>ZenNuに来て1か月目のお客様からいただいた、トレーニングの変化についてのコメントです。</p></div></article>
+      </div>
+      <p class="results-disclaimer">※写真内コメントはお客様ご本人の感想です。掲載文は写真内コメントから一部を抜粋しています。感じ方・結果には個人差があり、効果を保証するものではありません。</p>
+    </div>
+  </section>
 </main>
