@@ -35,7 +35,7 @@ breadcrumbLabel: 料金・プラン
     <div class="site-shell">
       <div class="section-label"><span>02</span>MONTHLY PLAN</div>
       <h2>月額プラン</h2>
-      <div class="price-table">{% for plan in site.pricing.plans %}{% if loop.index <= 3 %}<article class="price-card"><span>PLAN 0{{ loop.index }}</span><h3>{{ plan.name }}</h3><div class="price">{{ plan.price }}<small>{{ plan.unit }}</small></div><p>{{ plan.for }}</p><ul>{% for item in plan.items %}<li>{{ item }}</li>{% endfor %}</ul></article>{% endif %}{% endfor %}</div>
+      <div class="price-table">{% for plan in site.pricing.plans %}<article class="price-card"><span>PLAN 0{{ loop.index }}</span><h3>{{ plan.name }}</h3><div class="price">{{ plan.price }}<small>{{ plan.unit }}</small></div><p>{{ plan.for }}</p><ul>{% for item in plan.items %}<li>{{ item }}</li>{% endfor %}</ul></article>{% endfor %}</div>
       <p class="price-section-note">{{ site.pricing.note | safe }}</p>
     </div>
   </section>
@@ -66,7 +66,7 @@ breadcrumbLabel: 料金・プラン
 
       <div class="corporate-ticket-heading"><div class="section-label"><span>+</span>CORPORATE TICKET</div><h3>法人向けパーソナル回数券</h3><p>プロの個別指導を、社内の福利厚生としてシェアできます。</p></div>
       <div class="corporate-ticket-grid">{% for ticket in corporate.tickets %}<article><h4>{{ ticket.count }}回券</h4><strong>{{ ticket.price }}</strong><p>{{ ticket.unitPrice }}</p><small>{{ ticket.per }}</small></article>{% endfor %}</div>
-      <div class="corporate-notes"><p>{{ corporate.registration }}</p><p>{{ corporate.semiPersonal }}</p><a class="text-link" href="/corporate-terms/">法人会員利用規約</a></div>
+      <div class="corporate-notes"><p>{{ corporate.registration }}</p><p>{{ corporate.semiPersonal }}</p><div class="corporate-actions"><a class="corporate-contact-link" href="/corporate-contact/">法人プランについて問い合わせる<span aria-hidden="true">→</span></a><a class="text-link" href="/corporate-terms/">法人会員利用規約</a></div></div>
     </div>
   </section>
 </main>

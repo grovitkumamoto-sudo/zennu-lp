@@ -1,0 +1,57 @@
+---
+layout: brand-site-layout.njk
+permalink: /corporate-contact/index.html
+title: 法人プランお問い合わせ｜熊本・上通の福利厚生ジム
+description: 熊本市中央区・上通のZenNu WELLNESS DESIGN法人プランお問い合わせフォームです。従業員数や利用目的に合わせてご案内します。
+pageKey: corporate-contact
+heroImage: /images/price-hero-img3898.jpg
+heroImageAlt: 熊本・上通のZenNu WELLNESS DESIGN受付カウンターとロゴウォール
+heroKicker: CORPORATE CONTACT / KUMAMOTO
+heroTitleEn: FOR BUSINESS
+heroTitleJp: 法人プランお問い合わせ
+heroLead: 福利厚生としてのセルフ利用、パーソナル指導、法人回数券についてご相談いただけます。
+breadcrumbLabel: 法人プランお問い合わせ
+---
+<main>
+  {% include "lower-page-hero.njk" %}
+  <section class="page-block white corporate-contact-page">
+    <div class="site-shell corporate-contact-grid">
+      <div class="corporate-contact-intro">
+        <div class="section-label"><span>01</span>CONTACT FORM</div>
+        <h2>会社に合う使い方を、<br>一緒に整理します。</h2>
+        <p>従業員数、利用したい時間帯、セルフ利用とパーソナル指導の組み合わせなどを伺い、必要な内容をご案内します。</p>
+        <ul><li>法人月額プラン</li><li>法人向けパーソナル回数券</li><li>同時予約枠の追加</li></ul>
+        <p class="corporate-contact-note">送信後、通常2営業日以内を目安にご連絡します。お急ぎの場合は<a href="tel:{{ site.contact.tel }}">{{ site.contact.telDisplay }}</a>へお電話ください。</p>
+      </div>
+      <form class="corporate-form" action="https://formsubmit.co/zennuwellnessdesign@gmail.com" method="POST" id="corporate-contact-form">
+        <input type="hidden" name="_subject" value="【ZenNu】法人プランお問い合わせ">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_next" id="corporate-form-next" value="https://zennuwellnessdesign.jp/corporate-thanks/">
+        <input type="text" name="_honey" class="form-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="corporate-form-field"><label for="company">会社名・団体名 <b>必須</b></label><input id="company" name="会社名・団体名" type="text" autocomplete="organization" required></div>
+        <div class="corporate-form-row">
+          <div class="corporate-form-field"><label for="contact-name">ご担当者名 <b>必須</b></label><input id="contact-name" name="ご担当者名" type="text" autocomplete="name" required></div>
+          <div class="corporate-form-field"><label for="department">部署名</label><input id="department" name="部署名" type="text" autocomplete="organization-title"></div>
+        </div>
+        <div class="corporate-form-row">
+          <div class="corporate-form-field"><label for="email">メールアドレス <b>必須</b></label><input id="email" name="email" type="email" autocomplete="email" required></div>
+          <div class="corporate-form-field"><label for="tel">電話番号</label><input id="tel" name="電話番号" type="tel" autocomplete="tel"></div>
+        </div>
+        <div class="corporate-form-row">
+          <div class="corporate-form-field"><label for="employee-count">ご利用予定人数</label><input id="employee-count" name="ご利用予定人数" type="text" inputmode="numeric" placeholder="例：10名"></div>
+          <div class="corporate-form-field"><label for="plan">検討中の内容</label><select id="plan" name="検討中の内容"><option value="未定・相談したい">未定・相談したい</option><option value="法人月額プラン">法人月額プラン</option><option value="法人向けパーソナル回数券">法人向けパーソナル回数券</option><option value="月額プランと回数券の併用">月額プランと回数券の併用</option></select></div>
+        </div>
+        <div class="corporate-form-field"><label for="message">ご相談内容</label><textarea id="message" name="ご相談内容" rows="7" placeholder="利用目的、ご希望の時期・時間帯などをご記入ください。"></textarea></div>
+        <label class="corporate-form-consent"><input type="checkbox" name="個人情報取扱への同意" value="同意する" required><span><a href="/privacy/" target="_blank">プライバシーポリシー</a>を確認し、個人情報の取り扱いに同意します。</span></label>
+        <button class="corporate-form-submit" type="submit">法人プランについて送信する<span aria-hidden="true">→</span></button>
+        <p class="corporate-form-caption">営業・勧誘を目的とした送信はご遠慮ください。</p>
+      </form>
+    </div>
+  </section>
+</main>
+<script>
+  (() => {
+    const next = document.getElementById("corporate-form-next");
+    if (next) next.value = `${window.location.origin}/corporate-thanks/`;
+  })();
+</script>
