@@ -14,7 +14,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { sendChatworkFile } from "./notify-chatwork.mjs";
-import { CAT, INK_MUTED, yen, pct, hBarChart, kpiTile, pageHeader, card, callout, tableHtml, wrapDocument, renderPdfFromHtml } from "./report-design-kit.mjs";
+import { CAT, INK_MUTED, yen, pct, hBarChart, lineChart, kpiTile, pageHeader, card, callout, tableHtml, wrapDocument, renderPdfFromHtml } from "./report-design-kit.mjs";
+import { appendHistory, loadHistory } from "./report-history.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.join(__dirname, "..");
@@ -28,14 +29,52 @@ function loadData() {
   return JSON.parse(fs.readFileSync(DATA_PATH, "utf-8"));
 }
 
-function buildReport(data) {
-  const creatives = data.creatives;
+function computeTotals(creatives) {
   const totalImpressions = creatives.reduce((s, c) => s + c.impressions, 0);
   const totalClicks = creatives.reduce((s, c) => s + c.clicks, 0);
   const totalSpend = creatives.reduce((s, c) => s + c.spend, 0);
   const totalConversions = creatives.reduce((s, c) => s + (c.conversions || 0), 0);
   const avgCtr = totalImpressions > 0 ? (totalClicks / totalImpressions) * 100 : 0;
   const avgCpc = totalClicks > 0 ? totalSpend / totalClicks : 0;
+  return { totalImpressions, totalClicks, totalSpend, totalConversions, avgCtr, avgCpc };
+}
+
+// APIは常にその週(直近7日等)のスナップショットしか返さないため、週次実行のたびに
+// 1点記録し、蓄積したぶんだけ推移グラフにする(Clarityレポートと同じ仕組み)。
+function buildTrendPage(history) {
+  if (history.length < 2) {
+    return `
+    <div class="sheet">
+      ${pageHeader("推移グラフ（蓄積中）", "週次スナップショットを記録し、蓄積したぶんだけ表示します")}
+      ${callout(
+        `このレポートを実行するたびに1週間分のスナップショットを記録しており、今回で${history.length}件目です。数週間分たまり次第、ここに推移グラフが表示されます。`,
+        { warn: false }
+      )}
+    </div>`;
+  }
+  const labels = history.map((h) => h.date.slice(5));
+  const spendChart = lineChart(history.map((h) => h.totalSpend ?? 0), labels, { color: CAT.blue, valueFmt: yen });
+  const ctrChart = lineChart(history.map((h) => h.avgCtr ?? 0), labels, { color: CAT.aqua, valueFmt: (v) => pct(v, 2) });
+  const cpcChart = lineChart(history.map((h) => h.avgCpc ?? 0), labels, { color: CAT.magenta, valueFmt: yen });
+  const clicksChart = lineChart(history.map((h) => h.totalClicks ?? 0), labels, { color: CAT.yellow, valueFmt: (v) => v.toLocaleString("ja-JP") });
+
+  return `
+    <div class="sheet">
+      ${pageHeader("推移グラフ（週次スナップショット）", `直近${history.length}回の実行分を記録`)}
+      <div class="row-2" style="margin-bottom:14px;">
+        ${card("消化金額の推移", spendChart)}
+        ${card("平均CTRの推移", ctrChart)}
+      </div>
+      <div class="row-2">
+        ${card("平均CPCの推移", cpcChart)}
+        ${card("総クリック数の推移", clicksChart)}
+      </div>
+    </div>`;
+}
+
+function buildReport(data, { history = [] } = {}) {
+  const creatives = data.creatives;
+  const { totalImpressions, totalClicks, totalSpend, totalConversions, avgCtr, avgCpc } = computeTotals(creatives);
   const cpaText = totalConversions > 0 ? yen(totalSpend / totalConversions) : "データなし(CV0)";
 
   const byCtr = [...creatives].sort((a, b) => b.ctr - a.ctr);
@@ -100,7 +139,9 @@ function buildReport(data) {
       <div class="callout-list">${insightsHtml}</div>
     </div>`;
 
-  return wrapDocument([page1, page2], {
+  const page3 = buildTrendPage(history);
+
+  return wrapDocument([page1, page2, page3], {
     sampleBanner: USING_SAMPLE ? "SAMPLE — テンプレート確認用のサンプル数値です" : "",
   });
 }
@@ -110,12 +151,19 @@ async function main() {
   const shouldSendChatwork = process.argv.includes("--send-chatwork");
 
   const data = loadData();
-  const html = buildReport(data);
+  const today = new Date().toISOString().slice(0, 10);
+
+  let history = loadHistory("meta-ads");
+  if (!USING_SAMPLE) {
+    const totals = computeTotals(data.creatives);
+    history = appendHistory("meta-ads", { date: today, ...totals });
+  }
+
+  const html = buildReport(data, { history });
 
   const outArg = args[0];
   const outDir = path.join(REPO_ROOT, "docs", "meta-reports");
   fs.mkdirSync(outDir, { recursive: true });
-  const today = new Date().toISOString().slice(0, 10);
   const outPath = outArg || path.join(outDir, `${today}.pdf`);
 
   await renderPdfFromHtml(html, outPath);

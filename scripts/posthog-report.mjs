@@ -12,7 +12,8 @@ import path from "node:path";
 import os from "node:os";
 import { fileURLToPath } from "node:url";
 import { sendChatworkFile } from "./notify-chatwork.mjs";
-import { CAT, INK_MUTED, num, pct, hBarChart, kpiTile, pageHeader, card, callout, tableHtml, wrapDocument, renderPdfFromHtml } from "./report-design-kit.mjs";
+import { CAT, INK_MUTED, num, pct, hBarChart, lineChart, kpiTile, pageHeader, card, callout, tableHtml, wrapDocument, renderPdfFromHtml } from "./report-design-kit.mjs";
+import { appendHistory, loadHistory } from "./report-history.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.join(__dirname, "..");
@@ -167,7 +168,34 @@ function loadSampleData() {
   return JSON.parse(fs.readFileSync(SAMPLE_DATA_PATH, "utf-8"));
 }
 
-export function buildReport(raw, { sample = false } = {}) {
+// PostHogは直近${DAYS}日間のスナップショットしか一度に見せられないため、レポート実行のたびに
+// 1点記録し、蓄積したぶんだけ推移グラフにする(Clarity/Meta広告レポートと同じ仕組み)。
+function buildTrendPage(history) {
+  if (history.length < 2) {
+    return `
+    <div class="sheet">
+      ${pageHeader("推移グラフ（蓄積中）", "週次スナップショットを記録し、蓄積したぶんだけ表示します")}
+      ${callout(
+        `このレポートを実行するたびに1週間分のスナップショットを記録しており、今回で${history.length}件目です。数週間分たまり次第、ここに推移グラフが表示されます。`,
+        { warn: false }
+      )}
+    </div>`;
+  }
+  const labels = history.map((h) => h.date.slice(5));
+  const pageviewChart = lineChart(history.map((h) => h.pageview ?? 0), labels, { color: CAT.blue, valueFmt: num });
+  const clickChart = lineChart(history.map((h) => h.autocapture ?? 0), labels, { color: CAT.aqua, valueFmt: num });
+
+  return `
+    <div class="sheet">
+      ${pageHeader("推移グラフ（週次スナップショット）", `直近${history.length}回の実行分を記録`)}
+      <div class="row-2">
+        ${card("ページビュー数の推移", pageviewChart)}
+        ${card("クリック等の操作数の推移", clickChart)}
+      </div>
+    </div>`;
+}
+
+export function buildReport(raw, { sample = false, history = [] } = {}) {
   const today = new Date().toISOString().slice(0, 10);
   const summary = buildSummary(raw);
   const clickItems = buildClickItems(raw.clickRows, { max: 8 });
@@ -208,7 +236,9 @@ export function buildReport(raw, { sample = false } = {}) {
       )}
     </div>`;
 
-  return wrapDocument([page1], {
+  const pageTrend = buildTrendPage(history);
+
+  return wrapDocument([page1, pageTrend], {
     sampleBanner: sample ? "SAMPLE — テンプレート確認用のサンプル数値です" : "",
   });
 }
@@ -217,13 +247,20 @@ async function main() {
   const args = process.argv.slice(2).filter((a) => a !== "--send-chatwork" && a !== "--sample");
   const shouldSendChatwork = process.argv.includes("--send-chatwork");
   const useSample = process.argv.includes("--sample");
+  const today = new Date().toISOString().slice(0, 10);
 
   const raw = useSample ? loadSampleData() : await fetchPostHogInsights();
-  const html = buildReport(raw, { sample: useSample });
+
+  let history = loadHistory("posthog");
+  if (!useSample) {
+    const summary = buildSummary(raw);
+    history = appendHistory("posthog", { date: today, ...summary });
+  }
+
+  const html = buildReport(raw, { sample: useSample, history });
 
   const outDir = path.join(REPO_ROOT, "docs", "seo-reports");
   fs.mkdirSync(outDir, { recursive: true });
-  const today = new Date().toISOString().slice(0, 10);
   const outPath = args[0] || path.join(outDir, `posthog-${today}.pdf`);
 
   await renderPdfFromHtml(html, outPath);
