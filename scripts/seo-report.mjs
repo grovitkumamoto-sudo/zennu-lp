@@ -325,28 +325,46 @@ function buildReport(data, { sample = false } = {}) {
   const page3 = `
     <div class="sheet">
       ${pageHeader("ページ別実績・イベント", "Search Console・GA4（過去28日）")}
-      <div class="row-2" style="margin-bottom:14px;flex:0 0 auto;">
+      <div class="row-2">
         ${card("Search Console: ページ別実績", tableHtml(["ページ", "クリック数", "表示回数", "CTR", "平均掲載順位"], pageRows))}
         ${card("GA4: イベント数（過去28日）", hBarChart(eventItems, { color: CAT.aqua, valueFmt: num }))}
       </div>
+    </div>`;
+
+  // ランディングページ×流入経路の表は行数が多いと前のページと重なるため、
+  // 独立したページに分ける(1ページに詰め込みすぎると.sheetの固定高さ(210mm)から
+  // はみ出し、次ページのヘッダーと文字が重なる不具合になっていた)。
+  const page3b = `
+    <div class="sheet">
+      ${pageHeader("ランディングページ×流入経路", `GA4（過去28日・セッション上位${Math.min(MAX_LANDING_ROWS, data.landingPages.length)}件）`)}
       <div class="row-2">
         ${card(
-          `GA4: ランディングページ×流入経路（セッション上位${Math.min(MAX_LANDING_ROWS, data.landingPages.length)}件）`,
+          "セッション数・エンゲージメント率・CV数",
           tableHtml(["ページ", "流入経路", "セッション数", "エンゲージメント率", "CV数"], landingRows)
         )}
       </div>
     </div>`;
 
   const insightsHtml = (data.insights || []).map((text) => callout(mdBold(text))).join("");
+  // 生成AIパフォーマンスレポート(AI Overviews/AI Modeでの表示回数)は2026年6月にSearch Consoleへ
+  // 追加された新機能だが、現時点(2026-08時点)ではAPIが提供されておらずUI上でしか確認できない。
+  // 自動取得ができるようになるまでは、確認手順をこの固定の注意書きとしてレポートに含める。
+  const aiPerformanceNote = callout(
+    mdBold(
+      "**Search Consoleの「生成AI機能」レポート（ベータ版）について**: AI OverviewsやAI Modeでの表示回数を確認できる新機能ですが、現時点ではAPI非対応のためこのレポートには自動反映できません。手動確認はこちら: https://search.google.com/search-console/performance/search-analytics/ai?resource_id=sc-domain:zennuwellnessdesign.jp （表示回数のみでクリック数・クエリ別データはありません）。APIが公開され次第、自動反映に対応します。"
+    ),
+    { warn: false }
+  );
   const page4 = `
     <div class="sheet">
       ${pageHeader("所見・次のアクション", `${data.period.start}〜${data.period.end}`)}
       <div class="callout-list">
         ${insightsHtml || `<div style="text-align:center;color:${INK_MUTED};font-size:12px;">所見が未記入です</div>`}
+        ${aiPerformanceNote}
       </div>
     </div>`;
 
-  return wrapDocument([page1, pageTrend, page2, page3, page4], {
+  return wrapDocument([page1, pageTrend, page2, page3, page3b, page4], {
     sampleBanner: sample ? "SAMPLE — テンプレート確認用のサンプル数値です" : "",
   });
 }
