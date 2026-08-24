@@ -18,7 +18,8 @@ import path from "node:path";
 import os from "node:os";
 import { fileURLToPath } from "node:url";
 import { sendChatworkFile } from "./notify-chatwork.mjs";
-import { CAT, INK_MUTED, num, pct, hBarChart, kpiTile, pageHeader, card, callout, wrapDocument, renderPdfFromHtml } from "./report-design-kit.mjs";
+import { CAT, INK_MUTED, num, pct, hBarChart, lineChart, kpiTile, pageHeader, card, callout, wrapDocument, renderPdfFromHtml } from "./report-design-kit.mjs";
+import { appendHistory, loadHistory } from "./report-history.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.join(__dirname, "..");
@@ -114,7 +115,58 @@ function buildInsights(m) {
   return insights;
 }
 
-export function buildReport(m, numOfDays, { sample = false } = {}) {
+// 蓄積した週次スナップショットから推移グラフ用のページを作る。
+// Clarity APIは直近3日分しか返さないため「過去30日推移」はAPI単体では作れない。
+// 週次実行のたびに1点ずつ記録し、蓄積したぶんだけ折れ線で見せる(2点未満はグラフ化できない)。
+function buildTrendPage(history) {
+  if (history.length < 2) {
+    return `
+    <div class="sheet">
+      ${pageHeader("推移グラフ（蓄積中）", "週次スナップショットを記録し、蓄積したぶんだけ表示します")}
+      ${callout(
+        `Clarity APIは直近3日分のデータしか取得できない仕様のため、「過去30日推移」のようなグラフはAPI単体では作れません。このレポートを実行するたびに1週間分のスナップショットを記録しており、今回で${history.length}件目です。数週間分たまり次第、ここに推移グラフが表示されます。`,
+        { warn: false }
+      )}
+    </div>`;
+  }
+
+  const labels = history.map((h) => h.date.slice(5));
+  const sessionsChart = lineChart(
+    history.map((h) => h.totalSessionCount ?? 0),
+    labels,
+    { color: CAT.blue, valueFmt: num }
+  );
+  const scrollChart = lineChart(
+    history.map((h) => h.avgScrollDepth ?? 0),
+    labels,
+    { color: CAT.aqua, valueFmt: (v) => pct(v, 0) }
+  );
+  const rageChart = lineChart(
+    history.map((h) => h.ragePct ?? 0),
+    labels,
+    { color: CAT.magenta, valueFmt: (v) => pct(v, 1) }
+  );
+  const deadChart = lineChart(
+    history.map((h) => h.deadPct ?? 0),
+    labels,
+    { color: CAT.yellow, valueFmt: (v) => pct(v, 1) }
+  );
+
+  return `
+    <div class="sheet">
+      ${pageHeader("推移グラフ（週次スナップショット）", `直近${history.length}回の実行分を記録（実行日ベース・過去分の遡り取得は不可）`)}
+      <div class="row-2" style="margin-bottom:14px;">
+        ${card("セッション数の推移", sessionsChart)}
+        ${card("平均スクロール深度の推移", scrollChart)}
+      </div>
+      <div class="row-2">
+        ${card("Rage Clickの推移", rageChart)}
+        ${card("Dead Clickの推移", deadChart)}
+      </div>
+    </div>`;
+}
+
+export function buildReport(m, numOfDays, { sample = false, history = [] } = {}) {
   const today = new Date().toISOString().slice(0, 10);
   const dateRange = `直近${numOfDays}日間（${today}時点）`;
 
@@ -170,7 +222,9 @@ export function buildReport(m, numOfDays, { sample = false } = {}) {
       </div>
     </div>`;
 
-  return wrapDocument([page1], {
+  const pageTrend = buildTrendPage(history);
+
+  return wrapDocument([page1, pageTrend], {
     sampleBanner: sample ? "SAMPLE — テンプレート確認用のサンプル数値です" : "",
   });
 }
@@ -181,13 +235,27 @@ async function main() {
   const useSample = process.argv.includes("--sample");
   const numOfDays = 3;
 
+  const today = new Date().toISOString().slice(0, 10);
   const rawData = useSample ? loadSampleData() : await fetchClarityInsights(numOfDays);
   const metrics = extractMetrics(rawData);
-  const html = buildReport(metrics, numOfDays, { sample: useSample });
+
+  let history = loadHistory("clarity");
+  if (!useSample) {
+    history = appendHistory("clarity", {
+      date: today,
+      totalSessionCount: metrics.traffic.totalSessionCount ?? 0,
+      distinctUserCount: metrics.traffic.distinctUserCount ?? 0,
+      avgScrollDepth: metrics.scroll.averageScrollDepth ?? 0,
+      ragePct: metrics.rageClick.sessionsWithMetricPercentage ?? 0,
+      deadPct: metrics.deadClick.sessionsWithMetricPercentage ?? 0,
+      quickbackPct: metrics.quickback.sessionsWithMetricPercentage ?? 0,
+    });
+  }
+
+  const html = buildReport(metrics, numOfDays, { sample: useSample, history });
 
   const outDir = path.join(REPO_ROOT, "docs", "seo-reports");
   fs.mkdirSync(outDir, { recursive: true });
-  const today = new Date().toISOString().slice(0, 10);
   const outPath = args[0] || path.join(outDir, `clarity-${today}.pdf`);
 
   await renderPdfFromHtml(html, outPath);
