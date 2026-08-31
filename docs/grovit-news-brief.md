@@ -72,24 +72,27 @@ ZenNuを実例として自然に取り上げやすい（＝被リンクを自然
 
 ## microCMSフィールド
 
-grovit-newsのフィールドはZenNuのblogsと似ているが**slugフィールドが無い**（コンテンツIDは指定可能・自動生成でも可）。
+**訂正(2026-08):** grovit-newsにも`slug`・`excerpt`フィールドは存在する（当初「無い」と誤記していた）。**この2つを毎回必ず入力すること**。前回、この2つが空欄のまま下書きが作成され、ユーザーが手動で埋める手間が発生した。今後は自動生成し、絶対に空欄のまま残さない。
 
 | フィールドID | 内容 |
 |---|---|
 | title | 記事タイトル |
+| slug | 半角英数・ハイフンのみ。コンテンツIDと同じ値でよい（例: `web-marketing-for-local-store`） |
 | category | カテゴリ（自由入力。例: 「Webマーケティング」「フィットネス経営」「お知らせ」） |
+| excerpt | 100字程度の要約（一覧カード・meta description用）。**必須、空欄のまま保存しない** |
 | body | 本文HTML |
 | noindex | false固定 |
-| eyecatch | 指定しない（未設定でよい） |
+| eyecatch | 指定しない（未設定でよい。ユーザーが後で手動追加する） |
 
 ## 下書き作成手順（技術メモ）
 
 1. `GET https://zennuwellness.microcms.io/api/v1/grovit-news?limit=100&fields=title,category` （ヘッダー `X-MICROCMS-API-KEY: <キー>`、キーは`~/.zennu-lp-secrets/microcms-write-key.txt`）で既存記事一覧を取得し、重複トピックを避ける
-2. コンテンツID用に半角英数字の文字列を生成する（例: `web-marketing-for-local-store`）。slugフィールドは無いが、コンテンツIDとしてそのまま使う
-3. 以下の形のJSONを一時ファイル（例: `/tmp/grovit-news-entry.json`）に書き出す:
+2. コンテンツID用に半角英数字の文字列を生成する（例: `web-marketing-for-local-store`）。`id`と`slug`の両方にこの同じ値を入れる
+3. 100字程度の`excerpt`(要約)を書く
+4. 以下の形のJSONを一時ファイル（例: `/tmp/grovit-news-entry.json`）に書き出す。**slug・excerptを絶対に省略しない**:
    ```json
-   { "endpoint": "grovit-news", "id": "生成したID", "title": "...", "category": "...", "body": "...", "noindex": false }
+   { "endpoint": "grovit-news", "id": "生成したID", "title": "...", "slug": "生成したIDと同じ値", "category": "...", "excerpt": "...", "body": "...", "noindex": false }
    ```
-4. `cd /Users/moritakeaki/Downloads/ClaudeCode && node scripts/blog-draft-put.mjs /tmp/grovit-news-entry.json` を実行して下書き保存する（生のcurlコマンドではなく、必ずこのスクリプト経由で保存すること。許可リストに登録済みのため無人実行でも確認なしで完了する）
-5. コマンドの標準出力で保存成功（下書き保存に成功しました）を確認する。失敗した場合はエラー内容をそのまま報告し、絶対に黙って諦めない・絶対に公開状態にはしない
-6. 記事は必ず「下書き」のまま終える（`blog-draft-put.mjs`は常に`?status=draft`で保存する）
+5. `cd /Users/moritakeaki/Downloads/ClaudeCode && node scripts/blog-draft-put.mjs /tmp/grovit-news-entry.json` を実行して下書き保存する（生のcurlコマンドではなく、必ずこのスクリプト経由で保存すること。許可リストに登録済みのため無人実行でも確認なしで完了する）
+6. コマンドの標準出力で保存成功（下書き保存に成功しました）を確認する。失敗した場合はエラー内容をそのまま報告し、絶対に黙って諦めない・絶対に公開状態にはしない
+7. 記事は必ず「下書き」のまま終える（`blog-draft-put.mjs`は常に`?status=draft`で保存する）
