@@ -574,6 +574,7 @@
     <a class="book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>無料体験を予約<small>空き状況を確認</small></span></a>
   </div>
 
+  {% include "click-tracking.njk" %}
   <script>
     document.querySelectorAll(".faq-q").forEach(button => button.addEventListener("click", () => {
       button.closest(".faq-item").classList.toggle("open");

@@ -19,48 +19,64 @@
   ],
   "clickRows": [
     [
+      "カルーセル｜次へ｜セクション:before-after",
+      "interaction",
       "›",
       "https://zennuwellnessdesign.jp/",
       12,
       1
     ],
     [
+      "ロゴ｜トップへ｜ヘッダー",
+      "navigation",
       null,
       "https://zennuwellnessdesign.jp/",
       7,
       5
     ],
     [
+      "FAQ開閉｜運動初心者でも大丈夫ですか？",
+      "interaction",
       "Q&A",
       "https://zennuwellnessdesign.jp/",
       6,
       4
     ],
     [
+      "料金｜ヘッダー",
+      "navigation",
       "料金",
       "https://zennuwellnessdesign.jp/",
       6,
       6
     ],
     [
+      "無料体験予約｜ヘッダー",
+      "conversion",
       "無料体験を予約",
       "https://zennuwellnessdesign.jp/",
       4,
       4
     ],
     [
+      "ブログ記事｜熊本で初心者におすすめの運動",
+      "navigation",
       null,
       "https://zennuwellnessdesign.jp/blog/",
       3,
       3
     ],
     [
+      "LINE相談｜ヘッダー",
+      "conversion",
       "LINE",
       "https://zennuwellnessdesign.jp/",
       3,
       3
     ],
     [
+      "無料体験予約｜固定CTA",
+      "conversion",
       "無料体験を予約 初回体験",
       "https://zennuwellnessdesign.jp/",
       3,

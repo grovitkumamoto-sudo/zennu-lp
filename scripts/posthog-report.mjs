@@ -95,18 +95,22 @@ export async function fetchPostHogInsights() {
        and (${domainFilter})
        group by event`
     ),
-    // クリック要素の内訳(テキスト・URL別)。上限行数に達する前に本番ドメインへ絞り込む。
+    // クリック要素の内訳(計測ラベル・種類・テキスト・URL別)。上限行数に達する前に本番ドメインへ絞り込む。
+    // click_label/click_type は data-ph-capture-attribute-* から取得する。
+    // 属性導入前の履歴は $el_text へフォールバックして表示する。
     // 同一人物の連打で件数が水増しされないよう、クリック数とは別にユニークユーザー数も取得する。
     hogql(
       token,
       projectId,
-      `select properties.$el_text as text, properties.$current_url as url, count() as c, count(distinct distinct_id) as u
+      `select properties.click_label as click_label, properties.click_type as click_type,
+              properties.$el_text as text, properties.$current_url as url,
+              count() as c, count(distinct distinct_id) as u
        from events
        where event = '$autocapture' and timestamp > now() - interval ${DAYS} day
        and (${domainFilter})
-       group by text, url
+       group by click_label, click_type, text, url
        order by c desc
-       limit 200`
+       limit 400`
     ),
     // ページ別のpageview数。同様に本番ドメインへ絞り込む。
     hogql(
@@ -138,13 +142,30 @@ export function buildSummary({ eventCounts }) {
 // クリック数(c)とは別にユニークユーザー数(u)も保持する。
 // 単純にラベル単位で合算するとuを正しく合算できない(同一ユーザーが複数行にまたがる場合の
 // 重複カウント)ため、ここでは同名要素×同URLの組は元々HogQL側でgroup済みなのでそのまま使う。
-export function buildClickItems(clickRows, { max = 10 } = {}) {
+function normalizeClickRow(row) {
+  // 旧サンプル・過去のテスト入力([text,url,c,u])にも対応する。
+  if (row.length <= 4) {
+    const [text, url, c, u] = row;
+    return { clickLabel: null, clickType: null, text, url, clicks: c, uniqueUsers: u ?? null };
+  }
+  const [clickLabel, clickType, text, url, c, u] = row;
+  return { clickLabel, clickType, text, url, clicks: c, uniqueUsers: u ?? null };
+}
+
+function isConversionClick(item) {
+  if (item.clickType === "conversion") return true;
+  return /無料体験|体験.*予約|LINE|電話|問い合わせ|相談/.test(item.clickLabel || item.text || "");
+}
+
+export function buildClickItems(clickRows, { max = 10, group = "all" } = {}) {
   const rows = clickRows
-    .filter(([, url]) => isProdUrl(url))
-    .map(([text, url, c, u]) => ({
-      label: `${text ? text.slice(0, 24) : "(テキストなし)"} — ${pathOf(url)}`,
-      clicks: c,
-      uniqueUsers: u ?? null,
+    .map(normalizeClickRow)
+    .filter((item) => isProdUrl(item.url))
+    .filter((item) => group === "all" || (group === "conversion" ? isConversionClick(item) : !isConversionClick(item)))
+    .map((item) => ({
+      label: `${item.clickLabel || (item.text ? item.text.slice(0, 40) : "(旧データ・判別不能)")} — ${pathOf(item.url)}`,
+      clicks: item.clicks,
+      uniqueUsers: item.uniqueUsers,
     }))
     .sort((a, b) => b.clicks - a.clicks)
     .slice(0, max);
@@ -198,7 +219,8 @@ function buildTrendPage(history) {
 export function buildReport(raw, { sample = false, history = [] } = {}) {
   const today = new Date().toISOString().slice(0, 10);
   const summary = buildSummary(raw);
-  const clickItems = buildClickItems(raw.clickRows, { max: 8 });
+  const conversionItems = buildClickItems(raw.clickRows, { max: 7, group: "conversion" });
+  const interactionItems = buildClickItems(raw.clickRows, { max: 7, group: "interaction" });
   const pageItems = buildPageItems(raw.pageviewRows, { max: 8 });
 
   const emptyNote = (label) => `<div style="text-align:center;color:${INK_MUTED};font-size:12px;">${label}</div>`;
@@ -211,23 +233,32 @@ export function buildReport(raw, { sample = false, history = [] } = {}) {
         ${kpiTile({ label: "クリック等の操作数", value: num(summary.autocapture) })}
         ${kpiTile({ label: "離脱イベント数", value: num(summary.pageleave) })}
       </div>
-      <div class="row-2" style="flex:0 0 auto;">
+      <div class="row-2" style="flex:0 0 auto; margin-bottom:14px;">
         ${card(
-          `よくクリックされている要素（上位${clickItems.length}件・クリック数順）`,
-          clickItems.length
+          `CTA・問い合わせクリック（上位${conversionItems.length}件）`,
+          conversionItems.length
             ? tableHtml(
                 ["要素", "クリック数", "ユニークユーザー数"],
-                clickItems.map((i) => [i.label, num(i.clicks), i.uniqueUsers != null ? num(i.uniqueUsers) : "-"])
+                conversionItems.map((i) => [i.label, num(i.clicks), i.uniqueUsers != null ? num(i.uniqueUsers) : "-"])
+              )
+            : emptyNote("CTA・問い合わせクリックなし")
+        )}
+        ${card(
+          `UI操作・ページ移動（上位${interactionItems.length}件）`,
+          interactionItems.length
+            ? tableHtml(
+                ["要素", "クリック数", "ユニークユーザー数"],
+                interactionItems.map((i) => [i.label, num(i.clicks), i.uniqueUsers != null ? num(i.uniqueUsers) : "-"])
               )
             : emptyNote("該当データなし")
         )}
-        ${card(
-          `よく見られているページ（上位${pageItems.length}件）`,
-          pageItems.length ? hBarChart(pageItems, { color: CAT.blue, valueFmt: num }) : emptyNote("該当データなし")
-        )}
       </div>
+      ${card(
+        `よく見られているページ（上位${pageItems.length}件）`,
+        pageItems.length ? hBarChart(pageItems, { color: CAT.blue, valueFmt: num }) : emptyNote("該当データなし")
+      )}
       ${callout(
-        "クリック数が多くてもユニークユーザー数が少ない場合、同一の訪問者が連打・連続操作している可能性が高い(1人が何度もカルーセルを送った等)。判断には両方の数字を確認したい。"
+        "本変更の公開後に発生したクリックは「目的｜場所」で表示する。導入前のクリックは画面上の文字しか残っていないため、空欄は「旧データ・判別不能」となる。クリック数が多くてもユニークユーザー数が少ない場合は、同一訪問者の連続操作の可能性が高い。"
       )}
       ${callout(
         "スクロール深度・離脱ポイントの詳細分析はPostHogのHeatmaps/Session Replay機能でダッシュボード上から直接確認してください: https://us.posthog.com/project/" +

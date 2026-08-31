@@ -1,0 +1,91 @@
+<script>
+  (() => {
+    const interactiveSelector = "a,button,summary,[role='button']";
+    const trimLabel = value => (value || "")
+      .replace(/[\n\r\t]+/g, " ")
+      .replace(/[→←›‹＋+×]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim()
+      .slice(0, 80);
+
+    const locationOf = element => {
+      if (element.closest(".mobile-menu,.site-mobile-menu")) return "モバイルメニュー";
+      if (element.closest("header,.site-header,.studio-header")) return "ヘッダー";
+      if (element.closest(".mobile-sticky,.site-sticky-cta,.sticky-bar,.v2-sticky,.v3-sticky")) return "固定CTA";
+      if (element.closest(".site-contact,.campaign-full,.camp,.v2-mini-cta,.v3-offer,.v3-final")) return "CTAセクション";
+      if (element.closest("footer,.site-footer,.studio-footer")) return "フッター";
+      const section = element.closest("section[id]");
+      return section?.id ? `セクション:${section.id}` : "本文";
+    };
+
+    const detailsOf = element => {
+      const explicit = trimLabel(element.dataset.clickLabel);
+      if (explicit) return { label: explicit, type: element.dataset.clickType || "other" };
+
+      const location = locationOf(element);
+      const href = element.getAttribute("href") || "";
+      const text = trimLabel(element.innerText || element.textContent);
+      const aria = trimLabel(element.getAttribute("aria-label"));
+      const imageAlt = trimLabel(element.querySelector("img[alt]")?.getAttribute("alt"));
+      const className = typeof element.className === "string" ? element.className : "";
+
+      if (element.matches("summary,.faq-q,.v2-faq-q,.v3-faq-q") || element.closest(".faq-item,.v2-faq-item,.v3-faq-item")) {
+        const question = [...element.querySelectorAll(".faq-q-text,strong,span")]
+          .map(node => trimLabel(node.textContent))
+          .find(value => value && !/^(Q|A)$/.test(value));
+        return { label: `FAQ開閉｜${question || aria || "質問"}`, type: "interaction" };
+      }
+
+      if (/prev|previous|前へ|前の/.test(`${className} ${aria}`)) {
+        return { label: `カルーセル｜前へ｜${location}`, type: "interaction" };
+      }
+      if (/next|次へ|次の/.test(`${className} ${aria}`)) {
+        return { label: `カルーセル｜次へ｜${location}`, type: "interaction" };
+      }
+      if (/番目.*表示/.test(aria)) {
+        return { label: `カルーセル｜${aria}｜${location}`, type: "interaction" };
+      }
+
+      const trial = /無料体験|体験する|体験を予約|空き状況|予約する/.test(text) || /hacomono\.jp\/reserve/.test(href) || href === "#reserve";
+      if (trial) return { label: `無料体験予約｜${location}`, type: "conversion" };
+
+      const line = /LINE/i.test(text) || /line\.me|lin\.ee|liff\.line/.test(href) || /(^|\s)line(\s|$)/i.test(className);
+      if (line) return { label: `LINE相談｜${location}`, type: "conversion" };
+
+      if (href.startsWith("tel:")) return { label: `電話問い合わせ｜${location}`, type: "conversion" };
+      if (/問い合わせ|相談する|相談可能/.test(text)) return { label: `${text}｜${location}`, type: "conversion" };
+
+      if (/menu|メニュー/.test(`${className} ${aria}`)) {
+        return { label: `${aria || text || "メニュー操作"}｜${location}`, type: "interaction" };
+      }
+
+      if (/logo|brand/.test(className) || imageAlt.includes("ZenNu WELLNESS DESIGN")) {
+        return { label: `ロゴ｜トップへ｜${location}`, type: "navigation" };
+      }
+
+      const readable = text || aria || imageAlt;
+      if (readable) return { label: `${readable}｜${location}`, type: href ? "navigation" : "interaction" };
+      if (href) return { label: `リンク｜${href.slice(0, 70)}｜${location}`, type: "navigation" };
+      return { label: `ボタン｜${location}`, type: "interaction" };
+    };
+
+    const annotate = root => {
+      const elements = root.matches?.(interactiveSelector)
+        ? [root]
+        : root.querySelectorAll?.(interactiveSelector) || [];
+      elements.forEach(element => {
+        if (element.hasAttribute("data-ph-capture-attribute-click_label")) return;
+        const { label, type } = detailsOf(element);
+        element.setAttribute("data-ph-capture-attribute-click_label", label);
+        element.setAttribute("data-ph-capture-attribute-click_type", type);
+      });
+    };
+
+    annotate(document);
+    new MutationObserver(records => {
+      records.forEach(record => record.addedNodes.forEach(node => {
+        if (node.nodeType === Node.ELEMENT_NODE) annotate(node);
+      }));
+    }).observe(document.documentElement, { childList: true, subtree: true });
+  })();
+</script>
