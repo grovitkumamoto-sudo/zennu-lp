@@ -1,0 +1,26 @@
+{
+  "_note": "これはテンプレート確認用のダミーデータです(数値は架空)。",
+  "locationLabel": "locations/0000000000000000000",
+  "insights": {
+    "period": { "start": "2026-08-01", "end": "2026-08-28" },
+    "totals": {
+      "BUSINESS_IMPRESSIONS_DESKTOP_MAPS": 120,
+      "BUSINESS_IMPRESSIONS_DESKTOP_SEARCH": 95,
+      "BUSINESS_IMPRESSIONS_MOBILE_MAPS": 350,
+      "BUSINESS_IMPRESSIONS_MOBILE_SEARCH": 420,
+      "BUSINESS_CONVERSATIONS": 2,
+      "BUSINESS_DIRECTION_REQUESTS": 38,
+      "CALL_CLICKS": 6,
+      "WEBSITE_CLICKS": 30
+    }
+  },
+  "keywords": {
+    "yearMonth": "2026-07",
+    "rows": [
+      { "keyword": "熊本 パーソナルジム", "count": 45, "isThreshold": false },
+      { "keyword": "zennu wellness design", "count": 30, "isThreshold": false },
+      { "keyword": "上通 ジム", "count": 12, "isThreshold": false },
+      { "keyword": "パーソナルジム 熊本市中央区", "count": 5, "isThreshold": true }
+    ]
+  }
+}
