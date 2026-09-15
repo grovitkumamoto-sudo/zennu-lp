@@ -1,4 +1,9 @@
 <!doctype html>
+{% if cp5 %}
+  {% set studioTrialUrl = "https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/9?trial=true" %}
+{% else %}
+  {% set studioTrialUrl = "https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" %}
+{% endif %}
 <html lang="ja">
 <head>
   <meta charset="utf-8">
@@ -64,7 +69,7 @@
     </div>
     <div class="trial-box">
       <p><strong>先着順！</strong> 今月予約枠残り{{ site.campaign.remaining }}名様</p>
-      <a class="trial-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><small>手ぶら<br>OK</small>無料体験を<br>予約する</a>
+      <a class="trial-button" href="{{ studioTrialUrl }}" target="_blank" rel="noopener"><small>手ぶら<br>OK</small>無料体験を<br>予約する</a>
       <p class="trial-note">※人気につき予約枠が埋まりやすいため、お早めにご予約ください。</p>
     </div>
   </section>
@@ -90,7 +95,7 @@
         </nav>
         <div class="desktop-actions">
           <a class="header-line-link" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener" aria-label="LINEで相談">LINE</a>
-          <a class="header-reserve" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>初回体験</span>無料体験を予約</a>
+          <a class="header-reserve" href="{{ studioTrialUrl }}" target="_blank" rel="noopener"><span>初回体験</span>無料体験を予約</a>
         </div>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="メニューを開く">
           <span></span><span></span><span></span>
@@ -113,7 +118,7 @@
         </div>
         <div class="mobile-menu-actions">
           <a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener">LINEで相談する</a>
-          <a class="book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">無料体験を予約する</a>
+          <a class="book" href="{{ studioTrialUrl }}" target="_blank" rel="noopener">無料体験を予約する</a>
         </div>
       </nav>
     </header>
@@ -138,7 +143,7 @@
           <div><span>02</span><strong>月額10,890円〜</strong><small>セルフ使い放題</small></div>
           <div><span>03</span><strong>プロが伴走</strong><small>累計300名以上指導</small></div>
         </div>
-        <a class="cp5-hero-cta" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><small>初回限定</small><strong>無料体験を予約する</strong><span aria-hidden="true">→</span></a>
+        <a class="cp5-hero-cta" href="{{ studioTrialUrl }}" target="_blank" rel="noopener"><small>初回限定</small><strong>無料体験を予約する</strong><span aria-hidden="true">→</span></a>
       </section>
       {% else %}
       <section id="top" class="studio-responsive-hero" aria-labelledby="studio-hero-title">
@@ -196,7 +201,7 @@
         <div class="campaign-mini-panel">
           <div class="campaign-mini-row">
             <p class="campaign-mini-status"><strong>先着順！</strong> 今月予約枠残り<b>{{ site.campaign.remaining }}名様</b></p>
-            <a class="campaign-mini-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">
+            <a class="campaign-mini-button" href="{{ studioTrialUrl }}" target="_blank" rel="noopener">
               <span class="campaign-mini-hand">手ぶら<br><strong>OK</strong></span>
               <span class="campaign-mini-button-copy"><strong>無料体験を</strong>予約する</span>
               <b aria-hidden="true">→</b>
@@ -581,7 +586,7 @@
         <div class="studio-footer-contact">
           <p>〒860-0845<br>熊本県熊本市中央区上通町6-15<br>オークス第二ビル 2F</p>
           <a href="tel:{{ site.contact.tel }}">{{ site.contact.telDisplay }}</a>
-          <div><a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener">LINEで相談</a><a class="book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">無料体験を予約</a></div>
+          <div><a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener">LINEで相談</a><a class="book" href="{{ studioTrialUrl }}" target="_blank" rel="noopener">無料体験を予約</a></div>
         </div>
       </div>
       <div class="studio-footer-bottom">
@@ -593,7 +598,7 @@
 
   <div class="mobile-sticky">
     <a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener"><span>LINEで相談<small>質問だけでもOK</small></span></a>
-    <a class="book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>無料体験を予約<small>空き状況を確認</small></span></a>
+    <a class="book" href="{{ studioTrialUrl }}" target="_blank" rel="noopener"><span>無料体験を予約<small>空き状況を確認</small></span></a>
   </div>
 
   {% include "click-tracking.njk" %}
