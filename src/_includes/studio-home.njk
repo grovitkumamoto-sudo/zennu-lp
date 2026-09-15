@@ -3,21 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% if cp4 %}{{ site.meta.title }} | CP4{% else %}{{ site.meta.title }}{% endif %}</title>
+  <title>{% if cp5 %}{{ site.meta.title }} | CP5{% elif cp4 %}{{ site.meta.title }} | CP4{% else %}{{ site.meta.title }}{% endif %}</title>
   <meta name="description" content="{{ site.meta.description }}">
-  <link rel="canonical" href="{{ site.meta.url }}{% if cp4 %}/cp4lp/{% else %}/{% endif %}">
-  <meta name="robots" content="{% if cp4 %}noindex,follow{% else %}index,follow{% endif %}">
+  <link rel="canonical" href="{{ site.meta.url }}{% if cp5 %}/cp5lp/{% elif cp4 %}/cp4lp/{% else %}/{% endif %}">
+  <meta name="robots" content="{% if cp4 or cp5 %}noindex,follow{% else %}index,follow{% endif %}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ZenNu WELLNESS DESIGN">
   <meta property="og:title" content="{{ site.meta.title }}">
   <meta property="og:description" content="{{ site.meta.description }}">
-  <meta property="og:url" content="{{ site.meta.url }}{% if cp4 %}/cp4lp/{% else %}/{% endif %}">
+  <meta property="og:url" content="{{ site.meta.url }}{% if cp5 %}/cp5lp/{% elif cp4 %}/cp4lp/{% else %}/{% endif %}">
   <meta property="og:image" content="{{ site.meta.url }}{{ site.meta.ogImage }}">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preload" as="image" href="/images/studio-hero-original.jpg">
+  {% if cp5 %}<link rel="preload" as="video" href="/videos/brand-hero-720.m4v" type="video/mp4">{% else %}<link rel="preload" as="image" href="/images/studio-hero-original.jpg">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -26,10 +26,10 @@
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"HealthClub","name":"ZenNu WELLNESS DESIGN","url":"{{ site.meta.url }}/","image":"{{ site.meta.url }}{{ site.meta.ogImage }}","telephone":"{{ site.contact.telDisplay }}","priceRange":"¥¥","address":{"@type":"PostalAddress","postalCode":"860-0845","addressRegion":"熊本県","addressLocality":"熊本市中央区","streetAddress":"上通町6-15 オークス第二ビル 2F","addressCountry":"JP"},"geo":{"@type":"GeoCoordinates","latitude":"{{ site.meta.lat }}","longitude":"{{ site.meta.lng }}"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"07:00","closes":"22:00"}]}
   </script>
-  <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"{% if cp4 %}landing_page{% else %}main_site{% endif %}",lp_variant:"{% if cp4 %}cp4lp{% else %}main{% endif %}"{% if cp4 %},lp_appeal:"hybrid"{% endif %}});</script>
+  <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"{% if cp4 or cp5 %}landing_page{% else %}main_site{% endif %}",lp_variant:"{% if cp5 %}cp5lp{% elif cp4 %}cp4lp{% else %}main{% endif %}"{% if cp5 %},lp_appeal:"mobile_video"{% elif cp4 %},lp_appeal:"hybrid"{% endif %}});</script>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-PCDJZ9X9");</script>
 </head>
-<body>
+<body{% if cp5 %} class="cp5-mobile-shell"{% endif %}>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCDJZ9X9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   {% macro campaign(anchor) %}
@@ -120,6 +120,27 @@
     <button class="menu-scrim" type="button" aria-label="メニューを閉じる" tabindex="-1"></button>
 
     <main>
+      {% if cp5 %}
+      <section id="top" class="cp5-hero" aria-labelledby="cp5-hero-title">
+        <div class="cp5-hero-media">
+          <video autoplay muted loop playsinline preload="auto" poster="/images/hero.jpg" aria-label="ZenNu WELLNESS DESIGNでトレーニングする会員とトレーナー">
+            <source src="/videos/brand-hero-720.m4v" type="video/mp4">
+          </video>
+          <span>PERSONAL × SELF TRAINING</span>
+        </div>
+        <div class="cp5-hero-copy">
+          <p class="cp5-hero-kicker">熊本・上通のパーソナル×セルフジム</p>
+          <h1 id="cp5-hero-title">プロとだから、<br><em>迷わず理想へ。</em><br>続けられるから、<br><em>ずっと理想のまま。</em></h1>
+          <p class="cp5-hero-lead">運動を教わる日も、自分で続ける日も。<br>生活と予算に合わせて、通い方を選べます。</p>
+        </div>
+        <div class="cp5-hero-proof" aria-label="ZenNuの3つの特徴">
+          <div><span>01</span><strong>完全予約制</strong><small>お子様連れOK</small></div>
+          <div><span>02</span><strong>月額10,890円〜</strong><small>セルフ使い放題</small></div>
+          <div><span>03</span><strong>プロが伴走</strong><small>累計300名以上指導</small></div>
+        </div>
+        <a class="cp5-hero-cta" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><small>初回限定</small><strong>無料体験を予約する</strong><span aria-hidden="true">→</span></a>
+      </section>
+      {% else %}
       <section id="top" class="studio-responsive-hero" aria-labelledby="studio-hero-title">
         <div class="studio-hero-photo" aria-hidden="true">
           <img src="/images/studio-hero-original.jpg" alt="" fetchpriority="high">
@@ -167,6 +188,7 @@
           </div>
         </div>
       </section>
+      {% endif %}
 
       <section id="trial-campaign" class="campaign-mini" aria-labelledby="campaign-mini-title">
         <div class="campaign-mini-ribbon"><span>初回限定キャンペーン</span></div>
