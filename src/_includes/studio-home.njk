@@ -358,6 +358,7 @@
 
       {{ campaign() }}
 
+      {% if not cp5 %}
       <section id="secrets" class="section secrets">
         <h2 class="section-title"><span class="secrets-title-lead">「挫折」を「成功」に変える</span><span class="orange">3つの秘訣</span></h2>
         <article id="secret-1" class="secret-card secret-gray secret-slope-right">
@@ -376,6 +377,7 @@
           <ul class="check-list"><li><strong>3食白米OK</strong>。「食べながら痩せる」代謝改善プログラム</li><li>減らすだけではなく、<strong>必要な栄養をしっかり摂る</strong></li><li><strong>続けられる食習慣</strong>のアドバイスでリバウンド防止</li></ul>
         </article>
       </section>
+      {% endif %}
 
       <section class="amenities">
         <h2 class="amenity-title">整った設備で<br>快適にトレーニング</h2>
@@ -492,6 +494,7 @@
         </div>
       </section>
 
+      {% if not cp5 %}
       <section class="story">
         <h2>ZenNu WELLNESS DESIGN<br>が生まれた理由</h2>
         <p>僕自身、もともと運動が得意ではなく、学生時代は貧血や体力のなさに悩んでいました。</p>
@@ -512,6 +515,7 @@
         <div class="principles"><div>体が変わると、気持ちも変わる。</div><div>気持ちが変わると、生活が変わる。</div><div>生活が変わると、全てが豊かになる。</div></div>
         <p class="lead">だから、当社は<br><strong class="orange">挫折させないジム</strong>として、<br>あなたの継続を支えます。</p>
       </section>
+      {% endif %}
 
       <section class="section flow-section" id="flow">
         <span class="ghost">FLOW</span><p class="eyebrow">FLOW</p><h2 class="section-title">体験トレーニングの<br>流れ</h2>
