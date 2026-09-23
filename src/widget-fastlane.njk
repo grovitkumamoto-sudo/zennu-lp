@@ -8,13 +8,13 @@ eleventyExcludeFromCollections: true
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <title>初回無料体験予約｜ZenNu WELLNESS DESIGN</title>
-  <meta name="description" content="熊本・上通のパーソナル×セルフジム ZenNu WELLNESS DESIGN。月額10,890円〜。初回無料体験の空き状況を確認できます。">
+  <meta name="description" content="熊本・上通のパーソナル×セルフ×ピラティス ZenNu WELLNESS DESIGN。月額10,890円〜。初回無料体験の空き状況を確認できます。">
   <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="canonical" href="{{ site.meta.url }}/wg1lp/">
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preload" as="image" href="/images/training-area.jpg">
+  <link rel="preload" as="image" href="/images/personal1.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://zennuwellnessdesign.hacomono.jp" crossorigin>
@@ -31,26 +31,25 @@ eleventyExcludeFromCollections: true
     .fast-header{display:flex;height:64px;align-items:center;justify-content:space-between;padding:0 20px;background:var(--white);border-bottom:1px solid var(--line)}
     .fast-header img{width:142px;height:auto;filter:brightness(0)}
     .fast-header p{margin:0;color:var(--orange);font-size:9px;font-weight:800;line-height:1.45;letter-spacing:.05em;text-align:right}
-    .fast-gallery{padding:25px 14px 14px;background:var(--paper)}
-    .fast-gallery-head{display:flex;align-items:flex-end;justify-content:space-between;margin:0 2px 20px}
-    .fast-gallery-title{margin:0;font-size:clamp(38px,12vw,52px);font-weight:900;line-height:.88;letter-spacing:-.055em}
-    .fast-gallery-sub{margin:0 0 2px;color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.04em;text-align:right}
-    .fast-gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:clamp(105px,29vw,125px);gap:8px}
-    .fast-gallery-item{position:relative;margin:0;overflow:hidden;background:linear-gradient(135deg,#ece3d7,#dbcbb7)}
-    .fast-gallery-item::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.48),transparent 42%);pointer-events:none}
-    .fast-gallery-item img{height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.22,1,.36,1)}
-    .fast-gallery-item figcaption{position:absolute;z-index:1;right:12px;bottom:10px;left:12px;color:#fff;font-size:9px;font-weight:700;line-height:1;letter-spacing:.15em}
-    .fast-gallery-item.g-large{grid-column:span 2;grid-row:span 2}
-    .fast-gallery-item.g-wide{grid-column:span 2}
-    .fast-offer{position:relative;padding:34px 20px 22px;background:var(--white)}
+    .fast-hero{padding:28px 14px 14px;background:var(--paper)}
+    .fast-hero-copy{padding:0 6px 24px}
     .fast-kicker{margin:0 0 10px;color:var(--orange);font-size:10px;font-weight:800;letter-spacing:.08em}
-    .fast-offer h1{margin:0;font-size:29px;font-weight:900;line-height:1.4;letter-spacing:-.05em}
-    .fast-offer h1 em{color:var(--orange);font-style:normal}
+    .fast-hero h1{margin:0;font-size:30px;font-weight:900;line-height:1.38;letter-spacing:-.055em}
+    .fast-hero h1 em{color:var(--orange);font-style:normal}
     .fast-offer-lead{margin:10px 0 0;color:var(--muted);font-size:12px;font-weight:700;line-height:1.75}
     .fast-price{display:flex;align-items:flex-end;gap:6px;margin-top:15px;color:var(--ink)}
     .fast-price span{padding-bottom:5px;font-size:11px;font-weight:900}
     .fast-price strong{color:var(--orange);font:800 33px/.95 "Montserrat",sans-serif;letter-spacing:-.04em}
     .fast-price small{padding-bottom:3px;font-size:10px;font-weight:800}
+    .fast-services{display:grid;height:clamp(270px,75vw,320px);grid-template-columns:1.35fr .85fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:6px}
+    .fast-service{position:relative;margin:0;overflow:hidden;background:#d7cec5}
+    .fast-service--personal{grid-row:1/span 2}
+    .fast-service::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.58),transparent 44%);pointer-events:none}
+    .fast-service img{height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.22,1,.36,1)}
+    .fast-service--personal img{object-position:52% center}
+    .fast-service--self img{object-position:center 45%}
+    .fast-service--pilates img{object-position:center 43%}
+    .fast-service figcaption{position:absolute;z-index:1;right:9px;bottom:10px;left:9px;color:#fff;font-size:9px;font-weight:800;line-height:1.25;letter-spacing:.12em;text-shadow:0 1px 8px rgba(0,0,0,.35)}
     .fast-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
     .fast-point{display:grid;min-height:76px;place-items:center;padding:11px 4px;text-align:center}
     .fast-point+.fast-point{border-left:1px solid var(--line)}
@@ -85,8 +84,8 @@ eleventyExcludeFromCollections: true
     .fast-sticky.is-hidden{visibility:hidden;opacity:0;pointer-events:none}
     .fast-sticky a{display:flex;min-height:52px;align-items:center;justify-content:center;background:var(--orange);color:#fff;font-size:15px;font-weight:900;box-shadow:0 8px 18px rgba(232,112,48,.22)}
     @media(min-width:431px){.fast-page{margin-top:18px;margin-bottom:18px;border-radius:14px}.fast-sticky{bottom:18px;border-radius:12px}}
-    @media(hover:hover){.fast-gallery-item:hover img{transform:scale(1.05)}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fast-gallery-item img{transition:none}}
+    @media(hover:hover){.fast-service:hover img{transform:scale(1.04)}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fast-service img{transition:none}}
   </style>
   <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"landing_page",lp_variant:"widget_fastlane",lp_appeal:"creative_direct_booking",campaign_path:"wg1lp"});</script>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-PCDJZ9X9");</script>
@@ -100,36 +99,27 @@ eleventyExcludeFromCollections: true
     </header>
 
     <main>
-      <section class="fast-gallery" aria-labelledby="fast-gallery-title">
-        <div class="fast-gallery-head">
-          <p class="fast-gallery-title" id="fast-gallery-title">GALLERY</p>
-          <p class="fast-gallery-sub">{{ site.gallery.subtitle }}</p>
+      <section class="fast-hero" aria-labelledby="fast-title">
+        <div class="fast-hero-copy">
+          <p class="fast-kicker">PERSONAL × SELF TRAINING × PILATES</p>
+          <h1 id="fast-title">高額なパーソナルを、<br><em>続けやすい月額</em>へ。</h1>
+          <p class="fast-offer-lead">プロに教わり、セルフで続ける。<br>必要なサポートを、無理のない価格で。</p>
+          <div class="fast-price"><span>月額</span><strong>10,890</strong><small>円〜（税込）</small></div>
         </div>
-        <div class="fast-gallery-grid">
-          {% for g in site.gallery.items %}
-          <figure class="fast-gallery-item{% if g.size %} {{ g.size }}{% endif %}">
-            <img src="{{ g.image | mediaUrl }}" alt="{{ g.label }}"{% if loop.first %} loading="eager" fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async">
-            <figcaption>{{ g.label }}</figcaption>
+        <div class="fast-services" aria-label="ZenNuで利用できる3つのサービス">
+          <figure class="fast-service fast-service--personal">
+            <img src="/images/personal1.jpg" alt="トレーナーによるZenNuのパーソナルトレーニング" loading="eager" fetchpriority="high" decoding="async">
+            <figcaption>PERSONAL</figcaption>
           </figure>
-          {% if loop.index == 3 %}
-          <figure class="fast-gallery-item">
-            <img src="/images/fastlane-pilates-bright.jpg" alt="リフォーマーを使ったZenNuのピラティス指導" loading="lazy" decoding="async">
-            <figcaption>PILATES</figcaption>
-          </figure>
-          <figure class="fast-gallery-item">
-            <img src="/images/fastlane-self-use.jpg" alt="ZenNuでセルフトレーニングを行う会員" loading="lazy" decoding="async">
+          <figure class="fast-service fast-service--self">
+            <img src="/images/fastlane-self-use.jpg" alt="ZenNuでセルフトレーニングを行う会員" loading="eager" decoding="async">
             <figcaption>SELF TRAINING</figcaption>
           </figure>
-          {% endif %}
-          {% endfor %}
+          <figure class="fast-service fast-service--pilates">
+            <img src="/images/fastlane-pilates-bright.jpg" alt="リフォーマーを使ったZenNuのピラティス指導" loading="eager" decoding="async">
+            <figcaption>PILATES</figcaption>
+          </figure>
         </div>
-      </section>
-
-      <section class="fast-offer" aria-labelledby="fast-title">
-        <p class="fast-kicker">パーソナル×セルフのハイブリッドジム</p>
-        <h1 id="fast-title">高額なパーソナルを、<br><em>続けやすい月額</em>へ。</h1>
-        <p class="fast-offer-lead">プロに教わり、セルフで続ける。<br>必要なサポートを、無理のない価格で。</p>
-        <div class="fast-price"><span>月額</span><strong>10,890</strong><small>円〜（税込）</small></div>
       </section>
 
       <div class="fast-points" aria-label="予約前に知っておきたい3つのポイント">
