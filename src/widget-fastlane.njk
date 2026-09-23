@@ -111,6 +111,16 @@ eleventyExcludeFromCollections: true
             <img src="{{ g.image | mediaUrl }}" alt="{{ g.label }}"{% if loop.first %} loading="eager" fetchpriority="high"{% else %} loading="lazy"{% endif %} decoding="async">
             <figcaption>{{ g.label }}</figcaption>
           </figure>
+          {% if loop.index == 3 %}
+          <figure class="fast-gallery-item">
+            <img src="/images/fastlane-pilates-bright.jpg" alt="リフォーマーを使ったZenNuのピラティス指導" loading="lazy" decoding="async">
+            <figcaption>PILATES</figcaption>
+          </figure>
+          <figure class="fast-gallery-item">
+            <img src="/images/fastlane-self-use.jpg" alt="ZenNuでセルフトレーニングを行う会員" loading="lazy" decoding="async">
+            <figcaption>SELF TRAINING</figcaption>
+          </figure>
+          {% endif %}
           {% endfor %}
         </div>
       </section>
