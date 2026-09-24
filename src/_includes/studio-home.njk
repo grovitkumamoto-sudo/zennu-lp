@@ -25,16 +25,17 @@
   {% if cp5 %}<link rel="preload" as="video" href="/videos/brand-hero-720.m4v" type="video/mp4">{% else %}<link rel="preload" as="image" href="/images/studio-hero-original.jpg">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Manrope:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
   {% include "studio-home-style.njk" %}
   {% include "latest-blog-style.njk" %}
+  {% if cp4 %}{% include "cp4-space-style.njk" %}{% endif %}
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"HealthClub","name":"ZenNu WELLNESS DESIGN","url":"{{ site.meta.url }}/","image":"{{ site.meta.url }}{{ site.meta.ogImage }}","telephone":"{{ site.contact.telDisplay }}","priceRange":"¥¥","address":{"@type":"PostalAddress","postalCode":"860-0845","addressRegion":"熊本県","addressLocality":"熊本市中央区","streetAddress":"上通町6-15 オークス第二ビル 2F","addressCountry":"JP"},"geo":{"@type":"GeoCoordinates","latitude":"{{ site.meta.lat }}","longitude":"{{ site.meta.lng }}"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"07:00","closes":"22:00"}]}
   </script>
   <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"{% if cp4 or cp5 %}landing_page{% else %}main_site{% endif %}",lp_variant:"{% if cp5 %}cp5lp{% elif cp4 %}cp4lp{% else %}main{% endif %}"{% if cp5 %},lp_appeal:"mobile_video"{% elif cp4 %},lp_appeal:"hybrid"{% endif %}});</script>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-PCDJZ9X9");</script>
 </head>
-<body{% if cp5 %} class="cp5-mobile-shell"{% endif %}>
+<body{% if cp5 %} class="cp5-mobile-shell"{% elif cp4 %} class="cp4-space"{% endif %}>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCDJZ9X9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   {% macro campaign(anchor) %}
