@@ -53,14 +53,21 @@ eleventyExcludeFromCollections: true
     .fast-service--pilates img{object-position:center 43%}
     .fast-service figcaption{position:absolute;z-index:1;right:12px;bottom:13px;left:12px;color:#fff;font:400 8px/1.4 "Michroma",sans-serif;letter-spacing:.09em}
     .fast-service figcaption span{display:block;margin-bottom:4px;color:var(--accent);font-size:7px}
-    .fast-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;background:var(--paper);border-bottom:1px solid var(--line)}
-    .fast-point{display:grid;min-height:92px;place-items:center;padding:15px 5px;text-align:center}
-    .fast-point+.fast-point{border-left:1px solid var(--line)}
-    .fast-point b{font-size:11px;font-weight:600;line-height:1.5}
-    .fast-point small{display:block;margin-top:5px;color:var(--muted);font-size:7px;font-weight:400;line-height:1.5}
-    .fast-primary{display:grid;grid-template-columns:64px 1fr 20px;align-items:center;min-height:68px;margin:22px 18px 28px;padding:0 18px;background:var(--ink);color:#fff;border:1px solid var(--ink)}
-    .fast-primary small{color:var(--accent);font:400 7px/1.55 "Michroma",sans-serif;letter-spacing:.08em}
-    .fast-primary strong{font-size:14px;font-weight:500;letter-spacing:.05em;text-align:center}
+    .fast-campaign{margin:20px 18px 26px;padding:17px 14px 14px;background:var(--ink);color:#fff}
+    .fast-campaign-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:13px}
+    .fast-campaign-head span{color:var(--accent);font:400 7px/1 "Michroma",sans-serif;letter-spacing:.12em}
+    .fast-campaign-head h2{margin:0;font-size:13px;font-weight:500;letter-spacing:.02em}
+    .fast-campaign-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2)}
+    .fast-campaign-item{display:grid;min-height:72px;align-content:center;padding:9px 5px;text-align:center}
+    .fast-campaign-item+.fast-campaign-item{border-left:1px solid rgba(255,255,255,.2)}
+    .fast-campaign-item>span{margin-bottom:5px;color:var(--accent);font:400 6px/1 "Michroma",sans-serif}
+    .fast-campaign-item b{font-size:9px;font-weight:500;line-height:1.45}
+    .fast-campaign-item strong{display:block;margin-top:2px;color:#fff;font:400 18px/1.2 "Michroma",sans-serif;letter-spacing:.01em}
+    .fast-campaign-item--gift strong{font:600 10px/1.4 "Noto Sans JP",sans-serif;letter-spacing:.03em}
+    .fast-campaign-note{margin:8px 0 0;color:rgba(255,255,255,.58);font-size:7px;line-height:1.5;text-align:right}
+    .fast-primary{display:grid;grid-template-columns:58px 1fr 20px;align-items:center;min-height:56px;margin:13px 0 0;padding:0 14px;background:var(--accent);color:var(--ink);border:1px solid var(--accent)}
+    .fast-primary small{font:400 6px/1.55 "Michroma",sans-serif;letter-spacing:.08em}
+    .fast-primary strong{font-size:13px;font-weight:600;letter-spacing:.05em;text-align:center}
     .fast-primary span{font-size:18px;font-weight:300;text-align:right}
     .fast-reserve{padding:32px 0 0;background:var(--paper)}
     .fast-reserve-head{padding:0 18px 18px;text-align:center}
@@ -90,8 +97,10 @@ eleventyExcludeFromCollections: true
     .fast-footer-access>span{display:block;margin-bottom:13px;color:var(--accent);font:400 8px/1 "Michroma",sans-serif;letter-spacing:.16em}
     .fast-footer-access strong{display:block;color:#fff;font-size:17px;font-weight:500;letter-spacing:-.03em}
     .fast-footer-access p{margin:10px 0 14px;font-size:9px;line-height:1.9}
-    .fast-footer-access a{display:inline-flex;align-items:center;gap:9px;color:#fff;font:400 9px/1.4 "Michroma",sans-serif;letter-spacing:.05em}
-    .fast-footer-access a::after{content:"↗";color:var(--accent);font-size:13px}
+    .fast-footer-actions{display:flex;align-items:center;gap:14px}
+    .fast-footer-map{display:inline-flex;min-height:38px;align-items:center;gap:10px;padding:0 13px;border:1px solid rgba(185,170,120,.68);color:#fff;font:400 8px/1 "Michroma",sans-serif;letter-spacing:.07em}
+    .fast-footer-map::after{content:"↗";color:var(--accent);font-size:13px}
+    .fast-footer-tel{color:#b9bbb6;font-size:9px;font-weight:500;text-decoration:underline;text-underline-offset:3px}
     .fast-footer-brand{padding-top:28px;text-align:center}
     .fast-footer img{width:160px;margin:0 auto 16px;filter:brightness(0) invert(1)}
     .fast-footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px}
@@ -139,13 +148,16 @@ eleventyExcludeFromCollections: true
         </div>
       </section>
 
-      <div class="fast-points" aria-label="予約前に知っておきたい3つのポイント">
-        <div class="fast-point"><b>初回体験<br>無料</b><small>当日の持ち物なし</small></div>
-        <div class="fast-point"><b>初心者<br>歓迎</b><small>9割以上が初心者</small></div>
-        <div class="fast-point"><b>通町筋駅<br>徒歩2分</b><small>提携駐車場あり</small></div>
-      </div>
-
-      <a class="fast-primary" id="fast-primary" href="#reserve" data-click-label="空き枠確認｜ファーストビュー" data-click-type="conversion"><small>FREE<br>TRIAL</small><strong>空き枠を確認する</strong><span aria-hidden="true">↓</span></a>
+      <section class="fast-campaign" aria-labelledby="campaign-title">
+        <div class="fast-campaign-head"><span>TRIPLE CAMPAIGN</span><h2 id="campaign-title">3大キャンペーン</h2></div>
+        <div class="fast-campaign-grid">
+          <div class="fast-campaign-item"><span>01</span><b>体験料<strong>0円</strong></b></div>
+          <div class="fast-campaign-item"><span>02</span><b>入会金<strong>0円</strong></b></div>
+          <div class="fast-campaign-item fast-campaign-item--gift"><span>03</span><b>ダイエット<br>マニュアル<strong>プレゼント</strong></b></div>
+        </div>
+        <p class="fast-campaign-note">※体験料・入会金0円は当日入会の方が対象です。</p>
+        <a class="fast-primary" id="fast-primary" href="#reserve" data-click-label="空き枠確認｜3大キャンペーンCTA" data-click-type="conversion"><small>FREE<br>TRIAL</small><strong>空き枠を確認する</strong><span aria-hidden="true">↓</span></a>
+      </section>
 
       <section class="fast-reserve" id="reserve" aria-labelledby="reserve-title">
         <div class="fast-reserve-head">
@@ -193,7 +205,10 @@ eleventyExcludeFromCollections: true
         <span>ACCESS</span>
         <strong>通町筋駅から徒歩2分</strong>
         <p>〒860-0845 熊本県熊本市中央区上通町6-15<br>オークス第二ビル2F ／ OPEN 7:00–22:00</p>
-        <a href="tel:{{ site.contact.tel }}">{{ site.contact.telDisplay }}</a>
+        <div class="fast-footer-actions">
+          <a class="fast-footer-map" href="https://www.google.com/maps/search/?api=1&amp;query=ZenNu%20WELLNESS%20DESIGN%20%E7%86%8A%E6%9C%AC%E5%B8%82%E4%B8%AD%E5%A4%AE%E5%8C%BA%E4%B8%8A%E9%80%9A%E7%94%BA6-15" target="_blank" rel="noopener" data-click-label="Googleマップ｜フッターアクセス" data-click-type="navigation">GOOGLE MAPS</a>
+          <a class="fast-footer-tel" href="tel:{{ site.contact.tel }}" data-click-label="電話｜フッターアクセス" data-click-type="contact">{{ site.contact.telDisplay }}</a>
+        </div>
       </div>
       <div class="fast-footer-brand">
         <img src="/images/logo-yoko.png" alt="ZenNu WELLNESS DESIGN">
@@ -203,7 +218,7 @@ eleventyExcludeFromCollections: true
     </footer>
   </div>
 
-  <div class="fast-sticky is-hidden" id="fast-sticky"><a href="#reserve" data-click-label="空き枠確認｜固定CTA" data-click-type="conversion">FREE TRIAL&nbsp;&nbsp;—&nbsp;&nbsp;空き枠を見る</a></div>
+  <div class="fast-sticky is-hidden" id="fast-sticky"><a href="#reserve" data-click-label="空き枠確認｜固定CTA" data-click-type="conversion">体験料0円&nbsp;&nbsp;—&nbsp;&nbsp;空き枠を見る</a></div>
 
   <script src="https://zennuwellnessdesign.hacomono.jp/js/widget.js"></script>
   {% include "click-tracking.njk" %}
