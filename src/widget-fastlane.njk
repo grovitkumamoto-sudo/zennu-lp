@@ -75,11 +75,24 @@ eleventyExcludeFromCollections: true
     .fast-reassurance li{position:relative;padding:13px 12px 13px 39px;border-top:1px solid rgba(255,255,255,.22);font-size:10px;font-weight:400;line-height:1.65}
     .fast-reassurance li:last-child{border-bottom:1px solid rgba(255,255,255,.22)}
     .fast-reassurance li::before{content:"—";position:absolute;top:12px;left:13px;color:var(--accent);font-size:13px}
-    .fast-access{padding:32px 18px;background:var(--paper)}
-    .fast-access h2{margin:0 0 12px;font-size:16px;font-weight:600}
-    .fast-access p{margin:0;color:var(--muted);font-size:9px;font-weight:400;line-height:2}
-    .fast-access a{font-weight:600;text-decoration:underline;text-underline-offset:3px}
-    .fast-footer{padding:28px 18px 100px;background:#090a09;color:#8f918d;text-align:center}
+    .fast-gallery{overflow:hidden;padding:34px 0 38px;background:var(--paper);border-bottom:1px solid var(--line)}
+    .fast-gallery-head{display:flex;align-items:center;gap:14px;margin:0 18px 18px;color:#837750;font:400 8px/1 "Michroma",sans-serif;letter-spacing:.14em}
+    .fast-gallery-head::after{content:"";height:1px;flex:1;background:var(--line)}
+    .fast-gallery-track{display:flex;width:max-content;animation:fast-gallery-flow 34s linear infinite;will-change:transform}
+    .fast-gallery-set{display:flex;gap:7px;padding-right:7px}
+    .fast-gallery-card{position:relative;width:124px;height:88px;flex:none;margin:0;overflow:hidden;background:#222}
+    .fast-gallery-card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.58),transparent 56%)}
+    .fast-gallery-card img{height:100%;object-fit:cover;filter:saturate(.74) contrast(1.03)}
+    .fast-gallery-card figcaption{position:absolute;z-index:1;right:8px;bottom:7px;left:8px;color:#fff;font:400 6px/1.3 "Michroma",sans-serif;letter-spacing:.08em}
+    @keyframes fast-gallery-flow{to{transform:translateX(-50%)}}
+    .fast-footer{padding:38px 18px 100px;background:#090a09;color:#8f918d;text-align:left}
+    .fast-footer-access{padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.16)}
+    .fast-footer-access>span{display:block;margin-bottom:13px;color:var(--accent);font:400 8px/1 "Michroma",sans-serif;letter-spacing:.16em}
+    .fast-footer-access strong{display:block;color:#fff;font-size:17px;font-weight:500;letter-spacing:-.03em}
+    .fast-footer-access p{margin:10px 0 14px;font-size:9px;line-height:1.9}
+    .fast-footer-access a{display:inline-flex;align-items:center;gap:9px;color:#fff;font:400 9px/1.4 "Michroma",sans-serif;letter-spacing:.05em}
+    .fast-footer-access a::after{content:"↗";color:var(--accent);font-size:13px}
+    .fast-footer-brand{padding-top:28px;text-align:center}
     .fast-footer img{width:160px;margin:0 auto 16px;filter:brightness(0) invert(1)}
     .fast-footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px}
     .fast-footer-links a{font-size:8px;text-decoration:underline;text-underline-offset:2px}
@@ -89,7 +102,7 @@ eleventyExcludeFromCollections: true
     .fast-sticky a{display:flex;min-height:52px;align-items:center;justify-content:center;background:var(--ink);color:#fff;border:1px solid rgba(185,170,120,.75);font-size:13px;font-weight:500;letter-spacing:.06em}
     @media(min-width:431px){.fast-page{margin-top:18px;margin-bottom:18px;border-radius:14px}.fast-sticky{bottom:18px;border-radius:12px}}
     @media(hover:hover){.fast-service:hover img{transform:scale(1.04)}}
-    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fast-service img{transition:none}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fast-service img{transition:none}.fast-gallery-track{animation:none}}
   </style>
   <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"landing_page",lp_variant:"widget_fastlane",lp_appeal:"creative_direct_booking",campaign_path:"wg1lp"});</script>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-PCDJZ9X9");</script>
@@ -154,16 +167,39 @@ eleventyExcludeFromCollections: true
         </ul>
       </section>
 
-      <section class="fast-access" aria-labelledby="access-title">
-        <h2 id="access-title">ZenNu WELLNESS DESIGN</h2>
-        <p>〒860-0845 熊本県熊本市中央区上通町6-15 オークス第二ビル2F<br>営業時間 7:00〜22:00 ／ <a href="tel:{{ site.contact.tel }}">{{ site.contact.telDisplay }}</a></p>
+      <section class="fast-gallery" aria-labelledby="gallery-title">
+        <div class="fast-gallery-head" id="gallery-title">STUDIO SCENES</div>
+        <div class="fast-gallery-track">
+          <div class="fast-gallery-set">
+            {% for g in site.gallery.items %}
+            <figure class="fast-gallery-card"><img src="{{ g.image | mediaUrl }}" alt="{{ g.label }}" loading="lazy" decoding="async"><figcaption>{{ g.label }}</figcaption></figure>
+            {% endfor %}
+            <figure class="fast-gallery-card"><img src="/images/fastlane-self-use.jpg" alt="セルフトレーニング" loading="lazy" decoding="async"><figcaption>SELF TRAINING</figcaption></figure>
+            <figure class="fast-gallery-card"><img src="/images/fastlane-pilates-bright.jpg" alt="ピラティス" loading="lazy" decoding="async"><figcaption>PILATES</figcaption></figure>
+          </div>
+          <div class="fast-gallery-set" aria-hidden="true">
+            {% for g in site.gallery.items %}
+            <figure class="fast-gallery-card"><img src="{{ g.image | mediaUrl }}" alt="" loading="lazy" decoding="async"><figcaption>{{ g.label }}</figcaption></figure>
+            {% endfor %}
+            <figure class="fast-gallery-card"><img src="/images/fastlane-self-use.jpg" alt="" loading="lazy" decoding="async"><figcaption>SELF TRAINING</figcaption></figure>
+            <figure class="fast-gallery-card"><img src="/images/fastlane-pilates-bright.jpg" alt="" loading="lazy" decoding="async"><figcaption>PILATES</figcaption></figure>
+          </div>
+        </div>
       </section>
     </main>
 
     <footer class="fast-footer">
-      <img src="/images/logo-yoko.png" alt="ZenNu WELLNESS DESIGN">
-      <div class="fast-footer-links"><a href="/terms/">会員・施設利用規約</a><a href="/privacy/">プライバシーポリシー</a><a href="/law/">特定商取引法に基づく表記</a></div>
-      <p>運営会社 株式会社GroVit ／ © 2026 ZenNu WELLNESS DESIGN</p>
+      <div class="fast-footer-access">
+        <span>ACCESS</span>
+        <strong>通町筋駅から徒歩2分</strong>
+        <p>〒860-0845 熊本県熊本市中央区上通町6-15<br>オークス第二ビル2F ／ OPEN 7:00–22:00</p>
+        <a href="tel:{{ site.contact.tel }}">{{ site.contact.telDisplay }}</a>
+      </div>
+      <div class="fast-footer-brand">
+        <img src="/images/logo-yoko.png" alt="ZenNu WELLNESS DESIGN">
+        <div class="fast-footer-links"><a href="/terms/">会員・施設利用規約</a><a href="/privacy/">プライバシーポリシー</a><a href="/law/">特定商取引法に基づく表記</a></div>
+        <p>運営会社 株式会社GroVit ／ © 2026 ZenNu WELLNESS DESIGN</p>
+      </div>
     </footer>
   </div>
 
