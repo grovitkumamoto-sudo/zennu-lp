@@ -78,14 +78,27 @@
   .sg-comparison td strong{font-family:"Noto Serif JP",serif;font-size:16px;font-weight:600}
   .sg-comparison-note{margin:12px 0 0;color:rgba(255,255,255,.55);font-size:10px;text-align:center}
 
-  .sg-campaign{padding:82px 0;background:var(--sg-cream)}
-  .sg-campaign-grid{display:grid;margin-bottom:24px;border-top:1px solid var(--sg-line);border-left:1px solid var(--sg-line)}
-  .sg-campaign-grid article{min-height:190px;padding:22px;border-right:1px solid var(--sg-line);border-bottom:1px solid var(--sg-line);background:rgba(255,255,255,.46);text-align:center}
-  .sg-campaign-grid article>span{display:block;color:var(--sg-gold);font:500 14px/1 "EB Garamond",serif;letter-spacing:.16em}
-  .sg-campaign-grid article p{margin:22px 0 3px;font-size:13px;font-weight:600}
-  .sg-campaign-grid article strong{color:var(--sg-navy);font:500 58px/1 "EB Garamond",serif}
-  .sg-campaign-grid article strong small{font-family:"Noto Sans JP",sans-serif;font-size:15px;font-weight:600}
-  .sg-campaign-grid article .sg-gift{display:block;margin-top:8px;font-family:"Noto Serif JP",serif;font-size:27px;line-height:1.35}
+  .sg-campaign{padding:54px 0 82px;background:#e8e9eb}
+  .sg-campaign-board{margin-bottom:24px;padding:24px 16px 18px;border:1px solid #ad9b65;border-radius:6px;background:#fff;color:var(--sg-navy)}
+  .sg-campaign-head{padding-bottom:17px;border-bottom:1px solid #ad9b65;text-align:center}
+  .sg-campaign-head p{margin:0 0 6px;color:var(--sg-gold);font:500 10px/1 "EB Garamond",serif;letter-spacing:.2em}
+  .sg-campaign-head h2{margin:0;color:#9c916f;font-size:clamp(20px,6.3vw,36px);font-weight:800;line-height:1.4;letter-spacing:-.04em}
+  .sg-campaign-lead{display:flex;align-items:flex-end;justify-content:center;gap:4px;padding:20px 0 18px;text-align:center;white-space:nowrap}
+  .sg-campaign-lead span{align-self:center;font-size:12px;font-weight:800}
+  .sg-campaign-lead strong{padding-bottom:5px;font-size:15px;font-weight:800}
+  .sg-campaign-lead b{color:#bd962c;font:600 66px/.78 "EB Garamond",serif;letter-spacing:-.06em}
+  .sg-campaign-lead em{padding-bottom:2px;color:#bd962c;font-size:17px;font-style:normal;font-weight:800}
+  .sg-campaign-grid{display:grid;gap:8px}
+  .sg-campaign-grid article{display:grid;grid-template-columns:38px 1fr;min-height:102px;align-items:center;padding:12px 13px;border-radius:4px;background:var(--sg-navy);color:#fff}
+  .sg-campaign-grid article>span{color:rgba(255,255,255,.67);font:500 38px/1 "Barlow Condensed",sans-serif;text-align:center}
+  .sg-campaign-grid article>div{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:5px 8px;text-align:center}
+  .sg-campaign-grid article p{width:100%;margin:0;font-size:13px;font-weight:600;line-height:1.35}
+  .sg-campaign-grid article p s{color:rgba(255,255,255,.7);font-size:11px}
+  .sg-campaign-grid article i{color:var(--sg-gold-light);font-size:11px;font-style:normal;font-weight:700}
+  .sg-campaign-grid article strong{color:#d1aa3e;font:600 47px/.9 "EB Garamond",serif;letter-spacing:-.04em}
+  .sg-campaign-grid article strong small{font-family:"Noto Sans JP",sans-serif;font-size:13px;font-weight:700}
+  .sg-campaign-grid .sg-campaign-gift strong{font-family:"Noto Serif JP",serif;font-size:23px;line-height:1.25;letter-spacing:-.03em}
+  .sg-campaign-caution{margin:15px 0 0;color:#4a4e55;font-size:9px;line-height:1.7;text-align:center}
   .sg-button{display:grid;min-height:78px;grid-template-columns:1fr auto;align-items:center;width:min(720px,100%);margin:0 auto;padding:14px 18px 14px 22px;border:1px solid var(--sg-navy);background:var(--sg-navy);color:#fff;font-size:17px;font-weight:600;line-height:1.45;letter-spacing:.04em}
   .sg-button>span{grid-column:1;margin-bottom:2px;color:var(--sg-gold-light);font-size:12px;font-weight:500;letter-spacing:.08em}
   .sg-button>i{grid-column:2;grid-row:1/3;font-family:"EB Garamond",serif;font-size:30px;font-style:normal;font-weight:400}
@@ -263,8 +276,26 @@
     .sg-review-scroll{display:grid;overflow:visible;grid-template-columns:repeat(3,1fr);margin-right:0;padding-right:0}
     .sg-review-card{min-width:0}
     .sg-comparison-note{display:none}
-    .sg-campaign-grid{grid-template-columns:repeat(3,1fr)}
-    .sg-campaign-grid article{min-height:230px;padding:30px}
+    .sg-campaign{padding:76px 0 96px}
+    .sg-campaign-board{padding:34px 42px 25px}
+    .sg-campaign-head{padding-bottom:22px}
+    .sg-campaign-head p{font-size:12px}
+    .sg-campaign-lead{padding:28px 0 26px}
+    .sg-campaign-lead span{font-size:18px}
+    .sg-campaign-lead strong{padding-bottom:9px;font-size:25px}
+    .sg-campaign-lead b{font-size:108px}
+    .sg-campaign-lead em{padding-bottom:5px;font-size:27px}
+    .sg-campaign-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+    .sg-campaign-grid article{grid-template-columns:58px 1fr;min-height:136px;padding:18px 22px}
+    .sg-campaign-grid article>span{font-size:55px}
+    .sg-campaign-grid article p{font-size:17px}
+    .sg-campaign-grid article p s{font-size:14px}
+    .sg-campaign-grid article i{font-size:15px}
+    .sg-campaign-grid article strong{font-size:68px}
+    .sg-campaign-grid article strong small{font-size:17px}
+    .sg-campaign-grid .sg-campaign-gift{grid-column:1/-1}
+    .sg-campaign-grid .sg-campaign-gift strong{font-size:36px}
+    .sg-campaign-caution{font-size:11px}
     .sg-concept-grid{grid-template-columns:1fr 1fr;align-items:center;gap:80px}
     .sg-concept-copy{padding-top:0;padding-left:40px;border-top:0;border-left:1px solid var(--sg-line)}
     .sg-service-list{grid-template-columns:repeat(3,1fr)}
