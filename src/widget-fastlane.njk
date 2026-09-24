@@ -14,75 +14,79 @@ eleventyExcludeFromCollections: true
   <link rel="canonical" href="{{ site.meta.url }}/wg1lp/">
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preload" as="image" href="/images/personal1.jpg">
+  <link rel="preload" as="image" href="/images/personal2.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://zennuwellnessdesign.hacomono.jp" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Michroma&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    :root{--ink:#1a1a1a;--muted:#666;--light:#999;--line:#e8e0d8;--paper:#faf7f3;--orange:#e87030;--orange-dark:#d4612a;--white:#fff;--shadow:0 18px 48px rgba(38,29,23,.12)}
+    :root{--ink:#111210;--muted:#666963;--line:#d9d8d0;--paper:#f1f0ea;--accent:#b9aa78;--white:#fff}
     *{box-sizing:border-box}
-    html{scroll-behavior:smooth;background:#171513;scroll-padding-top:12px}
-    body{margin:0;background:#171513;color:var(--ink);font-family:"Montserrat","Noto Sans JP",sans-serif;-webkit-font-smoothing:antialiased}
+    html{scroll-behavior:smooth;background:#090a09;scroll-padding-top:12px}
+    body{margin:0;background:#090a09;color:var(--ink);font-family:"Noto Sans JP","Hiragino Sans",sans-serif;-webkit-font-smoothing:antialiased}
     a{color:inherit;text-decoration:none}
     img,video{display:block;width:100%}
     button{font:inherit}
-    .fast-page{width:min(100%,430px);min-height:100vh;margin:0 auto;background:var(--white);box-shadow:0 0 54px rgba(0,0,0,.5);overflow:hidden}
-    .fast-header{display:flex;height:64px;align-items:center;justify-content:space-between;padding:0 20px;background:var(--white);border-bottom:1px solid var(--line)}
-    .fast-header img{width:142px;height:auto;filter:brightness(0)}
-    .fast-header p{margin:0;color:var(--orange);font-size:9px;font-weight:800;line-height:1.45;letter-spacing:.05em;text-align:right}
-    .fast-hero{padding:28px 14px 14px;background:var(--paper)}
-    .fast-hero-copy{padding:0 6px 24px}
-    .fast-kicker{margin:0 0 10px;color:var(--orange);font-size:10px;font-weight:800;letter-spacing:.08em}
-    .fast-hero h1{margin:0;font-size:30px;font-weight:900;line-height:1.38;letter-spacing:-.055em}
-    .fast-hero h1 em{color:var(--orange);font-style:normal}
-    .fast-offer-lead{margin:10px 0 0;color:var(--muted);font-size:12px;font-weight:700;line-height:1.75}
-    .fast-price{display:flex;align-items:flex-end;gap:6px;margin-top:15px;color:var(--ink)}
-    .fast-price span{padding-bottom:5px;font-size:11px;font-weight:900}
-    .fast-price strong{color:var(--orange);font:800 33px/.95 "Montserrat",sans-serif;letter-spacing:-.04em}
-    .fast-price small{padding-bottom:3px;font-size:10px;font-weight:800}
-    .fast-services{display:grid;height:clamp(270px,75vw,320px);grid-template-columns:1.35fr .85fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:6px}
-    .fast-service{position:relative;margin:0;overflow:hidden;background:#d7cec5}
-    .fast-service--personal{grid-row:1/span 2}
-    .fast-service::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.58),transparent 44%);pointer-events:none}
-    .fast-service img{height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.22,1,.36,1)}
-    .fast-service--personal img{object-position:52% center}
-    .fast-service--self img{object-position:center 45%}
+    .fast-page{position:relative;width:min(100%,430px);min-height:100vh;margin:0 auto;background:var(--paper);box-shadow:0 0 56px rgba(0,0,0,.55);overflow:hidden}
+    .fast-header{position:absolute;z-index:5;top:0;right:0;left:0;display:flex;height:72px;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(255,255,255,.2);color:#fff}
+    .fast-header img{width:142px;height:auto;filter:brightness(0) invert(1)}
+    .fast-header p{margin:0;color:#fff;font-size:8px;font-weight:500;line-height:1.55;letter-spacing:.11em;text-align:right}
+    .fast-hero{background:#0b0c0b;color:#fff}
+    .fast-hero-main{position:relative;height:clamp(520px,137vw,590px);overflow:hidden}
+    .fast-hero-main::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(4,5,4,.34) 0%,rgba(4,5,4,.05) 35%,rgba(4,5,4,.86) 100%)}
+    .fast-hero-main>img{height:100%;object-fit:cover;object-position:58% center;filter:saturate(.75) contrast(1.04)}
+    .fast-hero-service{position:absolute;z-index:2;top:102px;right:18px;display:flex;align-items:center;gap:10px;font:400 8px/1.2 "Michroma",sans-serif;letter-spacing:.14em}
+    .fast-hero-service::before{content:"";width:38px;height:1px;background:var(--accent)}
+    .fast-hero-copy{position:absolute;z-index:2;right:20px;bottom:26px;left:20px}
+    .fast-kicker{margin:0 0 17px;color:#e4d9b2;font:400 8px/1.6 "Michroma",sans-serif;letter-spacing:.12em}
+    .fast-hero h1{margin:0;font-size:clamp(35px,10.5vw,43px);font-weight:500;line-height:1.34;letter-spacing:-.07em}
+    .fast-offer-lead{max-width:305px;margin:16px 0 0;color:rgba(255,255,255,.78);font-size:10px;font-weight:400;line-height:1.9;letter-spacing:.03em}
+    .fast-price{display:flex;align-items:baseline;gap:8px;margin-top:20px;padding-top:13px;border-top:1px solid rgba(255,255,255,.36);color:#fff}
+    .fast-price span{font:400 7px/1 "Michroma",sans-serif;letter-spacing:.12em}
+    .fast-price strong{font:400 24px/1 "Michroma",sans-serif;letter-spacing:.01em}
+    .fast-price small{font-size:9px;font-weight:500;letter-spacing:.04em}
+    .fast-services{display:grid;height:158px;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#0b0c0b}
+    .fast-service{position:relative;margin:0;overflow:hidden;background:#1b1c1a}
+    .fast-service::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(0,0,0,.67),rgba(0,0,0,.04) 65%);pointer-events:none}
+    .fast-service img{height:100%;object-fit:cover;filter:saturate(.72) contrast(1.02);transition:transform .7s cubic-bezier(.22,1,.36,1)}
+    .fast-service--self img{object-position:center 47%}
     .fast-service--pilates img{object-position:center 43%}
-    .fast-service figcaption{position:absolute;z-index:1;right:9px;bottom:10px;left:9px;color:#fff;font-size:9px;font-weight:800;line-height:1.25;letter-spacing:.12em;text-shadow:0 1px 8px rgba(0,0,0,.35)}
-    .fast-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-    .fast-point{display:grid;min-height:76px;place-items:center;padding:11px 4px;text-align:center}
+    .fast-service figcaption{position:absolute;z-index:1;right:12px;bottom:13px;left:12px;color:#fff;font:400 8px/1.4 "Michroma",sans-serif;letter-spacing:.09em}
+    .fast-service figcaption span{display:block;margin-bottom:4px;color:var(--accent);font-size:7px}
+    .fast-points{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:0;background:var(--paper);border-bottom:1px solid var(--line)}
+    .fast-point{display:grid;min-height:92px;place-items:center;padding:15px 5px;text-align:center}
     .fast-point+.fast-point{border-left:1px solid var(--line)}
-    .fast-point b{font-size:12px;font-weight:900;line-height:1.35}
-    .fast-point small{display:block;margin-top:4px;color:var(--muted);font-size:8px;font-weight:700;line-height:1.35}
-    .fast-primary{display:grid;grid-template-columns:42px 1fr 20px;align-items:center;min-height:62px;margin:18px 16px 22px;padding:7px 14px;background:var(--orange);color:#fff;box-shadow:0 12px 25px rgba(232,112,48,.25)}
-    .fast-primary small{display:grid;width:40px;height:40px;place-items:center;border-radius:50%;background:#fff;color:var(--orange-dark);font-size:8px;font-weight:900;line-height:1.25;text-align:center}
-    .fast-primary strong{font-size:17px;font-weight:900;text-align:center}
-    .fast-primary span{font-size:19px;text-align:right}
+    .fast-point b{font-size:11px;font-weight:600;line-height:1.5}
+    .fast-point small{display:block;margin-top:5px;color:var(--muted);font-size:7px;font-weight:400;line-height:1.5}
+    .fast-primary{display:grid;grid-template-columns:64px 1fr 20px;align-items:center;min-height:68px;margin:22px 18px 28px;padding:0 18px;background:var(--ink);color:#fff;border:1px solid var(--ink)}
+    .fast-primary small{color:var(--accent);font:400 7px/1.55 "Michroma",sans-serif;letter-spacing:.08em}
+    .fast-primary strong{font-size:14px;font-weight:500;letter-spacing:.05em;text-align:center}
+    .fast-primary span{font-size:18px;font-weight:300;text-align:right}
     .fast-reserve{padding:32px 0 0;background:var(--paper)}
     .fast-reserve-head{padding:0 18px 18px;text-align:center}
-    .fast-reserve-head span{color:var(--orange);font:800 10px/1 "Montserrat",sans-serif;letter-spacing:.18em}
-    .fast-reserve-head h2{margin:8px 0 7px;font-size:23px;font-weight:900;letter-spacing:-.045em}
-    .fast-reserve-head p{margin:0;color:var(--muted);font-size:11px;font-weight:700;line-height:1.7}
+    .fast-reserve-head span{color:#8d8056;font:400 8px/1 "Michroma",sans-serif;letter-spacing:.15em}
+    .fast-reserve-head h2{margin:12px 0 8px;font-size:22px;font-weight:500;letter-spacing:-.045em}
+    .fast-reserve-head p{margin:0;color:var(--muted);font-size:10px;font-weight:400;line-height:1.8}
     .fast-widget{min-height:1850px;background:#fff;border-top:1px solid var(--line)}
     .fast-widget iframe{display:block;width:100%;min-height:2250px;border:0}
-    .fast-reassurance{padding:32px 18px 38px;background:var(--ink);color:#fff}
-    .fast-reassurance h2{margin:0 0 18px;font-size:19px;font-weight:900;text-align:center}
+    .fast-reassurance{padding:40px 18px 44px;background:var(--ink);color:#fff}
+    .fast-reassurance h2{margin:0 0 22px;font-size:18px;font-weight:500;letter-spacing:-.04em;text-align:center}
     .fast-reassurance ul{display:grid;gap:9px;margin:0;padding:0;list-style:none}
-    .fast-reassurance li{position:relative;padding:12px 12px 12px 39px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);font-size:11px;font-weight:800;line-height:1.55}
-    .fast-reassurance li::before{content:"✓";position:absolute;top:11px;left:14px;color:var(--orange);font-size:16px;font-weight:900}
-    .fast-access{padding:28px 18px;background:#fff}
-    .fast-access h2{margin:0 0 12px;font-size:17px;font-weight:900}
-    .fast-access p{margin:0;color:var(--muted);font-size:10px;font-weight:700;line-height:1.9}
-    .fast-access a{font-weight:900;text-decoration:underline;text-underline-offset:3px}
-    .fast-footer{padding:24px 18px 100px;background:#211f1e;color:#bbb;text-align:center}
+    .fast-reassurance li{position:relative;padding:13px 12px 13px 39px;border-top:1px solid rgba(255,255,255,.22);font-size:10px;font-weight:400;line-height:1.65}
+    .fast-reassurance li:last-child{border-bottom:1px solid rgba(255,255,255,.22)}
+    .fast-reassurance li::before{content:"—";position:absolute;top:12px;left:13px;color:var(--accent);font-size:13px}
+    .fast-access{padding:32px 18px;background:var(--paper)}
+    .fast-access h2{margin:0 0 12px;font-size:16px;font-weight:600}
+    .fast-access p{margin:0;color:var(--muted);font-size:9px;font-weight:400;line-height:2}
+    .fast-access a{font-weight:600;text-decoration:underline;text-underline-offset:3px}
+    .fast-footer{padding:28px 18px 100px;background:#090a09;color:#8f918d;text-align:center}
     .fast-footer img{width:160px;margin:0 auto 16px;filter:brightness(0) invert(1)}
     .fast-footer-links{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px}
     .fast-footer-links a{font-size:8px;text-decoration:underline;text-underline-offset:2px}
     .fast-footer p{margin:16px 0 0;font-size:8px}
     .fast-sticky{position:fixed;z-index:20;right:auto;bottom:0;left:50%;display:grid;width:min(100%,430px);padding:8px 12px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.94);box-shadow:0 -8px 24px rgba(25,20,17,.13);transform:translateX(-50%);transition:opacity .2s,visibility .2s}
     .fast-sticky.is-hidden{visibility:hidden;opacity:0;pointer-events:none}
-    .fast-sticky a{display:flex;min-height:52px;align-items:center;justify-content:center;background:var(--orange);color:#fff;font-size:15px;font-weight:900;box-shadow:0 8px 18px rgba(232,112,48,.22)}
+    .fast-sticky a{display:flex;min-height:52px;align-items:center;justify-content:center;background:var(--ink);color:#fff;border:1px solid rgba(185,170,120,.75);font-size:13px;font-weight:500;letter-spacing:.06em}
     @media(min-width:431px){.fast-page{margin-top:18px;margin-bottom:18px;border-radius:14px}.fast-sticky{bottom:18px;border-radius:12px}}
     @media(hover:hover){.fast-service:hover img{transform:scale(1.04)}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.fast-service img{transition:none}}
@@ -100,24 +104,24 @@ eleventyExcludeFromCollections: true
 
     <main>
       <section class="fast-hero" aria-labelledby="fast-title">
-        <div class="fast-hero-copy">
-          <p class="fast-kicker">PERSONAL × SELF TRAINING × PILATES</p>
-          <h1 id="fast-title">高額なパーソナルを、<br><em>続けやすい月額</em>へ。</h1>
-          <p class="fast-offer-lead">プロに教わり、セルフで続ける。<br>必要なサポートを、無理のない価格で。</p>
-          <div class="fast-price"><span>月額</span><strong>10,890</strong><small>円〜（税込）</small></div>
+        <div class="fast-hero-main">
+          <img src="/images/personal2.jpg" alt="ZenNuのトレーナーによるパーソナルサポート" loading="eager" fetchpriority="high" decoding="async">
+          <p class="fast-hero-service">01 / PERSONAL</p>
+          <div class="fast-hero-copy">
+            <p class="fast-kicker">PERSONAL / SELF TRAINING / PILATES</p>
+            <h1 id="fast-title">教わる。整える。<br>自分で続ける。</h1>
+            <p class="fast-offer-lead">パーソナル・セルフトレーニング・ピラティスを、ひとつの場所で。</p>
+            <div class="fast-price"><span>MEMBERSHIP</span><strong>¥10,890</strong><small>/ MONTH〜</small></div>
+          </div>
         </div>
         <div class="fast-services" aria-label="ZenNuで利用できる3つのサービス">
-          <figure class="fast-service fast-service--personal">
-            <img src="/images/personal1.jpg" alt="トレーナーによるZenNuのパーソナルトレーニング" loading="eager" fetchpriority="high" decoding="async">
-            <figcaption>PERSONAL</figcaption>
-          </figure>
           <figure class="fast-service fast-service--self">
             <img src="/images/fastlane-self-use.jpg" alt="ZenNuでセルフトレーニングを行う会員" loading="eager" decoding="async">
-            <figcaption>SELF TRAINING</figcaption>
+            <figcaption><span>02</span>SELF TRAINING</figcaption>
           </figure>
           <figure class="fast-service fast-service--pilates">
             <img src="/images/fastlane-pilates-bright.jpg" alt="リフォーマーを使ったZenNuのピラティス指導" loading="eager" decoding="async">
-            <figcaption>PILATES</figcaption>
+            <figcaption><span>03</span>PILATES</figcaption>
           </figure>
         </div>
       </section>
@@ -128,7 +132,7 @@ eleventyExcludeFromCollections: true
         <div class="fast-point"><b>通町筋駅<br>徒歩2分</b><small>提携駐車場あり</small></div>
       </div>
 
-      <a class="fast-primary" id="fast-primary" href="#reserve" data-click-label="空き枠確認｜ファーストビュー" data-click-type="conversion"><small>初回<br>0円</small><strong>空き枠を確認する</strong><span aria-hidden="true">↓</span></a>
+      <a class="fast-primary" id="fast-primary" href="#reserve" data-click-label="空き枠確認｜ファーストビュー" data-click-type="conversion"><small>FREE<br>TRIAL</small><strong>空き枠を確認する</strong><span aria-hidden="true">↓</span></a>
 
       <section class="fast-reserve" id="reserve" aria-labelledby="reserve-title">
         <div class="fast-reserve-head">
@@ -163,7 +167,7 @@ eleventyExcludeFromCollections: true
     </footer>
   </div>
 
-  <div class="fast-sticky is-hidden" id="fast-sticky"><a href="#reserve" data-click-label="空き枠確認｜固定CTA" data-click-type="conversion">無料体験の空き枠を見る</a></div>
+  <div class="fast-sticky is-hidden" id="fast-sticky"><a href="#reserve" data-click-label="空き枠確認｜固定CTA" data-click-type="conversion">FREE TRIAL&nbsp;&nbsp;—&nbsp;&nbsp;空き枠を見る</a></div>
 
   <script src="https://zennuwellnessdesign.hacomono.jp/js/widget.js"></script>
   {% include "click-tracking.njk" %}
