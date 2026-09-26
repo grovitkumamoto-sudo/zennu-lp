@@ -1,0 +1,73 @@
+<script>
+  // LPの離脱位置と予約ウィジェットの利用を計測する(集客ダッシュボード用)。
+  //   lp_section_view : 各セクションが画面に入った(1ページ1セクション1回)
+  //   widget_view     : 予約ウィジェットが画面に入った
+  //   widget_interact : 予約ウィジェットを操作した(iframe内のクリックは直接取れないため、
+  //                     ページのフォーカスがiframeに移ったことで判定する)
+  // PostHogはGTM経由で後から読み込まれるので、準備できるまで送信を待つ。
+  (() => {
+    const queue = [];
+    const send = (event, props) => {
+      queue.push([event, { ...props, lp_path: location.pathname }]);
+      (window.dataLayer = window.dataLayer || []).push({ event, ...props });
+      flush();
+    };
+    const flush = () => {
+      if (!window.posthog || typeof window.posthog.capture !== "function") return;
+      while (queue.length) window.posthog.capture(...queue.shift());
+    };
+    const waitForPostHog = setInterval(() => {
+      flush();
+      if (window.posthog?.__loaded) clearInterval(waitForPostHog);
+    }, 500);
+    setTimeout(() => clearInterval(waitForPostHog), 30000);
+
+    const genericClass = /^(section|section-[a-z]+|v[0-9]-section|fast-[a-z]+-head)$/;
+    const sectionName = section => {
+      if (section.id) return section.id;
+      const labelledBy = section.getAttribute("aria-labelledby");
+      if (labelledBy) return labelledBy;
+      return [...section.classList].find(name => !genericClass.test(name)) || "section";
+    };
+
+    const widget = document.querySelector("iframe[src*='hacomono.jp/widgets']");
+    const sections = [...document.querySelectorAll("section")].filter(section => !section.parentElement.closest("section"));
+
+    if ("IntersectionObserver" in window) {
+      const seen = new Set();
+      const sectionObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting || seen.has(entry.target)) return;
+          seen.add(entry.target);
+          sectionObserver.unobserve(entry.target);
+          send("lp_section_view", {
+            section: sectionName(entry.target),
+            section_index: sections.indexOf(entry.target) + 1,
+            section_total: sections.length,
+          });
+        });
+      }, { threshold: 0.3 });
+      sections.forEach(section => sectionObserver.observe(section));
+
+      if (widget) {
+        const widgetObserver = new IntersectionObserver(entries => {
+          if (!entries.some(entry => entry.isIntersecting)) return;
+          widgetObserver.disconnect();
+          send("widget_view", {});
+        }, { rootMargin: "0px 0px -30% 0px" });
+        widgetObserver.observe(widget);
+      }
+    }
+
+    if (widget) {
+      let interacted = false;
+      window.addEventListener("blur", () => {
+        setTimeout(() => {
+          if (interacted || document.activeElement !== widget) return;
+          interacted = true;
+          send("widget_interact", {});
+        }, 0);
+      });
+    }
+  })();
+</script>

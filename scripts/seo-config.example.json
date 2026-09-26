@@ -1,5 +1,7 @@
 {
   "siteUrl": "https://lp.zennuwellnessdesign.jp/",
   "ga4PropertyId": "GA4の数値プロパティID（例: 123456789）をここに入れる",
-  "chatworkRoomId": "通知先ChatworkルームID（例: 123456789）をここに入れる"
+  "chatworkRoomId": "通知先ChatworkルームID（例: 123456789）をここに入れる",
+  "lineHarnessUrl": "LINE HarnessのWorker URL（例: https://line-harness.xxx.workers.dev）",
+  "dashboardSheetId": "集客ダッシュボードのスプレッドシートID（URLの /d/ と /edit の間）"
 }
