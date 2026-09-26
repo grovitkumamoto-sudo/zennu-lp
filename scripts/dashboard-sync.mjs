@@ -168,6 +168,25 @@ async function fetchSectionRows(config, startDate) {
 
 // ---------------- 経路マスタとの突き合わせ ----------------
 
+// LINE refが入っている経路マスタの行。同じrefが複数行にある場合(google_hpをSEOとMEOで分けるなど)は
+// 友だちのmetadataに残ったutm_campaignで振り分ける
+function parseLineRoutes(values) {
+  return values
+    .slice(1)
+    .filter((r) => r[0] && r[11])
+    .map((r) => ({ id: r[0], ref: r[11].trim(), campaign: (r[9] || "").trim().toLowerCase() }));
+}
+
+function resolveLineRoute(friend, lineRoutes) {
+  if (!friend.refCode) return "ref無し";
+  const candidates = lineRoutes.filter((m) => m.ref === friend.refCode);
+  if (!candidates.length) return "未登録ref";
+  const campaign = String(friend.metadata?.utm_campaign || "").toLowerCase();
+  const exact = candidates.find((m) => m.campaign && !m.campaign.includes("{{") && m.campaign === campaign);
+  const generic = candidates.find((m) => !m.campaign || m.campaign.includes("{{"));
+  return (exact || generic || candidates[0]).id;
+}
+
 // 経路マスタの行: A経路ID C区分 F遷移先の種類 G遷移先LP H〜K utm
 function parseMaster(values) {
   return values
@@ -271,7 +290,9 @@ async function main() {
   const spreadsheetId = config.dashboardSheetId;
   const sheets = DRY_RUN ? null : await getSheets();
 
-  const master = sheets ? parseMaster(await readRange(sheets, spreadsheetId, `${SHEET_MASTER}!A1:L`)) : [];
+  const masterValues = sheets ? await readRange(sheets, spreadsheetId, `${SHEET_MASTER}!A1:L`) : [];
+  const master = parseMaster(masterValues);
+  const lineRoutes = parseLineRoutes(masterValues);
 
   const [accessRows, sectionRows, friends] = await Promise.all([
     fetchAccessRows(config, startDate),
@@ -284,7 +305,7 @@ async function main() {
     r.sessions, r.fvExit, r.widgetView, r.widgetInteract, r.haco, r.line, "PostHog",
   ]);
 
-  // 経路IDと経路名はシート側の数式で経路マスタから引く(マスタを直したら過去分も追従する)
+  // 経路IDはrefとUTMからここで決め、経路名はシート側の数式で経路マスタから引く
   const lineHeader = ["追加日時", "LINE ref", "経路ID（自動）", "経路名（自動）", "friend_id（LINE Harness）", "ブロック済み", "体験予約済み", "入会済み"];
   const lineRows = friends.map((f, i) => {
     const r = i + 2;
@@ -292,8 +313,8 @@ async function main() {
     return [
       f.createdAt.replace("T", " ").slice(0, 16),
       f.refCode || "",
-      `=IF(B${r}="","ref無し",IFERROR(INDEX(${SHEET_MASTER}!$A:$A,MATCH(B${r},${SHEET_MASTER}!$L:$L,0)),"未登録ref"))`,
-      `=IF(B${r}="","",IFERROR(INDEX(${SHEET_MASTER}!$D:$D,MATCH(B${r},${SHEET_MASTER}!$L:$L,0)),""))`,
+      resolveLineRoute(f, lineRoutes),
+      `=IFERROR(INDEX(${SHEET_MASTER}!$D:$D,MATCH(C${r},${SHEET_MASTER}!$A:$A,0)),"")`,
       f.id,
       f.isFollowing ? "" : "TRUE",
       tags.has(TAG_BOOKED) ? "TRUE" : "",
