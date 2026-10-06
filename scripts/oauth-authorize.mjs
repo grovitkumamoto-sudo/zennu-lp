@@ -22,6 +22,7 @@ const SCOPES = [
   "https://www.googleapis.com/auth/webmasters.readonly",
   "https://www.googleapis.com/auth/analytics.readonly",
   "https://www.googleapis.com/auth/business.manage",
+  "https://www.googleapis.com/auth/spreadsheets",
 ];
 
 function loadClient() {
