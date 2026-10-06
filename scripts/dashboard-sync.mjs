@@ -14,6 +14,8 @@
 //   データ_セクション … 日付×LP×セクション単位の到達セッション数(LPの funnel-tracking.njk が送る lp_section_view)。
 //                     指定期間の行だけ入れ替える
 //   データ_LINE追加 … LINE Harnessの友だち全件で毎回作り直す(ブロック・予約状況を最新化するため)
+//   データ_CV … GA4のCVイベント(hacomono通常の complete_registration / hacomonoウィジェットの reserve_complete / BOOKOMの reservation_complete)を、
+//                 経路マスタの条件(LP+UTM)で経路IDに割り当てて入れる。指定期間のGA4行だけ入れ替え、手入力行は残す
 //
 // 実行:
 //   node scripts/dashboard-sync.mjs              直近3日分を同期(当日分は途中経過)
@@ -37,6 +39,14 @@ const SHEET_ACCESS = "データ_アクセス";
 const SHEET_LINE = "データ_LINE追加";
 const SHEET_SECTION = "データ_セクション";
 const SHEET_MASTER = "経路マスタ";
+const SHEET_CV = "データ_CV";
+// GA4のCVイベント → CV種別・メモ。since より前は本番公開前のテスト予約が混ざるため取り込まない
+const CV_EVENTS = {
+  complete_registration: { label: "hacomono", since: "" },
+  // hacomonoのウィジェット内での体験予約。予約APIが成功した直後に hacomono が choice_reserve_trial を送る
+  reserve_complete: { label: "hacomonoウィジェット", since: "" },
+  reservation_complete: { label: "BOOKOM", since: "2026-10-04" },
+};
 
 // LINE Harnessのタグ名(hacomono webhookで付与される)
 const TAG_BOOKED = "予約_完了";
@@ -128,7 +138,7 @@ async function fetchAccessRows(config, startDate) {
       group by sid
     ) e on e.sid = s.session_id
     where s.$start_timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}')
-      and s.$entry_current_url like 'https://${SITE_HOST}%'
+      and (s.$entry_current_url like 'https://${SITE_HOST}%' or s.$entry_current_url like 'https://bookom.jp/reservation%')
     group by d, p, src, med, cmp, cnt, ch
     order by d, n desc
     limit 10000`;
@@ -191,7 +201,7 @@ function resolveLineRoute(friend, lineRoutes) {
 function parseMaster(values) {
   return values
     .slice(1)
-    .filter((r) => r[0] && r[5] === "LP")
+    .filter((r) => r[0] && (r[5] === "LP" || r[5] === "BOOKOM"))
     .map((r) => ({
       id: r[0],
       kind: r[2] || "",
@@ -201,6 +211,7 @@ function parseMaster(values) {
 }
 
 // UTMなしの経路(SEOなど)は、PostHogのチャネル種別で振り分ける
+// (BOOKOMの予約ページ /reservation を入口にした広告流入も、経路マスタの「遷移先の種類=BOOKOM」で割り当てる)
 const CHANNEL_BY_KIND = { SEO: "Organic Search" };
 
 // 最も条件が細かく一致した経路を採用する。"{{campaign.name}}" のような差し込み値は「何でも可」として扱う
@@ -216,7 +227,11 @@ function resolveRoute(row, master) {
       let ok = true;
       m.utm.forEach((v, i) => {
         if (!v || v.includes("{{")) return;
-        if (v !== values[i]) ok = false;
+        // 「*」は任意の文字列(例: *ix001 = 末尾がix001のコンテンツ名)。それ以外は完全一致
+        const matched = v.includes("*")
+          ? new RegExp(`^${v.split("*").map((t) => t.replace(/[.+?^${}()|[\]\\]/g, "\\$&")).join(".*")}$`, "i").test(values[i])
+          : v === values[i];
+        if (!matched) ok = false;
         else score += 2;
       });
       if (!ok || !values[0]) continue;
@@ -253,12 +268,66 @@ async function fetchFriends(config) {
 
 // ---------------- Google Sheets ----------------
 
-async function getSheets() {
-  const { client_id, client_secret } = JSON.parse(readSecret("google-oauth-client.json"));
+function getGoogleAuth() {
+  const cj = JSON.parse(readSecret("google-oauth-client.json"));
+  const { client_id, client_secret } = cj.installed ?? cj.web ?? cj;
   const tokens = JSON.parse(readSecret("google-oauth-token.json"));
   const auth = new google.auth.OAuth2(client_id, client_secret);
   auth.setCredentials(tokens);
-  return google.sheets({ version: "v4", auth });
+  return auth;
+}
+
+async function getSheets() {
+  return google.sheets({ version: "v4", auth: getGoogleAuth() });
+}
+
+// ---------------- GA4 (CV) ----------------
+
+// GA4の「(not set)」「(direct)」などは、経路マスタの判定では「UTMなし」として扱う
+function ga4Value(v) {
+  const t = decode(v || "");
+  return /^\((not set|direct|none|data not available)\)$/i.test(t) || /^\(direct\) \/ \(none\)$/i.test(t) ? "" : t;
+}
+
+// 1行 = 日付×イベント×セッションの流入元(×入口LP)。CV件数をGA4から取り、経路IDを割り当てる。
+// hacomono側のセッションは、ドメイン間の引き継ぎが効いている場合だけLPの流入元を引き継ぐ。
+// 引き継げない(入口がhacomono/BOOKOMなど)ものは、経路IDを空にして「未特定」として残す。
+async function fetchCvRows(config, startDate, master) {
+  const propertyId = config.ga4PropertyId;
+  if (!propertyId) throw new Error("scripts/seo-config.json に ga4PropertyId が設定されていません");
+  const analyticsdata = google.analyticsdata({ version: "v1beta", auth: getGoogleAuth() });
+  const res = await analyticsdata.properties.runReport({
+    property: `properties/${propertyId}`,
+    requestBody: {
+      dateRanges: [{ startDate, endDate: "today" }],
+      dimensions: [
+        { name: "date" }, { name: "eventName" }, { name: "sessionSource" }, { name: "sessionMedium" },
+        { name: "sessionCampaignName" }, { name: "sessionManualAdContent" }, { name: "sessionDefaultChannelGroup" },
+        { name: "landingPage" },
+      ],
+      metrics: [{ name: "eventCount" }],
+      dimensionFilter: { filter: { fieldName: "eventName", inListFilter: { values: Object.keys(CV_EVENTS) } } },
+      limit: 10000,
+    },
+  });
+  const lpPaths = new Set(master.map((m) => m.lp).filter(Boolean));
+  const out = [];
+  for (const r of res.data.rows || []) {
+    const [d, ev, src, med, cmp, cnt, channel, landing] = r.dimensionValues.map((v) => v.value);
+    const conf = CV_EVENTS[ev];
+    const date = `${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}`;
+    if (!conf || (conf.since && date < conf.since)) continue;
+    const lpRaw = normalizePath(landing);
+    const lp = lpPaths.has(lpRaw) ? lpRaw : "";
+    const row = { lp, src: ga4Value(src), med: ga4Value(med), cmp: ga4Value(cmp), cnt: ga4Value(cnt), channel: channel || "" };
+    const routeId = resolveRoute(row, master);
+    const origin = [src, med].filter(Boolean).join(" / ");
+    out.push({
+      date, routeId, lp: lp || (landing && landing !== "(not set)" ? landing : ""), count: Number(r.metricValues[0].value),
+      memo: `${conf.label}(${ev})${routeId ? "" : ` 流入:${origin || "不明"}`}`,
+    });
+  }
+  return out;
 }
 
 async function readRange(sheets, spreadsheetId, range) {
@@ -322,6 +391,15 @@ async function main() {
     ];
   });
 
+  let cvRows = [];
+  let cvError = null;
+  try {
+    cvRows = await fetchCvRows(config, startDate, master);
+  } catch (err) {
+    cvError = err.message;
+    console.error(`警告: GA4のCV取得に失敗しました(他のシートの同期は続行します): ${cvError}`);
+  }
+
   if (DRY_RUN) {
     console.log(`[dry-run] データ_アクセス ${startDate}〜: ${newAccess.length}行`);
     for (const row of newAccess.slice(0, 15)) console.log("  " + row.join(" | "));
@@ -329,6 +407,8 @@ async function main() {
     for (const row of sectionRows.slice(0, 10)) console.log("  " + row.join(" | "));
     const withRef = friends.filter((f) => f.refCode).length;
     console.log(`[dry-run] データ_LINE追加: ${lineRows.length}件（ref付き ${withRef}件）`);
+    console.log(`[dry-run] データ_CV ${startDate}〜: ${cvRows.length}行`);
+    for (const r of cvRows.slice(0, 15)) console.log(`  ${r.date} | 体験予約 | ${r.routeId || "(未特定)"} | ${r.lp} | ${r.count} | GA4 | ${r.memo}`);
     return;
   }
 
@@ -349,6 +429,40 @@ async function main() {
   const sectionMerged = [...sectionExisting.map((r) => [sheetDate(r[0]), ...r.slice(1)]), ...sectionRows];
   await rewriteSheet(sheets, spreadsheetId, SHEET_SECTION, sectionHeader, sectionMerged);
   await rewriteSheet(sheets, spreadsheetId, SHEET_LINE, lineHeader, lineRows);
+
+  if (!cvError) {
+    const cvHeader = ["日付", "CV種別", "経路ID", "LPパス", "件数", "ソース", "会員ID/予約ID（任意）", "メモ（予約時アンケートの回答など）"];
+    const cvExisting = (await readRange(sheets, spreadsheetId, `${SHEET_CV}!A2:H`)).filter(
+      (r) => r.some((v) => v !== "") && !(r[5] === "GA4" && sheetDate(r[0]) >= startDate),
+    );
+    // 手入力で経路を割り当てたCV(ソース=手入力、メモが「GA4未特定分の割当」で始まる行)は、
+    // 同じ日のGA4「経路を特定できなかった分」から差し引く(同じCVが二重に数えられないように)
+    const assigned = {};
+    for (const r of cvExisting) {
+      if (r[5] === "手入力" && String(r[7] || "").startsWith("GA4未特定分の割当")) {
+        const d = sheetDate(r[0]);
+        assigned[d] = (assigned[d] || 0) + Number(r[4] || 0);
+      }
+    }
+    const cvAdjusted = [];
+    for (const r of cvRows) {
+      let count = r.count;
+      if (!r.routeId && assigned[r.date] > 0) {
+        const take = Math.min(count, assigned[r.date]);
+        count -= take;
+        assigned[r.date] -= take;
+      }
+      if (count > 0) cvAdjusted.push({ ...r, count });
+    }
+    const cvNew = cvAdjusted.map((r) => [r.date, "体験予約", r.routeId, r.lp, r.count, "GA4", "", r.memo]);
+    const cvMerged = [...cvExisting.map((r) => [sheetDate(r[0]), ...r.slice(1)]), ...cvNew].sort((a, b) =>
+      String(a[0]).localeCompare(String(b[0])),
+    );
+    await rewriteSheet(sheets, spreadsheetId, SHEET_CV, cvHeader, cvMerged);
+    const cvTotal = cvAdjusted.reduce((s, r) => s + r.count, 0);
+    const cvUnmatched = cvAdjusted.filter((r) => !r.routeId).reduce((s, r) => s + r.count, 0);
+    console.log(`データ_CV: ${startDate}〜 ${cvRows.length}行（CV ${cvTotal}件、経路を特定できなかった分 ${cvUnmatched}件）`);
+  }
 
   const unmatched = newAccess.filter((r) => !r[2]).reduce((s, r) => s + r[7], 0);
   const total = newAccess.reduce((s, r) => s + r[7], 0);
