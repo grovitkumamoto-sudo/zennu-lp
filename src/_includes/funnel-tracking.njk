@@ -1,6 +1,7 @@
 <script>
   // LPの離脱位置と予約ウィジェットの利用を計測する(集客ダッシュボード用)。
-  //   lp_section_view : 各セクションが画面に入った(1ページ1セクション1回)
+  //   lp_section_view : 各セクションが画面に入った(1ページ1セクション1回)。セクションの3割、
+  //                     または画面の半分以上を占めたら「見た」とする(画面より大きく高いセクションも数えるため)
   //   widget_view     : 予約ウィジェットが画面に入った
   //   widget_interact : 予約ウィジェットを操作した(iframe内のクリックは直接取れないため、
   //                     ページのフォーカスがiframeに移ったことで判定する)
@@ -37,7 +38,8 @@
       const seen = new Set();
       const sectionObserver = new IntersectionObserver(entries => {
         entries.forEach(entry => {
-          if (!entry.isIntersecting || seen.has(entry.target)) return;
+          const visible = entry.intersectionRatio >= 0.3 || entry.intersectionRect.height >= window.innerHeight * 0.5;
+          if (!entry.isIntersecting || !visible || seen.has(entry.target)) return;
           seen.add(entry.target);
           sectionObserver.unobserve(entry.target);
           send("lp_section_view", {
@@ -46,7 +48,7 @@
             section_total: sections.length,
           });
         });
-      }, { threshold: 0.3 });
+      }, { threshold: [0, 0.1, 0.2, 0.3, 0.5, 0.75, 1] });
       sections.forEach(section => sectionObserver.observe(section));
 
       if (widget) {
