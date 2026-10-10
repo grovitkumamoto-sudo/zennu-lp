@@ -5,6 +5,8 @@
   //   widget_view     : 予約ウィジェットが画面に入った
   //   widget_interact : 予約ウィジェットを操作した(iframe内のクリックは直接取れないため、
   //                     ページのフォーカスがiframeに移ったことで判定する)
+  //   widget_reservation_completed : ウィジェットで予約が完了した。hacomonoのウィジェットが埋め込み元に
+  //                     postMessageで送る通知を受け取る(予約の中身は送らず、完了したことだけ記録する)
   // PostHogはGTM経由で後から読み込まれるので、準備できるまで送信を待つ。
   (() => {
     const queue = [];
@@ -60,6 +62,16 @@
         widgetObserver.observe(widget);
       }
     }
+
+    // hacomonoは送信先を限定せずに通知するので、送信元がhacomonoのドメインかも確かめる
+    let reserved = false;
+    window.addEventListener("message", event => {
+      const data = event.data;
+      if (reserved || !data || data.type !== "reservation_completed" || data.source !== "hacomono-widget") return;
+      if (!/^https:\/\/[a-z0-9-]+\.hacomono\.jp$/.test(event.origin)) return;
+      reserved = true;
+      send("widget_reservation_completed", {});
+    });
 
     if (widget) {
       let interacted = false;
