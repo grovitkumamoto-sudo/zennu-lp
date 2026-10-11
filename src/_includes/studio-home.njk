@@ -1,5 +1,5 @@
 <!doctype html>
-{% if cp5 %}
+{% if cp5 or cp7 %}
   {% set studioTrialUrl = "https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/9?trial=true" %}
 {% else %}
   {% set studioTrialUrl = "https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" %}
@@ -25,7 +25,7 @@
   {% if cp5 %}<link rel="preload" as="video" href="/videos/brand-hero-720.m4v" type="video/mp4">{% else %}<link rel="preload" as="image" href="/images/studio-hero-original.jpg">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  {% if cp5 %}<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Manrope:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">{% else %}<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">{% endif %}
   {% include "studio-home-style.njk" %}
   {% if cp7 %}{% include "studio-cp7-style.njk" %}{% endif %}
   {% include "latest-blog-style.njk" %}
