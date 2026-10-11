@@ -1,35 +1,41 @@
 <!doctype html>
+{% if cp5 or cp7 %}
+  {% set studioTrialUrl = "https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/9?trial=true" %}
+{% else %}
+  {% set studioTrialUrl = "https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" %}
+{% endif %}
 <html lang="ja">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>{% if cp4 %}{{ site.meta.title }} | CP4{% else %}{{ site.meta.title }}{% endif %}</title>
+  <title>{% if cp7 %}{{ site.meta.title }} | CP7{% elif cp5 %}{{ site.meta.title }} | CP5{% elif cp4 %}{{ site.meta.title }} | CP4{% else %}{{ site.meta.title }}{% endif %}</title>
   <meta name="description" content="{{ site.meta.description }}">
-  <link rel="canonical" href="{{ site.meta.url }}{% if cp4 %}/cp4lp/{% else %}/{% endif %}">
-  <meta name="robots" content="{% if cp4 %}noindex,follow{% else %}index,follow{% endif %}">
+  <link rel="canonical" href="{{ site.meta.url }}{% if cp7 %}/cp7lp/{% elif cp5 %}/cp5lp/{% elif cp4 %}/cp4lp/{% else %}/{% endif %}">
+  <meta name="robots" content="{% if cp4 or cp5 or cp7 %}noindex,follow{% else %}index,follow{% endif %}">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="ZenNu WELLNESS DESIGN">
   <meta property="og:title" content="{{ site.meta.title }}">
   <meta property="og:description" content="{{ site.meta.description }}">
-  <meta property="og:url" content="{{ site.meta.url }}{% if cp4 %}/cp4lp/{% else %}/{% endif %}">
+  <meta property="og:url" content="{{ site.meta.url }}{% if cp7 %}/cp7lp/{% elif cp5 %}/cp5lp/{% elif cp4 %}/cp4lp/{% else %}/{% endif %}">
   <meta property="og:image" content="{{ site.meta.url }}{{ site.meta.ogImage }}">
   <meta property="og:locale" content="ja_JP">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="/favicon.ico">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <link rel="preload" as="image" href="/images/studio-hero-original.jpg">
+  {% if cp5 %}<link rel="preload" as="video" href="/videos/brand-hero-720.m4v" type="video/mp4">{% else %}<link rel="preload" as="image" href="/images/studio-hero-original.jpg">{% endif %}
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  {% if cp5 %}<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&family=Manrope:wght@300;400;500;600&family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">{% else %}<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@700&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">{% endif %}
   {% include "studio-home-style.njk" %}
+  {% if cp7 %}{% include "studio-cp7-style.njk" %}{% endif %}
   {% include "latest-blog-style.njk" %}
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"HealthClub","name":"ZenNu WELLNESS DESIGN","url":"{{ site.meta.url }}/","image":"{{ site.meta.url }}{{ site.meta.ogImage }}","telephone":"{{ site.contact.telDisplay }}","priceRange":"¥¥","address":{"@type":"PostalAddress","postalCode":"860-0845","addressRegion":"熊本県","addressLocality":"熊本市中央区","streetAddress":"上通町6-15 オークス第二ビル 2F","addressCountry":"JP"},"geo":{"@type":"GeoCoordinates","latitude":"{{ site.meta.lat }}","longitude":"{{ site.meta.lng }}"},"openingHoursSpecification":[{"@type":"OpeningHoursSpecification","dayOfWeek":["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],"opens":"07:00","closes":"22:00"}]}
   </script>
-  <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"{% if cp4 %}landing_page{% else %}main_site{% endif %}",lp_variant:"{% if cp4 %}cp4lp{% else %}main{% endif %}"{% if cp4 %},lp_appeal:"hybrid"{% endif %}});</script>
+  <script>window.dataLayer=window.dataLayer||[];window.dataLayer.push({page_type:"{% if cp4 or cp5 or cp7 %}landing_page{% else %}main_site{% endif %}",lp_variant:"{% if cp7 %}cp7lp{% elif cp5 %}cp5lp{% elif cp4 %}cp4lp{% else %}main{% endif %}"{% if cp7 %},lp_appeal:"meo_plan_consult"{% elif cp5 %},lp_appeal:"mobile_video"{% elif cp4 %},lp_appeal:"hybrid"{% endif %}});</script>
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-PCDJZ9X9");</script>
 </head>
-<body>
+<body{% if cp5 %} class="cp5-mobile-shell"{% endif %}>
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCDJZ9X9" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
   {% macro campaign(anchor) %}
@@ -39,13 +45,13 @@
     <div class="benefit-grid">
       <div class="benefit">
         <span class="benefit-label">特典 01</span>
-        <h3>当日入会で</h3>
-        <div class="benefit-deal"><span>入会金 <s>11,000円</s></span><strong>0円</strong></div>
+        <h3>{% if cp7 %}入会金{% else %}当日入会で{% endif %}</h3>
+        {% if cp7 %}<div class="benefit-deal cp7-benefit-deal"><span>体験当日に入会の場合</span><strong>0円</strong></div>{% else %}<div class="benefit-deal"><span>入会金 <s>11,000円</s></span><strong>0円</strong></div>{% endif %}
       </div>
       <div class="benefit">
         <span class="benefit-label">特典 02</span>
         <h3>パーソナルトレーニング1回</h3>
-        <div class="benefit-deal"><span>通常単発 <s>9,000円</s></span><strong>初回無料</strong></div>
+        {% if cp7 %}<div class="benefit-deal cp7-benefit-deal"><strong>初回無料</strong></div>{% else %}<div class="benefit-deal"><span>通常単発 <s>9,000円</s></span><strong>初回無料</strong></div>{% endif %}
       </div>
       <div class="benefit">
         <span class="benefit-label">特典 03</span>
@@ -63,9 +69,9 @@
       </div>
     </div>
     <div class="trial-box">
-      <p><strong>先着順！</strong> 今月予約枠残り{{ site.campaign.remaining }}名様</p>
-      <a class="trial-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><small>手ぶら<br>OK</small>無料体験を<br>予約する</a>
-      <p class="trial-note">※人気につき予約枠が埋まりやすいため、お早めにご予約ください。</p>
+      {% if cp7 %}<p>料金や通い方は、無料体験でご相談いただけます。</p>{% else %}<p><strong>先着順！</strong> 今月予約枠残り{{ site.campaign.remaining }}名様</p>{% endif %}
+      <a class="trial-button" href="{{ studioTrialUrl }}" target="_blank" rel="noopener"><small>手ぶら<br>OK</small>無料体験を<br>予約する</a>
+      {% if cp7 %}<p class="trial-note">体験後の入会は任意です。ご自身に合うプランを一緒に選べます。</p>{% else %}<p class="trial-note">※人気につき予約枠が埋まりやすいため、お早めにご予約ください。</p>{% endif %}
     </div>
   </section>
   {% endmacro %}
@@ -90,7 +96,7 @@
         </nav>
         <div class="desktop-actions">
           <a class="header-line-link" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener" aria-label="LINEで相談">LINE</a>
-          <a class="header-reserve" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>初回体験</span>無料体験を予約</a>
+          <a class="header-reserve" href="{{ studioTrialUrl }}" target="_blank" rel="noopener"><span>初回体験</span>無料体験を予約</a>
         </div>
         <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="メニューを開く">
           <span></span><span></span><span></span>
@@ -113,13 +119,34 @@
         </div>
         <div class="mobile-menu-actions">
           <a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener">LINEで相談する</a>
-          <a class="book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">無料体験を予約する</a>
+          <a class="book" href="{{ studioTrialUrl }}" target="_blank" rel="noopener">無料体験を予約する</a>
         </div>
       </nav>
     </header>
     <button class="menu-scrim" type="button" aria-label="メニューを閉じる" tabindex="-1"></button>
 
     <main>
+      {% if cp5 %}
+      <section id="top" class="cp5-hero" aria-labelledby="cp5-hero-title">
+        <div class="cp5-hero-media">
+          <video autoplay muted loop playsinline preload="auto" poster="/images/hero.jpg" aria-label="ZenNu WELLNESS DESIGNでトレーニングする会員とトレーナー">
+            <source src="/videos/brand-hero-720.m4v" type="video/mp4">
+          </video>
+          <span>PERSONAL × SELF TRAINING</span>
+        </div>
+        <div class="cp5-hero-copy">
+          <p class="cp5-hero-kicker">熊本・上通のパーソナル×セルフジム</p>
+          <h1 id="cp5-hero-title">プロとだから、<br><em>迷わず理想へ。</em><br>続けられるから、<br><em>ずっと理想のまま。</em></h1>
+          <p class="cp5-hero-lead">運動を教わる日も、自分で続ける日も。<br>生活と予算に合わせて、通い方を選べます。</p>
+        </div>
+        <div class="cp5-hero-proof" aria-label="ZenNuの3つの特徴">
+          <div><span>01</span><strong>完全予約制</strong><small>お子様連れOK</small></div>
+          <div><span>02</span><strong>月額10,890円〜</strong><small>セルフ使い放題</small></div>
+          <div><span>03</span><strong>プロが伴走</strong><small>累計300名以上指導</small></div>
+        </div>
+        <a class="cp5-hero-cta" href="{{ studioTrialUrl }}" target="_blank" rel="noopener"><small>初回限定</small><strong>無料体験を予約する</strong><span aria-hidden="true">→</span></a>
+      </section>
+      {% else %}
       <section id="top" class="studio-responsive-hero" aria-labelledby="studio-hero-title">
         <div class="studio-hero-photo" aria-hidden="true">
           <img src="/images/studio-hero-original.jpg" alt="" fetchpriority="high">
@@ -160,13 +187,12 @@
               <svg class="studio-proof-icon" viewBox="0 0 48 48" aria-hidden="true">
                 <path d="M4 19h5v10H4V19Zm5-4h5v18H9V15Zm5 7h20v4H14v-4Zm20-7h5v18h-5V15Zm5 4h5v10h-5V19Z"></path>
               </svg>
-              <p>コスパ抜群！</p>
-              <strong class="studio-hero-price"><span class="studio-price-label">月<br>額</span><span class="studio-price-main"><em>10,890</em><b>円</b></span><span class="studio-price-unit">〜</span></strong>
-              <small>セルフ使い放題</small>
+              {% if cp7 %}<p>目的に合わせて</p><strong class="cp7-hero-choice">選べる月額制</strong><small>詳しい料金は体験時に</small>{% else %}<p>コスパ抜群！</p><strong class="studio-hero-price"><span class="studio-price-label">月<br>額</span><span class="studio-price-main"><em>10,890</em><b>円</b></span><span class="studio-price-unit">〜</span></strong><small>セルフ使い放題</small>{% endif %}
             </div>
           </div>
         </div>
       </section>
+      {% endif %}
 
       <section id="trial-campaign" class="campaign-mini" aria-labelledby="campaign-mini-title">
         <div class="campaign-mini-ribbon"><span>初回限定キャンペーン</span></div>
@@ -174,7 +200,7 @@
         <div class="campaign-mini-panel">
           <div class="campaign-mini-row">
             <p class="campaign-mini-status"><strong>先着順！</strong> 今月予約枠残り<b>{{ site.campaign.remaining }}名様</b></p>
-            <a class="campaign-mini-button" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">
+            <a class="campaign-mini-button" href="{{ studioTrialUrl }}" target="_blank" rel="noopener">
               <span class="campaign-mini-hand">手ぶら<br><strong>OK</strong></span>
               <span class="campaign-mini-button-copy"><strong>無料体験を</strong>予約する</span>
               <b aria-hidden="true">→</b>
@@ -224,7 +250,7 @@
         <p class="eyebrow">FEATURE</p>
         <h2 class="section-title">ZenNu WELLNESS DESIGNの<br>強み</h2>
         <div class="feature-list">
-          <article class="feature-card"><span class="feature-no">01</span><img src="/images/studio/1dfc7cf8ff47d547.webp" alt="パーソナルトレーニング"><h3>コスパ最強！プロと二人三脚の環境が<br>10,890円〜</h3><p>プロのパーソナルトレーニングを食事指導もついて受けられます。近隣では業界最安値。効率よくダイエットしたい方にはコスパ最強です。</p></article>
+          {% if cp7 %}<article class="feature-card"><span class="feature-no">01</span><img src="/images/studio/1dfc7cf8ff47d547.webp" alt="パーソナルトレーニング"><h3>目的に合わせて、<br>通い方を選べる。</h3><p>パーソナルのみ、セルフ利用のみ、その組み合わせから選択。運動経験や生活リズムに合わせて、無料体験でご相談いただけます。</p></article>{% else %}<article class="feature-card"><span class="feature-no">01</span><img src="/images/studio/1dfc7cf8ff47d547.webp" alt="パーソナルトレーニング"><h3>コスパ最強！プロと二人三脚の環境が<br>10,890円〜</h3><p>プロのパーソナルトレーニングを食事指導もついて受けられます。近隣では業界最安値。効率よくダイエットしたい方にはコスパ最強です。</p></article>{% endif %}
           <article class="feature-card"><span class="feature-no">02</span><img src="/images/studio/2bdb2a034ef7d56e.webp" alt="セルフトレーニングのサポート"><h3>パーソナルで覚えたトレーニングを<br>セルフ利用でコスパ◎</h3><p>過去300人以上を指導してきたトレーナーがあなた専用プログラムを作成。スタッフアワーは質問もフォームチェックも可能です。</p></article>
           <article class="feature-card"><span class="feature-no">03</span><img src="/images/studio/c45496812b4b0efa.webp" alt="レンタルウェア"><h3>手ぶらでOKで<br>好きな時間に通える</h3><p>ウェアやシューズ、タオル、ウォーターサーバー、シャワールームなどを完備。朝7時〜夜22時営業だから、仕事前後でも通いやすい環境です。</p></article>
           <article class="feature-card"><span class="feature-no">04</span><img src="/images/studio/9f010625d294e8fa.webp" alt="無理な食事制限のない食事指導"><h3>無理な食事制限なし！<br>炭水化物OK！</h3><p>炭水化物を食べて代謝を上げて痩せるダイエットをアドバイス。何をしても痩せなくなってしまった方にも、一生続けられる食事をお伝えします。</p></article>
@@ -331,6 +357,7 @@
 
       {{ campaign() }}
 
+      {% if not cp5 %}
       <section id="secrets" class="section secrets">
         <h2 class="section-title"><span class="secrets-title-lead">「挫折」を「成功」に変える</span><span class="orange">3つの秘訣</span></h2>
         <article id="secret-1" class="secret-card secret-gray secret-slope-right">
@@ -349,6 +376,7 @@
           <ul class="check-list"><li><strong>3食白米OK</strong>。「食べながら痩せる」代謝改善プログラム</li><li>減らすだけではなく、<strong>必要な栄養をしっかり摂る</strong></li><li><strong>続けられる食習慣</strong>のアドバイスでリバウンド防止</li></ul>
         </article>
       </section>
+      {% endif %}
 
       <section class="amenities">
         <h2 class="amenity-title">整った設備で<br>快適にトレーニング</h2>
@@ -378,6 +406,7 @@
 
       <section class="section-price" id="price">
         <div class="price-intro">
+          {% if cp7 %}{% include "studio-cp7-price.njk" %}{% else %}
           <span class="ghost">PRICE</span><p class="eyebrow">PRICE</p>
           <h2 class="section-title">ライフスタイルに合わせて<br>選べる料金プラン</h2>
           <div class="admission"><b>入会金</b><strong>11,000円</strong><br>（当日入会で無料）</div>
@@ -428,16 +457,17 @@
             {% endfor %}
           </div>
           <p class="studio-price-note">{{ site.pricing.note | safe }}</p>
+          {% endif %}
         </div>
-        <div class="comparison">
+        <div class="comparison{% if cp7 %} cp7-compare{% endif %}">
           <h2>手厚いサポートで<br><span class="orange">圧倒的</span>なコストパフォーマンス</h2>
           <table>
             <thead><tr><th></th><th>ZenNu WELLNESS<br>DESIGN</th><th>一般的な<br>パーソナルジム</th><th>24Hジム</th></tr></thead>
             <tbody>
-              <tr><td>料金</td><td>月額<br>9,900円〜（税抜）</td><td>月額<br>50,000円以上〜</td><td>月額<br>5,000円〜</td></tr>
-              <tr><td>トレーニングの質</td><td>正しいフォーム<br>食事指導あり</td><td>指導あり</td><td>自己流</td></tr>
+              {% if cp7 %}<tr><td>通い方</td><td>パーソナル・セルフ・併用から選べる</td><td>個別指導が中心</td><td>セルフ利用が中心</td></tr>{% else %}<tr><td>料金</td><td>月額<br>9,900円〜（税抜）</td><td>月額<br>50,000円以上〜</td><td>月額<br>5,000円〜</td></tr>{% endif %}
+              <tr><td>トレーニングの質</td><td>{% if cp7 %}プランに応じて<br>個別指導を選べる{% else %}正しいフォーム<br>食事指導あり{% endif %}</td><td>指導あり</td><td>自己流</td></tr>
               <tr><td>続けやすさ</td><td>予約制で<br>習慣化しやすい</td><td>高額で<br>続けにくい</td><td>自由すぎて<br>行かなくなる</td></tr>
-              <tr><td>コスパ</td><td>パーソナルの指導を受けながらセルフでコストを抑えられる</td><td>料金が高く、続けるのが難しい</td><td>安価だが、結果が出ないことも多い</td></tr>
+              <tr><td>コスパ</td><td>{% if cp7 %}必要なサポートとセルフ利用を選べる{% else %}パーソナルの指導を受けながらセルフでコストを抑えられる{% endif %}</td><td>料金が高く、続けるのが難しい</td><td>安価だが、結果が出ないことも多い</td></tr>
             </tbody>
           </table>
         </div>
@@ -465,6 +495,7 @@
         </div>
       </section>
 
+      {% if not cp5 %}
       <section class="story">
         <h2>ZenNu WELLNESS DESIGN<br>が生まれた理由</h2>
         <p>僕自身、もともと運動が得意ではなく、学生時代は貧血や体力のなさに悩んでいました。</p>
@@ -485,6 +516,7 @@
         <div class="principles"><div>体が変わると、気持ちも変わる。</div><div>気持ちが変わると、生活が変わる。</div><div>生活が変わると、全てが豊かになる。</div></div>
         <p class="lead">だから、当社は<br><strong class="orange">挫折させないジム</strong>として、<br>あなたの継続を支えます。</p>
       </section>
+      {% endif %}
 
       <section class="section flow-section" id="flow">
         <span class="ghost">FLOW</span><p class="eyebrow">FLOW</p><h2 class="section-title">体験トレーニングの<br>流れ</h2>
@@ -523,7 +555,7 @@
           <article class="faq-item open"><button class="faq-q" type="button"><strong>Q</strong><span>運動初心者でも大丈夫ですか？</span><i>＋</i></button><div class="faq-a"><strong>A</strong><p><b>まったく問題ありません。</b><br>9割以上の方が運動初心者からスタートしています。トレーナーがマンツーマンでフォームを指導し、安全で効果的なトレーニングを提供します。</p></div></article>
           <article class="faq-item"><button class="faq-q" type="button"><strong>Q</strong><span>食事指導はどんな内容ですか？</span><i>＋</i></button><div class="faq-a"><strong>A</strong><p>「食べながら痩せる」代謝改善型のプログラムです。糖質制限は行わず、体質に合わせた食事習慣を身につけられるよう指導します。</p></div></article>
           <article class="faq-item"><button class="faq-q" type="button"><strong>Q</strong><span>どのくらいで効果が出ますか？</span><i>＋</i></button><div class="faq-a"><strong>A</strong><p>3ヶ月を目安に、体脂肪の減少や筋力アップを実感している方が多いです。個人差はありますが、1ヶ月目から体調の変化を感じる方もいます。</p></div></article>
-          <article class="faq-item"><button class="faq-q" type="button"><strong>Q</strong><span>料金が心配なのですが…</span><i>＋</i></button><div class="faq-a"><strong>A</strong><p>パーソナルの質を維持しながらセルフを活用することで、コストを抑えた仕組みです。まずは無料体験で実際のプログラムをお試しください。</p></div></article>
+          <article class="faq-item"><button class="faq-q" type="button"><strong>Q</strong><span>料金が心配なのですが…</span><i>＋</i></button><div class="faq-a"><strong>A</strong><p>{% if cp7 %}月額は通い方と回数によって異なります。ご契約前に料金・初期費用・割引条件をすべてご説明します。事前に知りたい場合はLINEでもご質問いただけます。{% else %}パーソナルの質を維持しながらセルフを活用することで、コストを抑えた仕組みです。まずは無料体験で実際のプログラムをお試しください。{% endif %}</p></div></article>
           <article class="faq-item"><button class="faq-q" type="button"><strong>Q</strong><span>仕事帰りに利用したいのですが、シャワーやレンタルはありますか？</span><i>＋</i></button><div class="faq-a"><strong>A</strong><p>すべて完備しています。ウェア・シューズ・タオル・飲料水・コーヒーが無料で利用でき、シャワー・トイレは男女別です。</p></div></article>
           <article class="faq-item"><button class="faq-q" type="button"><strong>Q</strong><span>セルフトレーニングだけでも効果はありますか？</span><i>＋</i></button><div class="faq-a"><strong>A</strong><p>正しいフォームとメニューを実践すれば効果を実感できます。パーソナルで正しい知識を身につけ、セルフで習慣化するサイクルを支援します。</p></div></article>
           <article class="faq-item"><button class="faq-q" type="button"><strong>Q</strong><span>予約は必要ですか？</span><i>＋</i></button><div class="faq-a"><strong>A</strong><p>パーソナルトレーニング、セルフ利用とも完全予約制です。ご予約の24時間前まではキャンセル・変更が可能です。</p></div></article>
@@ -559,7 +591,7 @@
         <div class="studio-footer-contact">
           <p>〒860-0845<br>熊本県熊本市中央区上通町6-15<br>オークス第二ビル 2F</p>
           <a href="tel:{{ site.contact.tel }}">{{ site.contact.telDisplay }}</a>
-          <div><a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener">LINEで相談</a><a class="book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener">無料体験を予約</a></div>
+          <div><a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener">LINEで相談</a><a class="book" href="{{ studioTrialUrl }}" target="_blank" rel="noopener">無料体験を予約</a></div>
         </div>
       </div>
       <div class="studio-footer-bottom">
@@ -571,7 +603,7 @@
 
   <div class="mobile-sticky">
     <a class="line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener"><span>LINEで相談<small>質問だけでもOK</small></span></a>
-    <a class="book" href="https://zennuwellnessdesign.hacomono.jp/reserve/schedule/1/1/?trial=true" target="_blank" rel="noopener"><span>無料体験を予約<small>空き状況を確認</small></span></a>
+    <a class="book" href="{{ studioTrialUrl }}" target="_blank" rel="noopener"><span>無料体験を予約<small>空き状況を確認</small></span></a>
   </div>
 
   <script>
