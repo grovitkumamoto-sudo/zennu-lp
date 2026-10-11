@@ -1,0 +1,34 @@
+<script>
+  (() => {
+    const sections = [...document.querySelectorAll("main section[id]")];
+    if (!sections.length || !("IntersectionObserver" in window)) return;
+
+    const pending = [];
+    const seen = new Set();
+    const flush = () => {
+      if (!window.posthog || typeof window.posthog.capture !== "function") return;
+      while (pending.length) {
+        window.posthog.capture("lp_section_view", pending.shift());
+      }
+    };
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting || seen.has(entry.target.id)) return;
+        seen.add(entry.target.id);
+        pending.push({
+          lp_variant: "{{ ixVariant }}",
+          section_id: entry.target.id,
+          section_label: entry.target.getAttribute("aria-label") || entry.target.id,
+          section_order: sections.indexOf(entry.target) + 1,
+          page_path: location.pathname
+        });
+        observer.unobserve(entry.target);
+      });
+      flush();
+    }, { threshold: 0.35 });
+    sections.forEach(section => observer.observe(section));
+    const poll = setInterval(flush, 500);
+    setTimeout(() => clearInterval(poll), 60000);
+    window.addEventListener("load", flush, { once: true });
+  })();
+</script>
