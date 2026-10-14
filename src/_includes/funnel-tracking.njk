@@ -51,7 +51,10 @@
           });
         });
       }, { threshold: [0, 0.1, 0.2, 0.3, 0.5, 0.75, 1] });
+      {#- ix-section-tracking.njk でセクションを計測しているページは、二重に数えないよう送らない #}
+      {%- if not skipSectionTracking %}
       sections.forEach(section => sectionObserver.observe(section));
+      {%- endif %}
 
       if (widget) {
         const widgetObserver = new IntersectionObserver(entries => {
