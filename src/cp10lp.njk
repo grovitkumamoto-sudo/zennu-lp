@@ -26,6 +26,20 @@ eleventyExcludeFromCollections: true
     html { scroll-behavior: smooth; }
     body { margin: 0; background: #090909; color: #fff; font-family: Arial, "Noto Sans JP", sans-serif; }
     .ix002-page { width: min(100%, 540px); margin: 0 auto; padding-bottom: calc(76px + env(safe-area-inset-bottom)); background: #000; overflow: clip; }
+    .ix002-header { position: sticky; top: 0; z-index: 30; min-height: 60px; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 16px; background: rgba(9, 9, 9, .97); border-bottom: 2px solid #b9aa76; box-shadow: 0 5px 18px rgba(0, 0, 0, .22); }
+    .ix002-header-brand { display: inline-flex; align-items: center; min-width: 0; }
+    .ix002-header-brand img { display: block; width: clamp(156px, 42vw, 216px); max-width: 100%; height: auto; }
+    .ix002-menu-toggle { min-width: 88px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; flex: none; padding: 8px 10px; border: 1px solid #6d6450; border-radius: 4px; background: #222; color: #fff; font: 700 11px/1 Arial, sans-serif; letter-spacing: .12em; cursor: pointer; }
+    .ix002-menu-toggle[aria-expanded="true"] { border-color: #d7c58c; }
+    .ix002-menu-toggle:focus-visible, .ix002-header-brand:focus-visible, .ix002-menu a:focus-visible { outline: 3px solid #d7c58c; outline-offset: 3px; }
+    .ix002-menu-icon { width: 17px; display: grid; gap: 4px; }
+    .ix002-menu-icon span { display: block; height: 2px; border-radius: 2px; background: currentColor; }
+    .ix002-menu[hidden] { display: none; }
+    .ix002-menu { position: absolute; top: 100%; right: 0; left: 0; display: grid; padding: 8px 16px 16px; background: #171717; border-bottom: 2px solid #b9aa76; box-shadow: 0 14px 22px rgba(0, 0, 0, .35); }
+    .ix002-menu a { display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 8px 4px; border-bottom: 1px solid #45403b; color: #fff; font-size: 15px; font-weight: 700; text-decoration: none; }
+    .ix002-menu a:last-child { border-bottom: 0; }
+    .ix002-menu a::after { content: '›'; color: #d7c58c; font-size: 24px; line-height: 1; }
+    #vision, #member-story, #price, #access, #reserve { scroll-margin-top: 72px; }
     .ix002-panel { position: relative; margin: 0; line-height: 0; }
     .ix002-panel img { display: block; width: 100%; height: auto; }
     .ix002-cta-link {
@@ -63,6 +77,17 @@ eleventyExcludeFromCollections: true
   <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCDJZ9X9" height="0" width="0" style="display:none;visibility:hidden" title=""></iframe></noscript>
   <main class="ix002-page" id="top">
     <h1 class="ix002-sr-only">ZenNu WELLNESS DESIGN｜ダイエット・筋トレ×ピラティス</h1>
+    <header class="ix002-header">
+      <a class="ix002-header-brand" href="#top" aria-label="ページ上部へ戻る"><img src="/images/logo-yoko.png" width="2135" height="319" alt="ZenNu WELLNESS DESIGN" decoding="async"></a>
+      <button class="ix002-menu-toggle" type="button" aria-expanded="false" aria-controls="lp10-menu" aria-label="メニューを開く"><span>MENU</span><span class="ix002-menu-icon" aria-hidden="true"><span></span><span></span><span></span></span></button>
+      <nav class="ix002-menu" id="lp10-menu" aria-label="ページ内メニュー" hidden>
+        <a href="#vision">ゼンヌとは</a>
+        <a href="#member-story">ビフォーアフター</a>
+        <a href="#price">料金プラン</a>
+        <a href="#access">アクセス</a>
+        <a href="#reserve">無料体験のご予約</a>
+      </nav>
+    </header>
     <section class="ix002-panel" id="hero" aria-label="ファーストビュー">
       <img src="/images/ix002-1/IX002-FV.jpg" width="1080" height="2000" alt="理想のカラダ、ここから始める。トレーニング、ピラティス、セルフ利用を組み合わせたZenNuのダイエット。" loading="eager" decoding="sync" fetchpriority="high">
     </section>
@@ -114,6 +139,31 @@ eleventyExcludeFromCollections: true
     <a class="ix002-sticky-line" href="{{ site.contact.lineUrl }}" target="_blank" rel="noopener noreferrer" data-click-label="LINE追加｜LP10_固定" data-click-type="conversion"><span class="ix002-sticky-line-mark" aria-hidden="true">LINE</span><span>LINE追加</span></a>
     <a class="ix002-sticky-trial" href="#reserve" data-click-label="予約欄へ移動｜LP10_固定" data-click-type="navigation"><span>無料体験を予約</span><span class="ix002-sticky-arrow" aria-hidden="true">›</span></a>
   </nav>
+  <script>
+    (() => {
+      const header = document.querySelector('.ix002-header');
+      const toggle = header.querySelector('.ix002-menu-toggle');
+      const menu = header.querySelector('.ix002-menu');
+      const closeMenu = () => {
+        menu.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+        toggle.setAttribute('aria-label', 'メニューを開く');
+      };
+      toggle.addEventListener('click', () => {
+        const opening = menu.hidden;
+        menu.hidden = !opening;
+        toggle.setAttribute('aria-expanded', String(opening));
+        toggle.setAttribute('aria-label', opening ? 'メニューを閉じる' : 'メニューを開く');
+      });
+      menu.addEventListener('click', event => { if (event.target.closest('a')) closeMenu(); });
+      document.addEventListener('pointerdown', event => { if (!header.contains(event.target)) closeMenu(); });
+      document.addEventListener('keydown', event => {
+        if (event.key !== 'Escape' || menu.hidden) return;
+        closeMenu();
+        toggle.focus();
+      });
+    })();
+  </script>
   <script src="https://zennuwellnessdesign.hacomono.jp/js/widget.js"></script>
   {% include "click-tracking.njk" %}
   {% include "ix-section-tracking.njk" %}
