@@ -57,6 +57,9 @@ eleventyExcludeFromCollections: true
     .ix001-reserve-head .eyebrow { display: block; color: #c15f2e; font-size: 12px; font-weight: 800; letter-spacing: .2em; }
     .ix001-reserve-head h2 { margin: 8px 0 10px; font-size: clamp(25px, 7vw, 34px); line-height: 1.35; }
     .ix001-reserve-head p { margin: 0; font-size: 13px; line-height: 1.7; }
+    .ix001-reserve-steps { display: grid; gap: 10px; margin: 0 0 20px; padding: 0; list-style: none; }
+    .ix001-reserve-steps li { display: flex; align-items: center; gap: 12px; padding: 15px; border: 2px solid #efad79; border-radius: 8px; background: #fff; font-size: clamp(16px, 4.5vw, 20px); font-weight: 800; line-height: 1.5; }
+    .ix001-reserve-steps .number { flex: none; color: #c15f2e; font-size: 28px; line-height: 1; }
     .ix001-widget-frame { overflow: hidden; border: 1px solid #edbd98; border-radius: 8px; background: #fff; box-shadow: 0 10px 28px rgba(0, 0, 0, .08); }
     .ix001-widget-frame iframe { display: block; width: 100%; min-height: 2600px; border: 0; background: #fff; }
     .ix001-reserve-fallback { margin: 14px 0 0; color: #555; font-size: 12px; line-height: 1.7; text-align: center; }
@@ -118,8 +121,12 @@ eleventyExcludeFromCollections: true
       <div class="ix001-reserve-head">
         <span class="eyebrow">FREE TRIAL RESERVATION</span>
         <h2 id="reserve-title">無料体験のご予約</h2>
-        <p>空き日時を選んで、そのままご予約いただけます。<br>プログラムは「カウンセリング＋体験トレーニング」をお選びください。</p>
+        <p>空き日時を選んで、そのままご予約いただけます。</p>
       </div>
+      <ol class="ix001-reserve-steps" aria-label="予約手順">
+        <li><span class="number" aria-hidden="true">①</span><span>プログラムで「カウンセリング＋体験トレーニング」を選ぶ</span></li>
+        <li><span class="number" aria-hidden="true">②</span><span>空いている日時をタップ</span></li>
+      </ol>
       <div class="ix001-widget-frame">
         <iframe id="hacomono-widget-w0002" src="https://zennuwellnessdesign.hacomono.jp/widgets/2?isFilterableByCategory=false&amp;isShowStudioInfo=true&amp;studioIds=1" title="ZenNu無料体験予約" loading="eager"></iframe>
       </div>
