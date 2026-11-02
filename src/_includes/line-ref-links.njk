@@ -3,6 +3,7 @@
   // どのページから友だち追加されたか(ref)と、流入元のUTM・広告クリックIDをLINE Harnessに記録するため。
   // 差し替え前のURL(microCMSのlineUrl)はJSが動かない場合のフォールバックとして残る。
   //   Googleビジネスプロフィール経由(utm_campaign=gbp)… meo_gbp
+  //   店前ポスター経由(utm_source=poster)… poster_storefront
   //   広告LP(/cp1lp/ 等)… ad_lp_<LP名>  ／  それ以外のHP・ブログ … google_hp
   //   (SafariからのLINE追加ではutm_campaignがLINE Harnessに残らないため、MEOはrefで分ける)
   // refはLINE Harnessの流入経路(entry_routes)に登録済みのものと揃えること。
@@ -26,7 +27,8 @@
 
     const lp = location.pathname.match(/^\/((cp|wg)\d+lp)\//);
     const fromGbp = landing.some(([name, value]) => name === "utm_campaign" && value === "gbp");
-    const ref = fromGbp ? "meo_gbp" : lp ? `ad_lp_${lp[1]}` : "google_hp";
+    const fromPoster = landing.some(([name, value]) => name === "utm_source" && value === "poster");
+    const ref = fromGbp ? "meo_gbp" : fromPoster ? "poster_storefront" : lp ? `ad_lp_${lp[1]}` : "google_hp";
 
     const url = new URL(HARNESS);
     url.searchParams.set("ref", ref);
