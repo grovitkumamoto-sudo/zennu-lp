@@ -13,6 +13,15 @@
 //                     指定期間のPostHog行だけ入れ替える(手入力行やそれ以外の期間は残す)
 //   データ_セクション … 日付×LP×セクション単位の到達セッション数(LPの funnel-tracking.njk が送る lp_section_view)。
 //                     指定期間の行だけ入れ替える
+//   データ_スクロール … 日付×LP単位で、ページを25/50/75%・最後までスクロールしたセッション数(PostHogの$pageleave)。
+//                     セクション計測(2026-10-06〜)より前の期間も比べられるよう、PostHogの記録がある2026-08-04から入れてある
+//   データ_LP流入元 … 日付×入口LP×流入元(Meta広告/MEO/AI検索/SEO/SNS投稿/直接/チラシ・店頭/その他)単位で、
+//                     FV離脱・スクロール到達・hacomono遷移・LINEクリック・ウィジェット到達/操作/予約完了のセッション数。
+//                     予約完了は、hacomonoのウィジェットがLPに送る通知(funnel-tracking.njk、2026-10-10〜)。
+//                     最後の列に入口のutm_campaignを持つ(同じLPに複数のMetaキャンペーンを流すときに分けて数えるため)
+//                     「LP×流入元」シートが期間を指定して集計する。2026-08-04から入れてある
+//   データ_広告配信面 … Meta広告から来た人の、日付×LP×キャンペーン×配信面(utm_term={{placement}}、なければ参照元)ごとの
+//                     FV離脱・料金到達・ウィジェット到達/操作/予約完了。「配信面分析」シートが データ_Meta配信面 と突き合わせる
 //   データ_LINE追加 … LINE Harnessの友だち全件で毎回作り直す(ブロック・予約状況を最新化するため)
 //   データ_CV … GA4のCVイベント(hacomono通常の complete_registration / hacomonoウィジェットの reserve_complete / BOOKOMの reservation_complete)を、
 //                 経路マスタの条件(LP+UTM)で経路IDに割り当てて入れる。指定期間のGA4行だけ入れ替え、手入力行は残す
@@ -21,6 +30,9 @@
 //   node scripts/dashboard-sync.mjs              直近3日分を同期(当日分は途中経過)
 //   node scripts/dashboard-sync.mjs --days 30    過去30日分を入れ直す
 //   node scripts/dashboard-sync.mjs --dry-run    スプレッドシートに書かず、取得結果だけ表示
+//   node scripts/dashboard-sync.mjs --scroll-since 2026-08-04
+//                                                データ_スクロールとデータ_LP流入元だけを指定日から入れ直す
+//                                                (PostHogだけが元のシート。GA4のCVなど他のシートには触らない)
 
 import { google } from "googleapis";
 import fs from "node:fs";
@@ -38,8 +50,11 @@ const TZ = "Asia/Tokyo";
 const SHEET_ACCESS = "データ_アクセス";
 const SHEET_LINE = "データ_LINE追加";
 const SHEET_SECTION = "データ_セクション";
+const SHEET_SCROLL = "データ_スクロール";
+const SHEET_LP_SOURCE = "データ_LP流入元";
 const SHEET_MASTER = "経路マスタ";
 const SHEET_CV = "データ_CV";
+const SHEET_PLACEMENT = "データ_広告配信面";
 // GA4のCVイベント → CV種別・メモ。since より前は本番公開前のテスト予約が混ざるため取り込まない
 const CV_EVENTS = {
   complete_registration: { label: "hacomono", since: "" },
@@ -55,6 +70,7 @@ const TAG_MEMBER = "入会済み";
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes("--dry-run");
 const DAYS = Number(args[args.indexOf("--days") + 1]) || 3;
+const SCROLL_SINCE = args.includes("--scroll-since") ? args[args.indexOf("--scroll-since") + 1] : "";
 
 function readSecret(name) {
   const p = path.join(SECRETS_DIR, name);
@@ -91,6 +107,19 @@ function toDateString(d) {
 }
 
 // ---------------- PostHog ----------------
+
+// Metaの広告審査などの自動アクセス。広告の公開直後に、Metaのデータセンター(米国・アイルランド・スウェーデン)から
+// 幅1050px×高さ1837/1893pxの画面で一斉に来る。人の訪問ではないので、すべての集計から除く
+const META_DC_CITIES = ["Prineville", "Forest City", "Altoona", "Clonee", "Luleå", "Lulea", "Fort Worth", "Gallatin",
+  "Papillion", "Los Lunas", "Boardman", "Henrico", "Sandston", "New Albany", "Eagle Mountain", "Huntsville", "Odense", "Mesa",
+  "DeKalb", "Stanton Springs", "Kansas City", "Aiken", "Jeffersonville", "Richland"];
+function botSessions(startDate) {
+  return `select $session_id from events
+    where timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}') - interval 1 day
+      and ((toFloat(properties.$viewport_width) = 1050 and toFloat(properties.$viewport_height) in (1837, 1893))
+        or properties.$geoip_city_name in (${META_DC_CITIES.map((c) => `'${c}'`).join(", ")}))
+    group by $session_id`;
+}
 
 // PostHogは混雑時に503/429を返すので、少し待って再試行する
 async function hogql(token, projectId, query, attempt = 1) {
@@ -139,6 +168,7 @@ async function fetchAccessRows(config, startDate) {
     ) e on e.sid = s.session_id
     where s.$start_timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}')
       and (s.$entry_current_url like 'https://${SITE_HOST}%' or s.$entry_current_url like 'https://bookom.jp/reservation%')
+      and s.session_id not in (${botSessions(startDate)})
     group by d, p, src, med, cmp, cnt, ch
     order by d, n desc
     limit 10000`;
@@ -161,19 +191,205 @@ async function fetchAccessRows(config, startDate) {
 }
 
 // 1行 = 日付×LP×セクション。そのセクションまで画面に表示されたセッション数
+// funnel-tracking.njk(lp_path/section_index/section)と、cp5〜9lpの ix-section-tracking.njk
+// (page_path/section_order/section_id)の両方の形式を受け付ける
 async function fetchSectionRows(config, startDate) {
   const token = readSecret("posthog-personal-api-key.txt");
   const query = `
-    select toString(toDate(toTimeZone(timestamp, '${TZ}'))) d, properties.lp_path p,
-      toInt(properties.section_index) idx, any(properties.section) sec, uniq($session_id) n
+    select toString(toDate(toTimeZone(timestamp, '${TZ}'))) d, coalesce(properties.lp_path, properties.page_path) p,
+      toInt(coalesce(properties.section_index, properties.section_order)) idx,
+      any(coalesce(properties.section, properties.section_id)) sec, uniq($session_id) n
     from events
     where event = 'lp_section_view' and properties.$host = '${SITE_HOST}'
+      and $session_id not in (${botSessions(startDate)})
       and timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}')
     group by d, p, idx
     order by d, p, idx
     limit 10000`;
   const rows = await hogql(token, config.posthogProjectId, query);
   return rows.map(([date, p, idx, name, n]) => [date, normalizePath(p), idx, name, n]);
+}
+
+// 1行 = 日付×LP。そのページで各位置までスクロールしたセッション数。
+// ページの長さに対する割合なので、長さの違うLP同士より、同じLPの期間比較に向く。
+// $pageleaveが届かないモバイルのセッションは含まれない
+async function fetchScrollRows(config, startDate) {
+  const token = readSecret("posthog-personal-api-key.txt");
+  const query = `
+    select d, p, count() n, countIf(sc >= 0.25) r25, countIf(sc >= 0.5) r50, countIf(sc >= 0.75) r75, countIf(sc >= 0.95) r100
+    from (
+      select toString(toDate(toTimeZone(timestamp, '${TZ}'))) d, properties.$pathname p, $session_id sid,
+        max(toFloat(properties.$prev_pageview_max_scroll_percentage)) sc
+      from events
+      where event = '$pageleave' and properties.$host = '${SITE_HOST}'
+        and properties.$prev_pageview_max_scroll_percentage is not null
+        and $session_id not in (${botSessions(startDate)})
+        and timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}')
+      group by d, p, sid
+    )
+    group by d, p
+    limit 10000`;
+  const rows = await hogql(token, config.posthogProjectId, query);
+  // "/cp4lp" と "/cp4lp/" を合算する
+  const merged = new Map();
+  for (const [date, p, ...counts] of rows) {
+    const key = `${date}|${normalizePath(p)}`;
+    const prev = merged.get(key) || [date, normalizePath(p), 0, 0, 0, 0, 0];
+    counts.forEach((c, i) => (prev[i + 2] += Number(c)));
+    merged.set(key, prev);
+  }
+  return [...merged.values()].sort((a, b) => (a[0] + a[1]).localeCompare(b[0] + b[1]));
+}
+
+async function writeScrollRows(sheets, spreadsheetId, startDate, scrollRows) {
+  const header = ["日付", "LPパス", "計測セッション", "25%到達", "50%到達", "75%到達", "最後まで"];
+  const existing = (await readRange(sheets, spreadsheetId, `${SHEET_SCROLL}!A2:G`)).filter(
+    (r) => r.some((v) => v !== "") && sheetDate(r[0]) < startDate,
+  );
+  const merged = [...existing.map((r) => [sheetDate(r[0]), ...r.slice(1)]), ...scrollRows];
+  await rewriteSheet(sheets, spreadsheetId, SHEET_SCROLL, header, merged);
+}
+
+// ChatGPTなどのAI検索から来た人。ChatGPTは紹介したURLに utm_source=chatgpt.com を足すので、
+// GBPのリンク(utm_campaign=gbp)を紹介された場合もMEOではなくAI検索として数える
+const AI_DOMAINS = ["chatgpt.com", "chat.openai.com", "perplexity.ai", "gemini.google.com", "copilot.microsoft.com", "claude.ai"];
+const AI_SOURCE_SQL = `(s.$entry_utm_source in (${AI_DOMAINS.map((d) => `'${d}'`).join(", ")})
+          or s.$entry_referring_domain in (${AI_DOMAINS.map((d) => `'${d}'`).join(", ")}) or s.$channel_type = 'AI')`;
+
+// 1行 = 日付×入口LP×流入元。経路マスタに登録していない流入(SNS投稿・直接など)も含めて、流入元の種類で分ける。
+//   FV離脱: 入口のページで、1画面目より下にスクロールせずに離脱(ピクセルで判定。長いページでも不利にならない)
+//   スクロール到達: 入口のページの長さに対する割合
+async function fetchLpSourceRows(config, startDate) {
+  const token = readSecret("posthog-personal-api-key.txt");
+  const query = `
+    select toString(toDate(toTimeZone(s.$start_timestamp, '${TZ}'))) d,
+      replaceRegexpOne(s.$entry_pathname, '/$', '') lp,
+      multiIf(
+        ${AI_SOURCE_SQL}, 'AI検索',
+        s.$entry_utm_campaign = 'gbp', 'MEO',
+        s.$entry_utm_medium in ('print', 'qr', 'flyer', 'offline', 'poster'), 'チラシ・店頭',
+        s.$channel_type = 'Paid Search' or (s.$entry_utm_source = 'google' and s.$entry_utm_medium = 'cpc'), 'Google広告',
+        s.$channel_type in ('Paid Social', 'Paid Unknown'), 'Meta広告',
+        s.$channel_type = 'Organic Search', 'SEO',
+        s.$channel_type = 'Organic Social', 'SNS投稿',
+        s.$channel_type = 'Direct', '直接',
+        'その他') src,
+      s.$entry_utm_campaign cmp,
+      count() n,
+      countIf(e.px is not null) fv_measured,
+      countIf(e.px is not null and e.px < e.vh) fv_exit,
+      countIf(e.pct is not null) sc_measured,
+      countIf(e.pct >= 0.25) r25, countIf(e.pct >= 0.5) r50, countIf(e.pct >= 0.75) r75, countIf(e.pct >= 0.95) r100,
+      countIf(a.haco > 0) haco, countIf(a.line > 0) line, countIf(a.wv > 0) wv, countIf(a.wi > 0) wi, countIf(a.wr > 0) wr
+    from sessions s
+    left join (
+      select $session_id sid, replaceRegexpOne(properties.$pathname, '/$', '') p,
+        max(toFloat(properties.$prev_pageview_max_scroll)) px, max(toFloat(properties.$viewport_height)) vh,
+        max(toFloat(properties.$prev_pageview_max_scroll_percentage)) pct
+      from events
+      where event = '$pageleave' and properties.$host = '${SITE_HOST}'
+        and timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}') - interval 1 day
+      group by sid, p
+    ) e on e.sid = s.session_id and e.p = replaceRegexpOne(s.$entry_pathname, '/$', '')
+    left join (
+      select $session_id sid,
+        countIf(event = '$autocapture' and elements_chain like '%hacomono.jp%') haco,
+        countIf(event = '$autocapture' and (elements_chain like '%line.me%' or elements_chain like '%lin.ee%' or elements_chain like '%/auth/line%')) line,
+        countIf(event = 'widget_view') wv, countIf(event = 'widget_interact') wi,
+        countIf(event = 'widget_reservation_completed') wr
+      from events
+      where properties.$host = '${SITE_HOST}' and timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}') - interval 1 day
+      group by sid
+    ) a on a.sid = s.session_id
+    where s.$start_timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}')
+      and s.$entry_current_url like 'https://${SITE_HOST}%'
+      and s.session_id not in (${botSessions(startDate)})
+    group by d, lp, src, cmp
+    order by d, lp, src, cmp
+    limit 20000`;
+  const rows = await hogql(token, config.posthogProjectId, query);
+  return rows.map(([date, lp, src, cmp, ...counts]) => [date, normalizePath(lp || "/"), src, ...counts.map(Number), decode(cmp)]);
+}
+
+async function writeLpSourceRows(sheets, spreadsheetId, startDate, rows) {
+  const header = ["日付", "LPパス", "流入元", "訪問", "FV計測", "FV離脱", "スクロール計測", "25%到達", "50%到達", "75%到達", "最後まで",
+    "hacomono遷移", "LINEクリック", "ウィジェット到達", "ウィジェット操作", "ウィジェット予約完了", "utm_campaign"];
+  const existing = (await readRange(sheets, spreadsheetId, `${SHEET_LP_SOURCE}!A2:Q`)).filter(
+    (r) => r.some((v) => v !== "") && sheetDate(r[0]) < startDate,
+  );
+  const merged = [...existing.map((r) => [sheetDate(r[0]), ...r.slice(1)]), ...rows];
+  await rewriteSheet(sheets, spreadsheetId, SHEET_LP_SOURCE, header, merged);
+}
+
+// Meta広告から来た人の、配信面(Instagramストーリーズ・フィードなど)ごとのLPでの動き。
+// 配信面は、広告のURLパラメータ utm_term={{placement}}(2026-10-26〜)で判定する。それより前の訪問や
+// utm_term が配信面でない訪問は、来訪元のアプリ(参照元ドメイン)からプラットフォームだけ判定する。
+// 名前は meta-placement-sync.mjs の データ_Meta配信面 とそろえる(「配信面分析」シートで突き合わせるため)
+function placementLabel(term, referrer) {
+  const t = String(term || "");
+  const rules = [
+    [/instagram.*stor/i, "Instagram", "Instagram ストーリーズ"], [/instagram.*reel/i, "Instagram", "Instagram リール"],
+    [/instagram.*explore/i, "Instagram", "Instagram 発見"], [/instagram.*profile/i, "Instagram", "Instagram プロフィール"],
+    [/instagram.*feed/i, "Instagram", "Instagram フィード"], [/facebook.*reel/i, "Facebook", "Facebook リール"],
+    [/facebook.*stor/i, "Facebook", "Facebook ストーリーズ"], [/facebook.*feed/i, "Facebook", "Facebook フィード"],
+    [/threads/i, "Threads", "Threads"], [/messenger/i, "Messenger", "Messenger"], [/audience/i, "Audience Network", "Audience Network"],
+  ];
+  for (const [re, platform, placement] of rules) if (re.test(t)) return [platform, placement, "utm_term"];
+  const r = String(referrer || "");
+  const platform = /instagram/.test(r) ? "Instagram" : /threads/.test(r) ? "Threads" : /facebook/.test(r) ? "Facebook" : "不明";
+  return [platform, `${platform}（面不明）`, "参照元"];
+}
+
+async function fetchPlacementRows(config, startDate) {
+  const token = readSecret("posthog-personal-api-key.txt");
+  const query = `
+    select toString(toDate(toTimeZone(s.$start_timestamp, '${TZ}'))) d,
+      replaceRegexpOne(s.$entry_pathname, '/$', '') lp, s.$entry_utm_campaign cmp, s.$entry_utm_term term, s.$entry_referring_domain ref,
+      count() n, countIf(a.secs <= 1) fv_only, countIf(a.price > 0) price,
+      countIf(a.wv > 0) wv, countIf(a.wi > 0) wi, countIf(a.wr > 0) wr
+    from sessions s
+    left join (
+      select $session_id sid,
+        uniqIf(coalesce(properties.section_id, properties.section), event = 'lp_section_view') secs,
+        countIf(event = 'lp_section_view' and coalesce(properties.section_id, properties.section) in ('price', 'pricing')) price,
+        countIf(event = 'widget_view') wv, countIf(event = 'widget_interact') wi, countIf(event = 'widget_reservation_completed') wr
+      from events
+      where properties.$host = '${SITE_HOST}' and timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}') - interval 1 day
+      group by sid
+    ) a on a.sid = s.session_id
+    where s.$start_timestamp >= toDateTime('${startDate} 00:00:00', '${TZ}')
+      and s.$entry_current_url like 'https://${SITE_HOST}%'
+      and s.$entry_utm_source in ('facebook', 'fb', 'ig', 'instagram')
+      and s.session_id not in (${botSessions(startDate)})
+    group by d, lp, cmp, term, ref
+    limit 20000`;
+  const rows = await hogql(token, config.posthogProjectId, query);
+  const agg = new Map();
+  for (const [date, lp, cmp, term, ref, ...counts] of rows) {
+    const [platform, placement, how] = placementLabel(decode(term), ref);
+    const key = [date, normalizePath(lp || "/"), decode(cmp), platform, placement, how].join("\t");
+    const sum = agg.get(key) || [0, 0, 0, 0, 0, 0];
+    counts.forEach((c, i) => (sum[i] += Number(c)));
+    agg.set(key, sum);
+  }
+  return [...agg.entries()].map(([k, v]) => {
+    const [date, lp, cmp, platform, placement, how] = k.split("\t");
+    return [date, lp, cmp, platform, placement, ...v, how];
+  }).sort((a, b) => (a[0] + a[1] + a[4]).localeCompare(b[0] + b[1] + b[4]));
+}
+
+async function writePlacementRows(sheets, spreadsheetId, startDate, rows) {
+  const header = ["日付", "LPパス", "utm_campaign", "プラットフォーム", "配信面", "訪問", "FVだけで離脱", "料金到達",
+    "ウィジェット到達", "ウィジェット操作", "ウィジェット予約完了", "配信面の判定"];
+  const meta = await sheets.spreadsheets.get({ spreadsheetId, fields: "sheets.properties.title" });
+  if (!meta.data.sheets.some((s) => s.properties.title === SHEET_PLACEMENT)) {
+    await sheets.spreadsheets.batchUpdate({ spreadsheetId, requestBody: { requests: [{ addSheet: { properties: { title: SHEET_PLACEMENT } } }] } });
+  }
+  const existing = (await readRange(sheets, spreadsheetId, `${SHEET_PLACEMENT}!A2:L`)).filter(
+    (r) => r.some((v) => v !== "") && sheetDate(r[0]) < startDate,
+  );
+  const merged = [...existing.map((r) => [sheetDate(r[0]), ...r.slice(1)]), ...rows];
+  await rewriteSheet(sheets, spreadsheetId, SHEET_PLACEMENT, header, merged);
 }
 
 // ---------------- 経路マスタとの突き合わせ ----------------
@@ -187,9 +403,15 @@ function parseLineRoutes(values) {
     .map((r) => ({ id: r[0], ref: r[11].trim(), campaign: (r[9] || "").trim().toLowerCase() }));
 }
 
+// 経路付きURLを通らずに追加された友だちは、LINE Harnessのmetadata.manual_ref(オーナーの申告で手動で付けたref)を使う
+function friendRef(friend) {
+  return friend.refCode || friend.metadata?.manual_ref || "";
+}
+
 function resolveLineRoute(friend, lineRoutes) {
-  if (!friend.refCode) return "ref無し";
-  const candidates = lineRoutes.filter((m) => m.ref === friend.refCode);
+  const ref = friendRef(friend);
+  if (!ref) return "ref無し";
+  const candidates = lineRoutes.filter((m) => m.ref === ref);
   if (!candidates.length) return "未登録ref";
   const campaign = String(friend.metadata?.utm_campaign || "").toLowerCase();
   const exact = candidates.find((m) => m.campaign && !m.campaign.includes("{{") && m.campaign === campaign);
@@ -359,14 +581,45 @@ async function main() {
   const spreadsheetId = config.dashboardSheetId;
   const sheets = DRY_RUN ? null : await getSheets();
 
+  if (SCROLL_SINCE) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(SCROLL_SINCE)) throw new Error("--scroll-since は YYYY-MM-DD で指定してください");
+    const [scrollRows, lpSourceRows, placementRows] = await Promise.all([
+      fetchScrollRows(config, SCROLL_SINCE),
+      fetchLpSourceRows(config, SCROLL_SINCE),
+      fetchPlacementRows(config, SCROLL_SINCE),
+    ]);
+    if (DRY_RUN) {
+      console.log(`[dry-run] データ_スクロール ${SCROLL_SINCE}〜: ${scrollRows.length}行`);
+      console.log(`[dry-run] データ_LP流入元 ${SCROLL_SINCE}〜: ${lpSourceRows.length}行`);
+      console.log(`[dry-run] データ_広告配信面 ${SCROLL_SINCE}〜: ${placementRows.length}行`);
+      for (const row of placementRows.slice(0, 10)) console.log("  " + row.join(" | "));
+      for (const row of lpSourceRows.slice(0, 10)) console.log("  " + row.join(" | "));
+      return;
+    }
+    await writeScrollRows(sheets, spreadsheetId, SCROLL_SINCE, scrollRows);
+    await writeLpSourceRows(sheets, spreadsheetId, SCROLL_SINCE, lpSourceRows);
+    await writePlacementRows(sheets, spreadsheetId, SCROLL_SINCE, placementRows);
+    console.log(`データ_スクロール: ${SCROLL_SINCE}〜 ${scrollRows.length}行`);
+    console.log(`データ_広告配信面: ${SCROLL_SINCE}〜 ${placementRows.length}行`);
+    console.log(`データ_LP流入元: ${SCROLL_SINCE}〜 ${lpSourceRows.length}行`);
+    return;
+  }
+
   const masterValues = sheets ? await readRange(sheets, spreadsheetId, `${SHEET_MASTER}!A1:L`) : [];
   const master = parseMaster(masterValues);
   const lineRoutes = parseLineRoutes(masterValues);
 
-  const [accessRows, sectionRows, friends] = await Promise.all([
+  const [accessRows, sectionRows, scrollRows, lpSourceRows, placementRows, friends] = await Promise.all([
     fetchAccessRows(config, startDate),
     fetchSectionRows(config, startDate),
-    fetchFriends(config),
+    fetchScrollRows(config, startDate),
+    fetchLpSourceRows(config, startDate),
+    fetchPlacementRows(config, startDate),
+    // LINE Harnessが落ちていてもPostHog・GA4の同期は止めない(データ_LINE追加は前回のまま残す)
+    fetchFriends(config).catch((err) => {
+      console.error(`警告: LINE Harnessの取得に失敗しました(データ_LINE追加は更新しません): ${err.message}`);
+      return null;
+    }),
   ]);
 
   const newAccess = accessRows.map((r) => [
@@ -376,12 +629,12 @@ async function main() {
 
   // 経路IDはrefとUTMからここで決め、経路名はシート側の数式で経路マスタから引く
   const lineHeader = ["追加日時", "LINE ref", "経路ID（自動）", "経路名（自動）", "friend_id（LINE Harness）", "ブロック済み", "体験予約済み", "入会済み"];
-  const lineRows = friends.map((f, i) => {
+  const lineRows = (friends || []).map((f, i) => {
     const r = i + 2;
     const tags = new Set((f.tags || []).map((t) => t.name));
     return [
       f.createdAt.replace("T", " ").slice(0, 16),
-      f.refCode || "",
+      friendRef(f),
       resolveLineRoute(f, lineRoutes),
       `=IFERROR(INDEX(${SHEET_MASTER}!$D:$D,MATCH(C${r},${SHEET_MASTER}!$A:$A,0)),"")`,
       f.id,
@@ -405,7 +658,7 @@ async function main() {
     for (const row of newAccess.slice(0, 15)) console.log("  " + row.join(" | "));
     console.log(`[dry-run] データ_セクション: ${sectionRows.length}行`);
     for (const row of sectionRows.slice(0, 10)) console.log("  " + row.join(" | "));
-    const withRef = friends.filter((f) => f.refCode).length;
+    const withRef = (friends || []).filter((f) => f.refCode).length;
     console.log(`[dry-run] データ_LINE追加: ${lineRows.length}件（ref付き ${withRef}件）`);
     console.log(`[dry-run] データ_CV ${startDate}〜: ${cvRows.length}行`);
     for (const r of cvRows.slice(0, 15)) console.log(`  ${r.date} | 体験予約 | ${r.routeId || "(未特定)"} | ${r.lp} | ${r.count} | GA4 | ${r.memo}`);
@@ -428,7 +681,10 @@ async function main() {
   );
   const sectionMerged = [...sectionExisting.map((r) => [sheetDate(r[0]), ...r.slice(1)]), ...sectionRows];
   await rewriteSheet(sheets, spreadsheetId, SHEET_SECTION, sectionHeader, sectionMerged);
-  await rewriteSheet(sheets, spreadsheetId, SHEET_LINE, lineHeader, lineRows);
+  await writeScrollRows(sheets, spreadsheetId, startDate, scrollRows);
+  await writeLpSourceRows(sheets, spreadsheetId, startDate, lpSourceRows);
+  await writePlacementRows(sheets, spreadsheetId, startDate, placementRows);
+  if (friends) await rewriteSheet(sheets, spreadsheetId, SHEET_LINE, lineHeader, lineRows);
 
   if (!cvError) {
     const cvHeader = ["日付", "CV種別", "経路ID", "LPパス", "件数", "ソース", "会員ID/予約ID（任意）", "メモ（予約時アンケートの回答など）"];
@@ -468,7 +724,10 @@ async function main() {
   const total = newAccess.reduce((s, r) => s + r[7], 0);
   console.log(`データ_アクセス: ${startDate}〜 ${newAccess.length}行（${total}セッション、経路マスタ未登録 ${unmatched}セッション）`);
   console.log(`データ_セクション: ${sectionRows.length}行`);
-  console.log(`データ_LINE追加: ${lineRows.length}件`);
+  console.log(`データ_スクロール: ${startDate}〜 ${scrollRows.length}行`);
+  console.log(`データ_LP流入元: ${startDate}〜 ${lpSourceRows.length}行`);
+  console.log(`データ_広告配信面: ${startDate}〜 ${placementRows.length}行`);
+  console.log(friends ? `データ_LINE追加: ${lineRows.length}件` : "データ_LINE追加: 取得失敗のため前回のまま");
 }
 
 main().catch((err) => {
