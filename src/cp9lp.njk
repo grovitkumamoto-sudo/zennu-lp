@@ -20,6 +20,7 @@ eleventyExcludeFromCollections: true
   <meta property="og:url" content="{{ site.meta.url }}/cp9lp/">
   <meta property="og:image" content="{{ site.meta.url }}/images/ix001-3/1.jpg">
   <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/ix-pricing-panel.css">
   <link rel="preload" as="image" href="/images/ix001-3/1.jpg" fetchpriority="high">
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -62,7 +63,7 @@ eleventyExcludeFromCollections: true
       <a class="ix001-cta-link" href="{{ trialUrl }}" target="_blank" rel="noopener noreferrer" aria-label="無料体験を予約する（ページ中部）" data-click-label="無料体験予約｜LP9_中部" data-click-type="conversion"><span class="ix001-sr-only">無料体験を予約する</span></a>
     </section>
     <section class="ix001-panel" id="voice" aria-label="お客様の声"><img src="/images/ix001-3/7.jpg" width="1080" height="2000" alt="実際に来店したお客様からの声。" loading="lazy" decoding="async"></section>
-    <section class="ix001-panel" id="price" aria-label="料金プラン"><img src="/images/ix001-3/8.png" width="1080" height="2000" alt="料金プラン。LIGHTは月額10,800円から。STANDARD、ADVANCE、PREMIUMと回数券も選べます。" loading="lazy" decoding="async"></section>
+    <section class="ix001-panel" id="price" aria-label="料金プラン">{% set ixPriceTheme = "ix001" %}{% include "ix-pricing-panel.njk" %}</section>
     <section class="ix001-panel" id="gallery" aria-label="館内写真"><img src="/images/ix001-3/9.jpg" width="1080" height="2000" alt="ZenNuのエントランス、ラウンジ、シャワー、レンタル、トレーニングエリア、ピラティスエリア。" loading="lazy" decoding="async"></section>
     <section class="ix001-panel" id="access" aria-label="店舗情報・アクセス"><img src="/images/ix001-3/10.jpg" width="1080" height="2000" alt="ZenNu WELLNESS DESIGN。熊本市中央区上通町6-15 オークス第二ビル2F。通町筋駅から徒歩2分。" loading="lazy" decoding="async"></section>
     <section class="ix001-panel" id="cta-last" aria-label="今月の無料体験キャンペーン">
