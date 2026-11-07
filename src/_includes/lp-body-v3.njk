@@ -534,7 +534,7 @@
           <p class="v3-hero-kicker">一度きりの3ヶ月より、</p>
           <h1 class="v3-hero-title"><em>ずっと続く</em>習慣を。</h1>
           <p class="v3-hero-sub">教わる場所と、<br>続ける場所をひとつに。</p>
-          <div class="v3-hero-price"><span class="v3-price-label">月<br>額</span><p><small>最高の環境が、</small><strong>10,890</strong></p><b>円〜</b></div>
+          <div class="v3-hero-price"><span class="v3-price-label">月<br>額</span><p><small>最高の環境が、</small><strong>10,800</strong></p><b>円〜</b></div>
           <p class="v3-hero-note">単月契約OK。体験後の入会は任意です。</p>
           <div class="v3-hero-proof">
             <div class="v3-proof-medal"><span class="v3-proof-crown" aria-hidden="true">♛</span><small>上通アーケード内</small><strong>アクセス<span>抜群</span></strong><span class="v3-proof-stars" aria-hidden="true">★★★</span></div>
@@ -609,7 +609,7 @@
     <section class="v3-section v3-comparison">
       <div class="v3-inner">
         <div class="v3-heading"><h2>料金・続けやすさ<br><strong>他サービスとの比較</strong></h2><p>COMPARISON</p></div>
-        <div class="v3-table-wrap"><p class="v3-scroll-hint">← 横にスクロールして比較 →</p><table class="v3-table"><thead><tr><th></th><th>24Hジム</th><th>短期集中<br>パーソナル</th><th class="is-zennu">ZenNu</th></tr></thead><tbody><tr><th>教わる</th><td>基本は自分で</td><td>専属指導</td><td class="is-zennu">パーソナルで習得</td></tr><tr><th>実践する</th><td>一人で実践</td><td>コース期間中</td><td class="is-zennu">同じ場所・同じマシン</td></tr><tr><th>質問する</th><td>難しい場合がある</td><td>指導時間内</td><td class="is-zennu">セルフ利用中も相談OK</td></tr><tr><th>料金</th><td>低価格</td><td>3ヶ月で約50万円のケースも</td><td class="is-zennu">月額10,890円〜</td></tr><tr><th>終了後</th><td>最初から一人</td><td>一人に戻りやすい</td><td class="is-zennu">セルフ中心へ移行可能</td></tr></tbody></table></div>
+        <div class="v3-table-wrap"><p class="v3-scroll-hint">← 横にスクロールして比較 →</p><table class="v3-table"><thead><tr><th></th><th>24Hジム</th><th>短期集中<br>パーソナル</th><th class="is-zennu">ZenNu</th></tr></thead><tbody><tr><th>教わる</th><td>基本は自分で</td><td>専属指導</td><td class="is-zennu">パーソナルで習得</td></tr><tr><th>実践する</th><td>一人で実践</td><td>コース期間中</td><td class="is-zennu">同じ場所・同じマシン</td></tr><tr><th>質問する</th><td>難しい場合がある</td><td>指導時間内</td><td class="is-zennu">セルフ利用中も相談OK</td></tr><tr><th>料金</th><td>低価格</td><td>3ヶ月で約50万円のケースも</td><td class="is-zennu">月額10,800円〜</td></tr><tr><th>終了後</th><td>最初から一人</td><td>一人に戻りやすい</td><td class="is-zennu">セルフ中心へ移行可能</td></tr></tbody></table></div>
         <p class="v3-table-note">※一般的なサービス形態との比較です。料金・指導内容・契約条件は各事業者により異なります。短期集中型の費用および分割払いは契約内容によって異なります。</p>
       </div>
     </section>
@@ -619,7 +619,7 @@
         <div class="v3-heading"><h2>無理なく始めて、<br><strong>続け方を選べる料金</strong></h2><p>PRICE</p></div>
         <div class="v3-plan-grid">
           {% for p in site.pricing.plans %}
-          <article class="v3-plan{% if p.popular %} is-popular{% endif %}">{% if p.popular %}<div class="v3-plan-badge">続けやすさで人気</div>{% endif %}<div class="v3-plan-head"><div class="v3-plan-name">{{ p.name }}</div><div class="v3-plan-for">{{ p.for }}</div></div><div class="v3-plan-body"><div class="v3-plan-price">{{ p.price }}<span>{{ p.unit }}</span></div><div class="v3-plan-items">{% if p.name == "LIGHT" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% elif p.name == "STANDARD" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">パーソナル指導 月2回</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% else %}{% for it in p.items %}<div class="v3-plan-item">{{ it }}</div>{% endfor %}{% endif %}</div><a href="#reserve">このプランを無料体験 →</a></div></article>
+          <article class="v3-plan{% if p.popular %} is-popular{% endif %}">{% if p.popular %}<div class="v3-plan-badge">続けやすさで人気</div>{% endif %}<div class="v3-plan-head"><div class="v3-plan-name">{{ p.name }}</div><div class="v3-plan-for">{{ p.for }}</div></div><div class="v3-plan-body"><div class="v3-plan-price">{{ p.price }}<span>{{ p.unit }}</span></div><div class="v3-plan-items">{% if p.name == "LIGHT" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">食事管理アドバイス込み</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% elif p.name == "STANDARD" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">パーソナル指導 月2回</div><div class="v3-plan-item">食事管理アドバイス込み</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% else %}{% for it in p.items %}<div class="v3-plan-item">{{ it }}</div>{% endfor %}{% endif %}</div><a href="#reserve">このプランを無料体験 →</a></div></article>
           {% endfor %}
         </div>
         <div class="v3-tickets"><h3>自分のペースで通えるパーソナル回数券</h3><div class="v3-ticket-grid">{% for c in site.pricing.ticket.cards %}<div class="v3-ticket"><div><strong>{{ c.count }}回 {{ c.price }}</strong><p>{{ c.per }}</p></div><a href="#reserve">相談する →</a></div>{% endfor %}</div></div>

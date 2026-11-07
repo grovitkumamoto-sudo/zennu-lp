@@ -670,7 +670,7 @@
         <div class="v3-price-route"><span>MONTHLY PLAN</span><h3>セルフを使いながら始める</h3><p>STANDARD・ADVANCEは、セルフトレーニング使い放題＋定期的なパーソナル。LIGHTならセルフ中心から始められます。</p></div>
         <div class="v3-plan-grid">
           {% for p in site.pricing.plans %}
-          <article class="v3-plan{% if p.name == 'ADVANCE' %} is-popular{% endif %}">{% if p.name == 'ADVANCE' %}<div class="v3-plan-badge">食事管理まで任せたい方に</div>{% endif %}<div class="v3-plan-head"><div class="v3-plan-name">{{ p.name }}</div><div class="v3-plan-for">{{ p.for }}</div></div><div class="v3-plan-body"><div class="v3-plan-price">{{ p.price }}<span>{{ p.unit }}</span></div><div class="v3-plan-items">{% if p.name == "LIGHT" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% elif p.name == "STANDARD" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">パーソナル指導 月2回</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% else %}{% for it in p.items %}<div class="v3-plan-item">{{ it }}</div>{% endfor %}{% endif %}</div><a href="#reserve">このプランを無料体験 →</a></div></article>
+          <article class="v3-plan{% if p.name == 'ADVANCE' %} is-popular{% endif %}">{% if p.name == 'ADVANCE' %}<div class="v3-plan-badge">食事管理まで任せたい方に</div>{% endif %}<div class="v3-plan-head"><div class="v3-plan-name">{{ p.name }}</div><div class="v3-plan-for">{{ p.for }}</div></div><div class="v3-plan-body"><div class="v3-plan-price">{{ p.price }}<span>{{ p.unit }}</span></div><div class="v3-plan-items">{% if p.name == "LIGHT" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">食事管理アドバイス込み</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% elif p.name == "STANDARD" %}<div class="v3-plan-item">セルフトレーニング使い放題</div><div class="v3-plan-item">パーソナル指導 月2回</div><div class="v3-plan-item">食事管理アドバイス込み</div><div class="v3-plan-item">トレーナー常駐（随時相談OK）</div><div class="v3-plan-item">同時4枠の予約制</div>{% else %}{% for it in p.items %}<div class="v3-plan-item">{{ it }}</div>{% endfor %}{% endif %}</div><a href="#reserve">このプランを無料体験 →</a></div></article>
           {% endfor %}
         </div>
         <div class="v3-tickets">
@@ -681,12 +681,12 @@
           </div>
         </div>
         <div class="v3-tickets">
-          <div class="v3-price-route"><span>NUTRITION OPTION</span><h3>食事管理を追加する</h3><p>月額プランにも回数券にも追加可能。生活に合う頻度で、臨床栄養医学指導士から食事のフィードバックを受けられます。</p></div>
+          <div class="v3-price-route"><span>NUTRITION OPTION</span><h3>食事管理を追加する</h3><p>月額プランは食事管理アドバイス込み。毎日のフィードバックへの変更や、回数券利用時の追加もできます。</p></div>
           <div class="v3-ticket-grid">
             <article class="v3-ticket"><div class="v3-ticket-head"><strong>3日に1回</strong><p>食事フィードバック</p></div><div class="v3-ticket-body"><div class="v3-ticket-price">¥8,800<span>／月</span></div><div class="v3-ticket-items"><div class="v3-ticket-item">食事記録へ定期的にフィードバック</div><div class="v3-ticket-item">炭水化物を抜かない食事改善</div><div class="v3-ticket-item">臨床栄養医学指導士が担当</div></div><a href="#reserve">食事管理を相談する →</a></div></article>
             <article class="v3-ticket"><div class="v3-ticket-head"><strong>毎日</strong><p>食事フィードバック</p></div><div class="v3-ticket-body"><div class="v3-ticket-price">¥13,200<span>／月</span></div><div class="v3-ticket-items"><div class="v3-ticket-item">毎日の食事記録へフィードバック</div><div class="v3-ticket-item">短期ダイエットを食事面から伴走</div><div class="v3-ticket-item">臨床栄養医学指導士が担当</div></div><a href="#reserve">食事管理を相談する →</a></div></article>
           </div>
-          <p class="v3-option-note">※月額会員は＋6,600円／月で、毎日フィードバックへアップグレードできます。</p>
+          <p class="v3-option-note">※月額会員は＋10,600円／月で、毎日フィードバックへアップグレードできます。</p>
         </div>
       </div>
     </section>

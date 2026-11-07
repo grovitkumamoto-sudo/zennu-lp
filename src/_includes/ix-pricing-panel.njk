@@ -1,0 +1,33 @@
+<div class="z-price z-price--{{ ixPriceTheme }}">
+  <p class="z-price-eyebrow">PRICE LIST</p>
+  <h2>料金プラン</h2>
+  <p class="z-price-intro">パーソナルの確かな指導と、セルフ利用の通いやすさを。</p>
+
+  <div class="z-price-admission">
+    <span>入会金</span>
+    <strong>11,000<small>円（税込）</small></strong>
+    <p>体験当日のご入会で無料</p>
+  </div>
+
+  <p class="z-price-contract">下記は12か月契約時の月額です。単月・6か月契約も選べます。</p>
+
+  <div class="z-price-plans">
+    {% for plan in site.pricing.plans %}
+      <article class="z-price-plan">
+        <div class="z-price-plan-head"><span>0{{ loop.index }}</span><h3>{{ plan.name }}</h3></div>
+        <div class="z-price-amount">
+          <strong>{{ plan.price | replace("¥", "") }}</strong>
+          <small>円（税込）/ 月〜</small>
+        </div>
+        <p>{% if loop.index == 1 %}セルフ利用＋食事管理アドバイス込み{% else %}セルフ利用＋パーソナル月{% if loop.index == 2 %}2{% elif loop.index == 3 %}4{% else %}8{% endif %}回＋食事管理アドバイス込み{% endif %}</p>
+      </article>
+    {% endfor %}
+  </div>
+  <p class="z-price-included">月額プランはセルフ利用通い放題・食事管理アドバイス込み。食事管理は任意です。</p>
+  <div class="z-price-ticket">
+    <span>回数券（パーソナル）</span>
+    <strong>{{ site.pricing.ticket.cards[4].unitPrice }}</strong>
+    <small>30回券 {{ site.pricing.ticket.cards[4].price }} の場合。1回券〜30回券をご用意しています。</small>
+  </div>
+  <a class="z-price-details" href="/price/">契約期間別・回数券の詳しい料金を見る ›</a>
+</div>
