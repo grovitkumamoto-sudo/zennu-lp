@@ -60,12 +60,12 @@ breadcrumbLabel: 料金・プラン
     <div class="site-shell">
       <div class="page-copy-grid"><div><div class="section-label"><span>05</span>CORPORATE PLAN</div><h2>法人向け<br>料金</h2></div><div><p class="page-lead">福利厚生に、<br>続く運動習慣を。</p><p>従業員数と同時予約枠に合わせて選べる月額プランと、パーソナル指導を社内でシェアできる回数券をご用意しています。</p></div></div>
 
-      <div class="corporate-plan-grid">{% for plan in corporate.plans %}<article class="corporate-plan-card"><span>CORPORATE 0{{ loop.index }}</span><h3>{{ plan.name }}</h3><div class="corporate-price-value">{{ plan.price }}<small>/月</small></div><dl><div><dt>対象従業員数</dt><dd>{{ plan.employees }}</dd></div><div><dt>同時予約枠</dt><dd>{{ plan.slots }}</dd></div></dl></article>{% endfor %}</div>
+      <div class="corporate-plan-grid">{% for plan in corporate.plans %}<article class="corporate-plan-card"><span>CORPORATE 0{{ loop.index }}</span><h3>{{ plan.name }}</h3><div class="corporate-price-value">{{ plan.price }}<small>/月</small></div><dl><div><dt>対象従業員数</dt><dd>{{ plan.employees }}</dd></div><div><dt>同時予約枠</dt><dd>{{ plan.slots }}</dd></div><div><dt>利用内容</dt><dd>セルフ利用のみ</dd></div></dl></article>{% endfor %}</div>
 
       <article class="corporate-addon"><div><span>RESERVATION ADD-ON</span><h3>{{ corporate.slotAddon.name }}</h3><p>{{ corporate.slotAddon.detail }}</p></div><strong>{{ corporate.slotAddon.price }}</strong></article>
 
       <div class="corporate-ticket-heading"><div class="section-label"><span>+</span>CORPORATE TICKET</div><h3>法人向けパーソナル回数券</h3><p>プロの個別指導を、社内の福利厚生としてシェアできます。</p></div>
-      <div class="corporate-ticket-grid">{% for ticket in corporate.tickets %}<article><h4>{{ ticket.count }}回券</h4><strong>{{ ticket.price }}</strong><p>{{ ticket.unitPrice }}</p><small>{{ ticket.per }}</small></article>{% endfor %}</div>
+      <div class="corporate-ticket-grid">{% for ticket in corporate.tickets %}<article><h4>{{ ticket.count }}回券</h4><strong>{{ ticket.price }}</strong><p>{{ ticket.unitPrice }}</p><span class="corporate-ticket-service">パーソナル60分／回</span><small>{{ ticket.per }}</small></article>{% endfor %}</div>
       <div class="corporate-notes"><p>{{ corporate.registration }}</p><p>{{ corporate.semiPersonal }}</p><div class="corporate-actions"><a class="corporate-contact-link" href="/corporate-contact/">法人プランについて問い合わせる<span aria-hidden="true">→</span></a><a class="text-link" href="/corporate-terms/">法人会員利用規約</a></div></div>
     </div>
   </section>
