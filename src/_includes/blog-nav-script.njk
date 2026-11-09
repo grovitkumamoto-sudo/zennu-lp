@@ -1,0 +1,24 @@
+<script>
+  (() => {
+    const button = document.getElementById('ham-btn');
+    const menu = document.getElementById('mobile-menu');
+    if (!button || !menu) return;
+    button.setAttribute('aria-controls', 'mobile-menu');
+    button.setAttribute('aria-expanded', 'false');
+
+    const setOpen = (open) => {
+      button.classList.toggle('active', open);
+      button.setAttribute('aria-expanded', String(open));
+      menu.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+
+    button.addEventListener('click', () => setOpen(!menu.classList.contains('open')));
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+  })();
+</script>
