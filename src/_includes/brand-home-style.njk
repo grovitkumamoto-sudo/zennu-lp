@@ -146,9 +146,14 @@
   .home-offer-price-card:hover{transform:translateY(-6px)}
   .home-offer-price-card figure{height:270px;margin:0;overflow:hidden;background:#ddd}
   .home-offer-price-card figure img{width:100%;height:100%;object-fit:cover;filter:saturate(.78) contrast(1.035);transition:transform .6s,filter .4s}
-  .home-offer-price-card:nth-child(1) figure img{object-position:center 42%}
-  .home-offer-price-card:nth-child(2) figure img{object-position:center 44%}
-  .home-offer-price-card:nth-child(3) figure img{object-position:center 47%}
+  .home-offer-price-duo{display:grid;grid-template-columns:1fr 1fr}
+  .home-offer-price-duo>span{position:relative;min-width:0;overflow:hidden}
+  .home-offer-price-duo>span+span{border-left:4px solid #f3f2ee}
+  .home-offer-price-duo b{position:absolute;right:10px;bottom:12px;left:10px;padding:8px 6px;background:rgba(16,16,15,.82);color:#fff;font:700 7px/1 var(--latin);letter-spacing:.1em;text-align:center}
+  .home-offer-price-card:nth-child(1) figure span:first-child img{object-position:center 42%}
+  .home-offer-price-card:nth-child(1) figure span:last-child img{object-position:center 44%}
+  .home-offer-price-card:nth-child(2) figure img{object-position:center 47%}
+  .home-offer-price-card:nth-child(3) figure img{object-position:center 46%}
   .home-offer-price-card:hover figure img{transform:scale(1.035);filter:saturate(.95) contrast(1.02)}
   .home-offer-price-card>div{position:relative;min-height:300px;padding:30px 29px 34px}
   .home-offer-price-card>div>span{color:var(--mint);font:700 8px/1 var(--latin);letter-spacing:.16em}
@@ -585,8 +590,16 @@
   .home-campaign-benefits article{min-height:220px;padding:28px;background:rgba(245,243,238,.95);color:var(--ink);backdrop-filter:blur(10px)}
   .home-campaign-benefits article>span,.home-campaign-gift>div>span{color:var(--mint);font:700 8px/1 var(--latin);letter-spacing:.16em}
   .home-campaign-benefits h3{margin:25px 0 22px;font-size:19px;line-height:1.55}
-  .home-campaign-benefits article:not(.home-campaign-gift)>div{display:flex;align-items:end;justify-content:space-between;gap:18px}
-  .home-campaign-benefits s{color:var(--muted);font-size:10px}.home-campaign-benefits article>div>strong{color:var(--coral);font:800 34px/1 var(--sans)}
+  .home-campaign-deal{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .home-campaign-deal>span{align-self:flex-start}
+  .home-campaign-deal h3{width:100%;margin:20px 0 9px;padding-bottom:13px;border-bottom:1px solid #c9c6be;font-size:21px}
+  .home-campaign-deal-kicker{min-height:1.5em;margin:0 0 15px;color:var(--muted);font-size:10px;font-weight:700;line-height:1.5}
+  .home-campaign-price-shift{display:grid;width:100%;max-width:310px;grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr);gap:8px;align-items:center;margin:auto 0}
+  .home-campaign-price-shift s{color:var(--ink);font:700 clamp(21px,2.1vw,30px)/1 var(--sans);letter-spacing:-.04em;text-align:right;text-decoration-thickness:1px}
+  .home-campaign-price-shift s small{font-size:11px;letter-spacing:0}
+  .home-campaign-price-shift i{color:var(--ink);font:normal 22px/1 var(--latin);text-align:center}
+  .home-campaign-price-shift strong{display:flex;align-items:baseline;justify-content:center;color:var(--coral);font:800 clamp(54px,5.2vw,76px)/.82 var(--sans);letter-spacing:-.06em}
+  .home-campaign-price-shift strong small{margin-left:5px;font-size:15px;letter-spacing:0}
   .home-campaign-gift{grid-column:1/-1;display:grid;grid-template-columns:190px 1fr;gap:28px;align-items:center}
   .home-campaign-gift figure{height:170px;margin:0;overflow:hidden}.home-campaign-gift figure img{width:100%;height:100%;object-fit:cover}
   .home-campaign-gift h3{margin:18px 0 14px;font-size:18px}

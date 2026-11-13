@@ -82,7 +82,7 @@
 
   {{ content | safe }}
 
-  <section class="site-contact" aria-labelledby="contact-title">
+  {% if pageKey != "home" %}<section class="site-contact" aria-labelledby="contact-title">
     <div class="site-contact-heading site-shell">
       <p class="site-contact-en">TAKE THE NEXT STEP.</p>
       <h2 id="contact-title">始め方は、<br>2つあります。</h2>
@@ -102,7 +102,7 @@
         <i aria-hidden="true">→</i>
       </a>
     </div>
-  </section>
+  </section>{% endif %}
 
   <footer class="site-footer">
     <div class="site-shell site-footer-top">
