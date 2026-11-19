@@ -32,6 +32,8 @@
     { "source": "/news", "destination": "/blog/", "permanent": true },
     { "source": "/news/", "destination": "/blog/", "permanent": true },
     { "source": "/news/:path*", "destination": "/blog/", "permanent": true },
+    { "source": "/blog/kumamoto-personal-gym-review-guide", "destination": "/blog/kumamoto-personalgym-review-guide/", "permanent": true },
+    { "source": "/blog/kumamoto-personal-gym-review-guide/", "destination": "/blog/kumamoto-personalgym-review-guide/", "permanent": true },
     { "source": "/corporation", "destination": "/corporate-contact/", "permanent": true },
     { "source": "/corporation/", "destination": "/corporate-contact/", "permanent": true },
     { "source": "/corporation/:path*", "destination": "/corporate-contact/", "permanent": true }
